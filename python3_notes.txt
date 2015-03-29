@@ -1,0 +1,19 @@
+_collections_abc.py
+    Collections in Python are slightly different than Java.
+    Hashable <-> __hash__
+    Iterable <-> __iter__
+    Iterator(Iterable) <-> __next__
+    Sized <-> __len__
+    Container <-> __contains__
+    Callable <-> __call__
+    Set(Sized, Iterable, Container) <-> frozenset
+    MutableSet(Set) <-> set
+    Mapping(Sized, Iterable, Container) <-> mappingproxy
+    MappingView(Sized)
+    KeysView(MappingView, Set) <-> dict_keys
+    ItemsView(MappingView, Set) <-> dict_items
+    ValuesView(MappingView) <-> dict_values
+    MutableMapping(Mapping) <-> dict
+    Sequence(Sized, Iterable, Container) <-> tuple, str, range, memoryview
+    ByteString(Sequence) <-> bytes, bytearray
+    MutableSequence(Sequence) <-> list, bytearray
