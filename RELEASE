@@ -1,0 +1,130 @@
+Config/build/deploy PyPI packages
+* https://packaging.python.org/en/latest/distributing.html
+* https://packaging.python.org/en/latest/installing.html
+
+Initial setup for virtualenv
+* https://packaging.python.org/en/latest/installing.html
+$ virtualenv --python=/usr/bin/python3 $HOME/saveme2/python-virtualenv/rambutan-python3
+
+Activate virtualenv
+$ source $HOME/saveme2/python-virtualenv/rambutan-python3/bin/activate
+
+Install required packages
+$ pip install wheel
+$ pip install twine
+
+Initial PyPI config
+* https://wiki.python.org/moin/TestPyPI
+$ vim ~/.pypirc
+
+Note: PyPI does not currently allow uploading binary wheels for Linux,
+because the "compatibility tags" issues are unresolved, and the
+decision was taken to block binary uploads rather than cause user
+confusion when pip started installing unusable binaries.
+Ref: https://mail.python.org/pipermail/distutils-sig/2014-October/025168.html
+
+TEST - https://testpypi.python.org/pypi/kevinarpe-rambutan3
+===============================================================================
+
+Activate virtualenv
+$ source $HOME/saveme2/python-virtualenv/rambutan-python3/bin/activate
+
+FIRST TIME ONLY: Register a new package
+$ python setup.py register -r testpypi
+    -> Does not harm to run multiple times
+
+Clear 'dist' directory
+$ /bin/rm -Rf dist
+
+Update version
+$ vim setup.py
+    -> See 'version'
+
+Create source distribution
+$ python setup.py sdist
+
+Sign the release with GPG
+$ echo 'YouWish' | gpg --passphrase-fd 0 --detach-sign --armor dist/*.tar.gz
+    -> Hint: Find GPG password here: $MAVEN_HOME/conf/settings.xml
+    -> Will create dist/${basename}.tar.gz.asc
+
+Upload the package to PyPI
+$ twine upload -r pypitest dist/*
+
+Create new virtualenv for testing
+$ /bin/rm -Rf $HOME/saveme2/python-virtualenv/rambutan-python3-test-release
+$ virtualenv --python=/usr/bin/python3 $HOME/saveme2/python-virtualenv/rambutan-python3-test-release
+
+Activate virtualenv
+$ source $HOME/saveme2/python-virtualenv/rambutan-python3-test-release/bin/activate
+
+Check which python
+$ which python
+    -> ??? source $HOME/saveme2/python-virtualenv/rambutan-python3-test-release/bin/python ???
+
+$ pip install -i https://testpypi.python.org/pypi --pre kevinarpe-rambutan3
+    -> Argument --pre will allow non-release packages to be installed
+    -> http://stackoverflow.com/questions/18230956/could-not-find-a-version-that-satisfies-the-requirement-pytz
+
+Check package can be imported
+$ echo 'import rambutan3
+quit()' | python
+
+Remove test virtualenv
+$ /bin/rm -Rf $HOME/saveme2/python-virtualenv/rambutan-python3-test-release/bin/activate
+
+Activate virtualenv
+$ source $HOME/saveme2/python-virtualenv/rambutan-python3/bin/activate
+
+PROD - https://pypi.python.org/pypi/kevinarpe-rambutan3
+===============================================================================
+
+Activate virtualenv
+$ source $HOME/saveme2/python-virtualenv/rambutan-python3/bin/activate
+
+FIRST TIME ONLY: Register a new package
+$ python setup.py register -r pypi
+    -> Does not harm to run multiple times
+
+Clear 'dist' directory
+$ /bin/rm -Rf dist
+
+Update version
+$ vim setup.py
+    -> See 'version'
+
+Create source distribution
+$ python setup.py sdist
+
+Sign the release with GPG
+$ echo "$GPG_PASSWORD" | gpg --passphrase-fd 0 --detach-sign --armor dist/*.tar.gz
+    -> Hint: Find GPG password here: $MAVEN_HOME/conf/settings.xml
+    -> Will create dist/${basename}.tar.gz.asc
+
+Upload the package to PyPI
+$ twine upload -r pypi dist/*
+
+Create new virtualenv for testing
+$ /bin/rm -Rf $HOME/saveme2/python-virtualenv/rambutan-python3-test-release
+$ virtualenv --python=/usr/bin/python3 $HOME/saveme2/python-virtualenv/rambutan-python3-test-release
+
+Activate virtualenv
+$ source $HOME/saveme2/python-virtualenv/rambutan-python3-test-release/bin/activate
+
+Check which python
+$ which python
+    -> ??? source $HOME/saveme2/python-virtualenv/rambutan-python3-test-release/bin/python ???
+
+$ pip install -i https://pypi.python.org/pypi --pre kevinarpe-rambutan3
+    -> Argument --pre will allow non-release packages to be installed
+    -> http://stackoverflow.com/questions/18230956/could-not-find-a-version-that-satisfies-the-requirement-pytz
+
+Check package can be imported
+$ echo 'import rambutan3' | python
+
+Remove test virtualenv
+$ /bin/rm -Rf $HOME/saveme2/python-virtualenv/rambutan-python3-test-release/bin/activate
+
+Activate virtualenv
+$ source $HOME/saveme2/python-virtualenv/rambutan-python3/bin/activate
+
