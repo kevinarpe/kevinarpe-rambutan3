@@ -1,5 +1,7 @@
 """Simple argument checking functions
 
+This module is fully tested.
+
 @author Kevin Connor ARPE (kevinarpe@gmail.com)
 """
 
@@ -66,8 +68,8 @@ def check_iterable_not_empty(iterable, arg_name: str):
     """
     check_not_none(iterable, arg_name)
 
-    if not bool(iterable):
-        raise ValueError("Iterable argument '{}' is empty", arg_name)
+    if 0 == len(iterable):
+        raise ValueError("Iterable argument '{}' is empty".format(arg_name))
     return iterable
 
 
@@ -124,21 +126,21 @@ def check_is_instance(value, class_or_type_or_tuple_of, arg_name: str, *arg_name
     @see #check_not_none()
     """
     # We don't need to check if 'value' is None here.  Built-in function 'isinstance' will work with None.
-    check_not_none(class_or_type_or_tuple_of, "class_or_type_or_tuple")
+    check_not_none(class_or_type_or_tuple_of, "class_or_type_or_tuple_of")
 
     if not isinstance(value, class_or_type_or_tuple_of):
         formatted_arg_name = arg_name.format(*arg_name_format_args)
         if isinstance(class_or_type_or_tuple_of, tuple):
             x = "'" + "', '".join([type_.__name__ for type_ in class_or_type_or_tuple_of]) + "'"
-            raise TypeError("Argument '{}': Expected any type of {}, but found '{}'"
-                            .format(formatted_arg_name, x, type(value).__name__))
+            raise TypeError("Argument '{}': Expected any type of {}, but found '{}': '{}'"
+                            .format(formatted_arg_name, x, type(value).__name__, value))
         else:
-            raise TypeError("Argument '{}': Expected type '{}', but found '{}'"
-                            .format(formatted_arg_name, class_or_type_or_tuple_of.__name__, type(value).__name__))
+            raise TypeError("Argument '{}': Expected type '{}', but found '{}': '{}'"
+                            .format(formatted_arg_name, class_or_type_or_tuple_of.__name__, type(value).__name__, value))
     return value
 
 
-def check_is_subclass(subclass, superclass, subclass_arg_name: str):
+def check_is_subclass(subclass: type, superclass: type, subclass_arg_name: str):
     """Tests if a type is a subclass of another type.
 
     If {@code subclass} and {@code superclass} are the same, this test will pass.
@@ -159,7 +161,7 @@ def check_is_subclass(subclass, superclass, subclass_arg_name: str):
 
     if not issubclass(subclass, superclass):
         raise TypeError("Argument '{}': Expected subclass of type '{}', but found type '{}'"
-                        .format(subclass_arg_name, superclass, subclass))
+                        .format(subclass_arg_name, superclass.__name__, subclass.__name__))
     return subclass
 
 
