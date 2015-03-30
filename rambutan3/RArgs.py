@@ -145,9 +145,9 @@ def check_is_subclass(subclass: type, superclass: type, subclass_arg_name: str):
 
     If {@code subclass} and {@code superclass} are the same, this test will pass.
 
-    @param subclass
+    @param subclass (type)
            type to test
-    @param superclass
+    @param superclass (type)
            expected (super) type
     @param subclass_arg_name (str)
            name of argument to be used in thrown exception message, e.g., "file_handle_type".
