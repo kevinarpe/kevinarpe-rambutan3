@@ -1,7 +1,7 @@
-from rambutan3.types.string.RNonEmptyText import RNonEmptyText
+from rambutan3.types.string.RNonEmptyStr import RNonEmptyStr
 
 
-class RMessageText(RNonEmptyText):
+class RMessageText(RNonEmptyStr):
     """
     Wraps a {@link str} value that is not empty (length > 0) and has at least one non-whitespace character.
 

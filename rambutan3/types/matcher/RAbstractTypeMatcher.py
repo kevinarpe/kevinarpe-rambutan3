@@ -14,8 +14,8 @@ class RCheckArgsError(Exception):
     pass
 
 
-RValueMatcher = None
-class RValueMatcher:
+RAbstractTypeMatcher = None
+class RAbstractTypeMatcher:
     """Abstract base class for all value matchers, include type matchers."""
 
     @abstractmethod
@@ -31,8 +31,7 @@ class RValueMatcher:
         """
         raise NotImplementedError()
 
-    @abstractmethod
-    def contains(self, matcher: RValueMatcher) -> bool:
+    def contains(self, matcher: RAbstractTypeMatcher) -> bool:
         """Tests if another matcher is contained by this matcher ({@code self})
 
         Example:
@@ -47,7 +46,16 @@ class RValueMatcher:
                another matcher to test if contained by this matcher
 
         @return {@code True} if {@code self} can be substituted for {@code matcher}
+
+        @throw TypeError
+               if {@code matcher} is not type RValueMatcher
         """
+        RArgs.check_is_instance(matcher, RAbstractTypeMatcher, "matcher")
+        x = self._contains(matcher)
+        return x
+
+    @abstractmethod
+    def _contains(self, matcher: RAbstractTypeMatcher) -> bool:
         raise NotImplementedError()
 
     def check(self,
@@ -73,7 +81,7 @@ class RValueMatcher:
             x = error_formatter.format(self, value, *args, **kwargs)
             raise RCheckArgsError(x)
 
-    def __or__(self, other: RValueMatcher) -> RValueMatcher:
+    def __or__(self, other: RAbstractTypeMatcher) -> RAbstractTypeMatcher:
         """operator|: Combines {@code self} with {@code other} to create logical OR value matcher
 
         @param other
@@ -84,7 +92,11 @@ class RValueMatcher:
         @see RLogicalOrValueMatcher
         """
 
-        x = RLogicalOrValueMatcher(self, other)
+        x = RLogicalOrTypeMatcher(self, other)
+        return x
+
+    def __str__(self):
+        x = self._str()
         return x
 
     @abstractmethod
@@ -92,15 +104,13 @@ class RValueMatcher:
         """Called by {@link #__str__()}; abstract to force subclasses to override"""
         raise NotImplementedError()
 
-    def __str__(self):
-        x = self._str()
-        return x
-
-RLogicalOrValueMatcher = None
-class RLogicalOrValueMatcher(RValueMatcher):
+RLogicalOrTypeMatcher = None
+class RLogicalOrTypeMatcher(RAbstractTypeMatcher):
     """Combines two or more value matchers to create a unified logical OR value matcher"""
 
-    def __init__(self, left: (RValueMatcher, RLogicalOrValueMatcher), right: (RValueMatcher, RLogicalOrValueMatcher)):
+    def __init__(self,
+                 left: (RAbstractTypeMatcher, RLogicalOrTypeMatcher),
+                 right: (RAbstractTypeMatcher, RLogicalOrTypeMatcher)):
         """Never call this ctor directly; instead use operator|: {@link RValueMatcher#__or__()}
 
         @param left
@@ -111,37 +121,41 @@ class RLogicalOrValueMatcher(RValueMatcher):
         @return new value matcher that combines first and second value matcher as logical OR value matcher
         """
         super().__init__()
-        RArgs.check_is_instance(left, RValueMatcher, "left")
-        RArgs.check_is_instance(right, RValueMatcher, "right")
+        RArgs.check_is_instance(left, RAbstractTypeMatcher, "left")
+        RArgs.check_is_instance(right, RAbstractTypeMatcher, "right")
 
-        L = []
-        if isinstance(left, RLogicalOrValueMatcher):
-            L.extend(left.__list)
+        matcher_list = []
+        if isinstance(left, RLogicalOrTypeMatcher):
+            matcher_list.extend(left.__matcher_list)
         else:
-            L.append(left)
-        if isinstance(right, RLogicalOrValueMatcher):
-            L.extend(right.__list)
+            matcher_list.append(left)
+
+        if isinstance(right, RLogicalOrTypeMatcher):
+            matcher_list.extend(right.__matcher_list)
         else:
-            L.append(right)
+            matcher_list.append(right)
 
         #: :type: list of (RValueMatcher)
-        self.__list = L
+        self.__matcher_list = matcher_list
 
+    # @override
     def matches(self, value) -> bool:
         # Ref: http://stackoverflow.com/q/5217489/257299
-        x = any(y.matches(value) for y in self.__list)
+        x = any(y.matches(value) for y in self.__matcher_list)
         return x
 
-    def contains(self, matcher: RValueMatcher) -> bool:
+    # @override
+    def _contains(self, matcher: RAbstractTypeMatcher) -> bool:
         # Ref: http://stackoverflow.com/q/5217489/257299
-        x = any(y.contains(matcher) for y in self.__list)
+        x = any(y.contains(matcher) for y in self.__matcher_list)
         return x
 
     def __iter__(self):
         """Iterates internal list of value matchers"""
-        x = iter(self.__list)
+        x = iter(self.__matcher_list)
         return x
 
+    # @override
     def _str(self):
-        x = " | ".join([str(x) for x in self.__list])
+        x = " | ".join([str(x) for x in self.__matcher_list])
         return x

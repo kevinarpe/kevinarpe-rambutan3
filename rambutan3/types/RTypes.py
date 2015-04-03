@@ -20,3 +20,10 @@ __FUNCTION_TYPE_TUPLE = (types.FunctionType, types.BuiltinFunctionType)
 
 def FUNCTION_TYPE_TUPLE():
     return __FUNCTION_TYPE_TUPLE
+
+
+__NUMBER_TYPE_TUPLE = (int, float)
+
+
+def NUMBER_TYPE_TUPLE():
+    return __NUMBER_TYPE_TUPLE

@@ -2,7 +2,7 @@ from rambutan3 import RArgs
 from rambutan3.types.string.RStringDelegator import RStringDelegator
 
 
-class RNonEmptyText(RStringDelegator):
+class RNonEmptyStr(RStringDelegator):
     """
     Wraps a {@link str} value that is not empty (length > 0).
 

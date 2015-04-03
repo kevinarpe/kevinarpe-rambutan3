@@ -4,7 +4,8 @@ from rambutan3 import RArgs
 
 class RStringDelegator(RDelegator):
     """
-    Delegates all methods to underlying {@link str} value.
+    Delegates all methods to underlying {@link str} value.  For some native functions, true {@code str} type references
+    are required; if so, use property {@link #str()}.
 
     @author Kevin Connor ARPE (kevinarpe@gmail.com)
     """

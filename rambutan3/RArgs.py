@@ -95,7 +95,7 @@ def check_iterable_not_empty_and_items_not_none(iterable, arg_name: str):
     return iterable
 
 
-def check_is_instance(value, class_or_type_or_tuple_of, arg_name: str, *arg_name_format_args):
+def check_is_instance(value, class_or_type_or_tuple_of: (type, tuple), arg_name: str, *arg_name_format_args):
     """Tests if a value is an instance of a type.
 
     Example: String value {@code "abc"} has type {@link str}.
