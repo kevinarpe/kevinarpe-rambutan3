@@ -17,3 +17,44 @@ _collections_abc.py
     Sequence(Sized, Iterable, Container) <-> tuple, str, range, memoryview
     ByteString(Sequence) <-> bytes, bytearray
     MutableSequence(Sequence) <-> list, bytearray
+
+use bse::type SQLITE3_DATATYPES => CASE_INSENSITIVE_ENUM('NULL' ,
+                                                         'INTEGER' ,
+                                                         'INTEGER PRIMARY KEY' ,
+                                                         'INTEGER PRIMARY KEY AUTOINCREMENT' ,
+                                                         'REAL' ,
+                                                         'TEXT' ,
+                                                         'BLOB') ;
+use bse::type DB_SCHEMA =>
+  NON_EMPTY_HASH_REF_OF(
+    HASH_REF_WHERE_EXACTLY(
+      -columns => NON_EMPTY_ARRAY_REF_OF(
+                    EXACT_SIZE_HASH_REF_OF(SQLITE3_DATATYPES , 1)) ,
+      -indexes => ARRAY_REF_OF(
+                    HASH_REF_WHERE_EXACTLY(
+                      -name    => NON_EMPTY_STRING ,
+                      -unique  => BOOL ,
+                      -columns => ZERO_OR_MORE_OF(NON_EMPTY_STRING))) | OPT)) ;
+
+use constant RH_DB_SCHEMA             =>
+  {
+    TABLE_WORD_LOG() =>
+      {
+        -columns =>
+          [
+            { 'simpl_hanzi' => 'TEXT'    } ,
+            { 'action'      => 'TEXT'    } ,
+            { 'time'        => 'INTEGER' } ,
+            { 'localtime'   => 'TEXT'    } ,
+          ] ,
+        -indexes =>
+          [
+            {
+              -name    => 'idx_' . TABLE_WORD_LOG ,
+              -unique  => 0 ,
+              -columns => [ 'simpl_hanzi' , 'action' ] ,
+            } ,
+          ] ,
+      } ,
+  } ;
+
