@@ -3,13 +3,18 @@ import inspect
 from rambutan3.type.matcher.RAbstractTypeMatcher import RAbstractTypeMatcher
 
 
+RAbstractClassOrSelfInstanceMatcher = None
 class RAbstractClassOrSelfInstanceMatcher(RAbstractTypeMatcher):
 
     def __init__(self):
         super().__init__()
         stack_list = inspect.stack()
-        # 0, 1, 2 -> to the correct stack frame
-        caller_tuple = stack_list[2]
+        # 0, 1, 2, 3 -> to the correct stack frame
+        # 0: This method
+        # 1: Subclass ctor -- RSelfInstanceMatcher or RClassInstanceMatcher
+        # 2: Annotation macro -- SELF() or CLS()
+        # 3: Target module / class point of method declaration -- def xyz(self: SELF()[, ...])
+        caller_tuple = stack_list[3]
         caller_frame = caller_tuple[0]
         caller_locals_dict = caller_frame.f_locals
         # Ex: rambutan.types.matcher.RSelfTypeChecker

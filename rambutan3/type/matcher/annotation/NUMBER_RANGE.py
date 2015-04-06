@@ -10,9 +10,9 @@ __RANGE_BOUND_OP2 = ANY_VALUE_OF(*RRangeBoundFunctionEnumData_.TWO_BOUND_OP2_SET
 
 @check_args
 def NUMBER_RANGE(bound1: __RANGE_BOUND_OP1,
-                value1: NUMBER,
-                bound2: __RANGE_BOUND_OP2 | OPT=None,
-                value2: NUMBER | OPT=None) \
+                 value1: NUMBER,
+                 bound2: __RANGE_BOUND_OP2 | OPT=None,
+                 value2: NUMBER | OPT=None) \
         -> RNumberRangeMatcher:
-    x = RNumberRangeMatcher(bound1, value1, bound2, value2)
+    x = RNumberRangeMatcher((int, float), bound1, value1, bound2, value2)
     return x

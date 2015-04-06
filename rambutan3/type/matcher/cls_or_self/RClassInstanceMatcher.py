@@ -1,4 +1,4 @@
-from rambutan3.type.matcher.cls_or_self import RAbstractClassOrSelfInstanceMatcher
+from rambutan3.type.matcher.cls_or_self.RAbstractClassOrSelfInstanceMatcher import RAbstractClassOrSelfInstanceMatcher
 
 
 class RClassInstanceMatcher(RAbstractClassOrSelfInstanceMatcher):

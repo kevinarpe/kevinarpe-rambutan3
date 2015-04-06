@@ -28,16 +28,16 @@ class RRange_:
     @classmethod
     def for_one_bound(cls, bound_op: str, value) -> RRange_:
         RRangeBoundFunctionEnumData_.check_bound_op_set_contains(
-            bound_op, "bound_op", RRangeBoundFunctionEnumData_.ONE_BOUND_OP_SET())
+            bound_op, "bound_op", RRangeBoundFunctionEnumData_.ONE_BOUND_OP_SET)
         x = RRange_(cls.__PRIVATE_CTOR_KEY, bound_op, value)
         return x
 
     @classmethod
     def for_two_bounds(cls, bound_op1: str, value1, bound_op2: str, value2) -> RRange_:
         RRangeBoundFunctionEnumData_.check_bound_op_set_contains(
-            bound_op1, "bound_op1", RRangeBoundFunctionEnumData_.TWO_BOUND_OP1_SET())
+            bound_op1, "bound_op1", RRangeBoundFunctionEnumData_.TWO_BOUND_OP1_SET)
         RRangeBoundFunctionEnumData_.check_bound_op_set_contains(
-            bound_op2, "bound_op2", RRangeBoundFunctionEnumData_.TWO_BOUND_OP2_SET())
+            bound_op2, "bound_op2", RRangeBoundFunctionEnumData_.TWO_BOUND_OP2_SET)
         x = RRange_(cls.__PRIVATE_CTOR_KEY, bound_op1, value1, bound_op2, value2)
         return x
 

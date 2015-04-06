@@ -19,7 +19,7 @@ class ROptionalTypeMatcher(RAbstractTypeMatcher):
 
     # @override
     def __hash__(self) -> int:
-        x = super().__hash__()
+        x = super(object, self).__hash__()
         return x
 
     # @override

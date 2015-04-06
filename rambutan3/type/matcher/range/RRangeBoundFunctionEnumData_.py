@@ -6,9 +6,7 @@ from rambutan3.type import RTypes
 
 RRangeBoundFunctionEnumData_ = None
 class RRangeBoundFunctionEnumData_:
-    """
-    This class exists only to be used by matchers.
-    """
+    """This class exists only to be used by matchers."""
 
     # The first bound may be lower or upper; allow either.
     ONE_BOUND_OP_SET = {'>', '>=', '<', '<='}

@@ -5,20 +5,16 @@ import collections
 
 from rambutan3 import RArgs
 from rambutan3.type.matcher.RAbstractTypeMatcher import RAbstractTypeMatcher
+from rambutan3.type.matcher.error.RCheckArgsError import RCheckArgsError
 from rambutan3.type.matcher.RInstanceMatcher import RInstanceMatcher
 from rambutan3.type.matcher.annotation.INSTANCE_OF import INSTANCE_OF
 from rambutan3.type.matcher.cls_or_self.RClassInstanceMatcher import RClassInstanceMatcher
 from rambutan3.type.matcher.cls_or_self.RSelfInstanceMatcher import RSelfInstanceMatcher
-from rambutan3.type.matcher.errfmt.RCheckArgsErrorFormatterWithPrefix import RCheckArgsErrorFormatterWithPrefix
-
-
-class RCheckArgsError(Exception):
-    pass
-
+from rambutan3.type.matcher.error.RCheckArgsErrorFormatterWithPrefix import RCheckArgsErrorFormatterWithPrefix
 
 ParamTuple = collections.namedtuple('ParamTuple', ['param', 'value_matcher'])
 
-
+# TODO: Disable non-RAbstractTypeMatcher annotations?  Me thinks yes.
 class __RCheckArgs:
 
     __FUNC_TYPE_TUPLE = (types.FunctionType, staticmethod, classmethod)
@@ -76,6 +72,9 @@ class __RCheckArgs:
                 #: :type: BoundArguments
                 bound_args = self.__func_signature.bind(cls, *args, **kwargs)
             except TypeError as e:
+                # TODO: LAST: If we fail to bind, check if first param is 'self'...
+                # Try to bind again without self and see if it works.
+                # Something weird here.
                 raise RCheckArgsError("Failed to bind arguments") from e
         else:
             cls = None
@@ -116,10 +115,10 @@ class __RCheckArgs:
             elif inspect.Parameter.VAR_KEYWORD == param_tuple.param.kind:
                 key_value_dict = value
                 for key, value in key_value_dict.items():
-                    param_tuple.value_matcher.check(value, self.__ERROR_FORMATTER, "**{}[{}]: ",
+                    param_tuple.value_matcher.check(value, self.__ERROR_FORMATTER, "**{}['{}']: ",
                                                     param_tuple.param.name, key)
             else:
-                param_tuple.value_matcher.check(value, self.__ERROR_FORMATTER, "Argument #{} ({}): ",
+                param_tuple.value_matcher.check(value, self.__ERROR_FORMATTER, "Argument #{} '{}': ",
                                                 param_index + arg_num_offset, param_tuple.param.name)
 
         if cls:

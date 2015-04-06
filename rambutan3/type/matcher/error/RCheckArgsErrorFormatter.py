@@ -31,7 +31,7 @@ class RCheckArgsErrorFormatter:
         @return exception message
         """
         value_str = self.__str__(value)
-        x = "Expected type '{}', but found value: '{}'".format(matcher, value_str)
+        x = "Expected type '{}', but found value: {}".format(matcher, value_str)
         return x
 
     def __str__(self, value) -> str:

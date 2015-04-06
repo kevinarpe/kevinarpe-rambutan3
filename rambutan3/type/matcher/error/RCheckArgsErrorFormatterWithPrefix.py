@@ -3,7 +3,7 @@
 @author Kevin Connor ARPE (kevinarpe@gmail.com)
 """
 
-from rambutan3.type.matcher.errfmt.RCheckArgsErrorFormatter import RCheckArgsErrorFormatter
+from rambutan3.type.matcher.error.RCheckArgsErrorFormatter import RCheckArgsErrorFormatter
 
 
 # Trick to satisfy Python compiler about RValueMatcher being undefined without an import statement.

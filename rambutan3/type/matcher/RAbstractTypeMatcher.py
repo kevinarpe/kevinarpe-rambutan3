@@ -6,12 +6,8 @@
 from abc import abstractmethod, ABCMeta
 
 from rambutan3 import RArgs
-from rambutan3.type.matcher.errfmt.RCheckArgsErrorFormatter import RCheckArgsErrorFormatter
-
-
-class RCheckArgsError(Exception):
-    """Raised by {@link RValueMatcher#check()}"""
-    pass
+from rambutan3.type.matcher.error.RCheckArgsError import RCheckArgsError
+from rambutan3.type.matcher.error.RCheckArgsErrorFormatter import RCheckArgsErrorFormatter
 
 
 RAbstractTypeMatcher = None
@@ -134,7 +130,6 @@ class RLogicalOrTypeMatcher(RAbstractTypeMatcher):
 
         self.__matcher_tuple = tuple(matcher_list)
         self.__matcher_frozenset = frozenset(matcher_list)
-
 
     # @override
     def matches(self, value) -> bool:

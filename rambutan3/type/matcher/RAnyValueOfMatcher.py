@@ -1,4 +1,5 @@
 from rambutan3.type.matcher.RAbstractTypeMatcher import RAbstractTypeMatcher
+from rambutan3.type.string import RStrUtil
 
 
 RAnyValueOfMatcher = None
@@ -21,6 +22,11 @@ class RAnyValueOfMatcher(RAbstractTypeMatcher):
         return x
 
     # @override
+    def __hash__(self) -> int:
+        x = hash(self.__value_frozenset)
+        return x
+
+    # @override
     def __str__(self):
-        x = "any value of {}".format(self.__value_frozenset)
+        x = "any value of {{{}}}".format(", ".join([RStrUtil.auto_quote(x) for x in self.__value_frozenset]))
         return x
