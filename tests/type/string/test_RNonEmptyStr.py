@@ -1,17 +1,16 @@
-from unittest import TestCase
+import pytest
+
 from rambutan3.type.string.RNonEmptyStr import RNonEmptyStr
 
 
-class TestRNonEmptyText(TestCase):
-
-    def test(self):
-        with self.assertRaises(TypeError):
-            RNonEmptyStr(None)
-        with self.assertRaises(TypeError):
-            RNonEmptyStr(123)
-        with self.assertRaises(ValueError):
-            RNonEmptyStr("")
-        self.assertEqual("abc", RNonEmptyStr("abc").str)
-        self.assertEqual("abc  ", RNonEmptyStr("abc  ").str)
-        self.assertEqual("  abc  ", RNonEmptyStr("  abc  ").str)
-        self.assertEqual("  ", RNonEmptyStr("  ").str)
+def test_ctor():
+    with pytest.raises(TypeError):
+        RNonEmptyStr(None)
+    with pytest.raises(TypeError):
+        RNonEmptyStr(123)
+    with pytest.raises(ValueError):
+        RNonEmptyStr("")
+    assert "abc" == RNonEmptyStr("abc").str
+    assert "abc  " == RNonEmptyStr("abc  ").str
+    assert "  abc  " == RNonEmptyStr("  abc  ").str
+    assert "  " == RNonEmptyStr("  ").str

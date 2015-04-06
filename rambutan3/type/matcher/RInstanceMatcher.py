@@ -48,7 +48,7 @@ class RInstanceMatcher(RAbstractTypeMatcher):
 
     # @override
     def __hash__(self) -> int:
-        x = hash(self.__type_tuple)
+        x = hash(self.__type_frozenset)
         return x
 
     # @override

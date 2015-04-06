@@ -17,7 +17,6 @@ class RCheckArgsError(Exception):
 RAbstractTypeMatcher = None
 # Ref: https://docs.python.org/3/library/abc.html#abc.abstractmethod
 # Using this decorator requires that the class’s metaclass is ABCMeta or is derived from it.
-#
 class RAbstractTypeMatcher(metaclass=ABCMeta):
     """Abstract base class for all type matchers, include type matchers."""
 
@@ -101,7 +100,10 @@ class RAbstractTypeMatcher(metaclass=ABCMeta):
 
 RLogicalOrTypeMatcher = None
 class RLogicalOrTypeMatcher(RAbstractTypeMatcher):
-    """Combines two or more type matchers to create a unified logical OR type matcher"""
+    """Combines two or more type matchers to create a unified logical OR type matcher
+
+    This class is fully tested.
+    """
 
     def __init__(self,
                  left: (RAbstractTypeMatcher, RLogicalOrTypeMatcher),
@@ -131,6 +133,8 @@ class RLogicalOrTypeMatcher(RAbstractTypeMatcher):
             matcher_list.append(right)
 
         self.__matcher_tuple = tuple(matcher_list)
+        self.__matcher_frozenset = frozenset(matcher_list)
+
 
     # @override
     def matches(self, value) -> bool:
@@ -147,12 +151,12 @@ class RLogicalOrTypeMatcher(RAbstractTypeMatcher):
     def __eq__(self, other: RLogicalOrTypeMatcher) -> bool:
         if not isinstance(other, RLogicalOrTypeMatcher):
             return False
-        x = (self.__matcher_tuple == other.__matcher_tuple)
+        x = (self.__matcher_frozenset == other.__matcher_frozenset)
         return x
 
     # @override
     def __hash__(self) -> int:
-        x = hash(self.__matcher_tuple)
+        x = hash(self.__matcher_frozenset)
         return x
 
     # @override
