@@ -14,7 +14,7 @@ class RPatternText(RStringDelegator):
     @author Kevin Connor ARPE (kevinarpe@gmail.com)
     """
 
-    def __init__(self, value: str, regex_pattern: RTypes.REGEX_PATTERN_TYPE()):
+    def __init__(self, value: str, regex_pattern: RTypes.REGEX_PATTERN_TYPE):
         """
         @param value
                any string that matches regular expression in {@code regex_pattern}
@@ -30,6 +30,6 @@ class RPatternText(RStringDelegator):
         @see re#compile()
         """
         super().__init__(value)
-        RArgs.check_is_instance(regex_pattern, RTypes.REGEX_PATTERN_TYPE(), "regex_pattern")
+        RArgs.check_is_instance(regex_pattern, RTypes.REGEX_PATTERN_TYPE, "regex_pattern")
         if not regex_pattern.match(value):
             raise ValueError("Argument 'value' does not match pattern '{}': '{}'".format(regex_pattern.pattern, value))

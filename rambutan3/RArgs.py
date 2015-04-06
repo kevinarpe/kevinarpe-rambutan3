@@ -50,6 +50,9 @@ def check_iterable_items_not_none(iterable, arg_name: str):
     return iterable
 
 
+__SENTINEL = object()
+
+
 def check_iterable_not_empty(iterable, arg_name: str):
     """Tests if an iterable is not {@code None} and not empty
 
@@ -68,7 +71,8 @@ def check_iterable_not_empty(iterable, arg_name: str):
     """
     check_not_none(iterable, arg_name)
 
-    if 0 == len(iterable):
+    # Ref: http://stackoverflow.com/a/3114573/257299
+    if __SENTINEL == next(iter(iterable), __SENTINEL):
         raise ValueError("Iterable argument '{}' is empty".format(arg_name))
     return iterable
 

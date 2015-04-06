@@ -13,7 +13,7 @@ class RFunctionSignatureMatcher(RInstanceMatcher):
         :param param_matcher_tuple: list of RAbstractValueChecker
         :param opt_return_matcher: if None, this is a subroutine, not a function
         """
-        super().__init__(*(RTypes.FUNCTION_TYPE_TUPLE()))
+        super().__init__(*(RTypes.FUNCTION_TYPE_TUPLE))
         RArgs.check_not_none(param_matcher_tuple, "param_matcher_tuple")
 
         for index, param_matcher in enumerate(param_matcher_tuple):
@@ -26,7 +26,7 @@ class RFunctionSignatureMatcher(RInstanceMatcher):
         self.__opt_return_matcher = opt_return_matcher
 
     # @override
-    def matches(self, func: RTypes.FUNCTION_TYPE_TUPLE()) -> bool:
+    def matches(self, func: RTypes.FUNCTION_TYPE_TUPLE) -> bool:
         if not super().matches(func):
             return False
         #: :type: Signature

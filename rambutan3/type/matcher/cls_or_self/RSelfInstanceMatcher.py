@@ -1,8 +1,8 @@
 from rambutan3.type.matcher.cls_or_self.RAbstractClassOrSelfInstanceMatcher import RAbstractClassOrSelfInstanceMatcher
 
 
-RSelfInstanceMatcher = None
 class RSelfInstanceMatcher(RAbstractClassOrSelfInstanceMatcher):
+    """Never use this class directly.  Instead, use: {@link SELF#SELF()}."""
 
     def __init__(self):
         super().__init__()

@@ -11,21 +11,9 @@ class RRangeBoundFunctionEnumData_:
     """
 
     # The first bound may be lower or upper; allow either.
-    __ONE_BOUND_OP_SET = {'>', '>=', '<', '<='}
-    __TWO_BOUND_OP1_SET = {'>', '>='}
-    __TWO_BOUND_OP2_SET = {'<', '<='}
-
-    @classmethod
-    def ONE_BOUND_OP_SET(cls) -> set:
-        return cls.__ONE_BOUND_OP_SET
-
-    @classmethod
-    def TWO_BOUND_OP1_SET(cls) -> set:
-        return cls.__TWO_BOUND_OP1_SET
-
-    @classmethod
-    def TWO_BOUND_OP2_SET(cls) -> set:
-        return cls.__TWO_BOUND_OP2_SET
+    ONE_BOUND_OP_SET = {'>', '>=', '<', '<='}
+    TWO_BOUND_OP1_SET = {'>', '>='}
+    TWO_BOUND_OP2_SET = {'<', '<='}
 
     @classmethod
     def check_bound_op_set_contains(cls, op: str, op_arg_name: str, op_set: set):
@@ -33,12 +21,12 @@ class RRangeBoundFunctionEnumData_:
         if op not in op_set:
             raise ValueError("Argument '{}': Expected one of {}, but found '{}'".format(op_arg_name, op_set, op))
 
-    def __init__(self, op: str, op_func: RTypes.FUNCTION_TYPE_TUPLE()):
+    def __init__(self, op: str, op_func: RTypes.FUNCTION_TYPE_TUPLE):
         RArgs.check_is_instance(op, str, "op")
-        self.check_bound_op_set_contains(op, "op", self.__ONE_BOUND_OP_SET)
+        self.check_bound_op_set_contains(op, "op", self.ONE_BOUND_OP_SET)
         self.__op = op
         #: :type: types.FunctionType
-        RArgs.check_is_instance(op_func, RTypes.FUNCTION_TYPE_TUPLE(), "op_func")
+        RArgs.check_is_instance(op_func, RTypes.FUNCTION_TYPE_TUPLE, "op_func")
         self.__op_func = op_func
 
     @property
