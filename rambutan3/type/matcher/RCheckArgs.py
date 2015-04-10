@@ -66,23 +66,39 @@ class __RCheckArgs:
         self.__func = func
 
     def __call__(self, *args, **kwargs):
+        cls = None
+        adj_args = args
         if isinstance(self.__func, classmethod):
             cls = self._get_cls()
             try:
-                #: :type: BoundArguments
                 bound_args = self.__func_signature.bind(cls, *args, **kwargs)
             except TypeError as e:
-                # TODO: LAST: If we fail to bind, check if first param is 'self'...
-                # Try to bind again without self and see if it works.
-                # Something weird here.
-                raise RCheckArgsError("Failed to bind arguments") from e
+                # Is a classmethod called with self?
+                # 1) Direct classmethod call with cls: X.method()
+                # 2) Indirect classmethod call with self: X().method()
+                # 3) Indirect classmethod call with instance: X.method(X())
+                #    #3 is not normally allowed by Python3.
+                #    However, we are unable to distinguish between:
+                #    a) X().classmethod()
+                #    b) X.classmethod(X())
+                #    Python3 does not natively allow (b), but we must allow it,
+                #    else we do not allow (a).
+                if len(args) > 0 and isinstance(args[0], cls):
+                    try:
+                        bound_args = self.__func_signature.bind(cls, *args[1:], **kwargs)
+                        adj_args = args[1:]
+                        e = None
+                    except TypeError as e2:
+                        pass
+                if e:
+                    msg = "Failed to bind arguments: {}: {}".format(type(e).__name__, e)
+                    raise RCheckArgsError(msg) from e
         else:
-            cls = None
             try:
-                #: :type: BoundArguments
                 bound_args = self.__func_signature.bind(*args, **kwargs)
             except TypeError as e:
-                raise RCheckArgsError("Failed to bind arguments: " + str(e)) from e
+                msg = "Failed to bind arguments: {}: {}".format(type(e).__name__, e)
+                raise RCheckArgsError(msg) from e
 
         arg_num_offset = 1
         for param_index, param_tuple in enumerate(self.__param_tuple_list):
@@ -122,9 +138,9 @@ class __RCheckArgs:
                                                 param_index + arg_num_offset, param_tuple.param.name)
 
         if cls:
-            result = self.__unwrapped_func(cls, *args, **kwargs)
+            result = self.__unwrapped_func(cls, *adj_args, **kwargs)
         else:
-            result = self.__unwrapped_func(*args, **kwargs)
+            result = self.__unwrapped_func(*adj_args, **kwargs)
 
         # TODO: Why is return_annotation checking disabled?
         # self.__return_value_matcher.check(result, self.__ERROR_FORMATTER, "Return value: ")
