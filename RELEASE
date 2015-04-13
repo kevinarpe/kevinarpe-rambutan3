@@ -44,7 +44,7 @@ Create source distribution
 $ python setup.py sdist
 
 Sign the release with GPG
-$ echo 'YouWish' | gpg --passphrase-fd 0 --detach-sign --armor dist/*.tar.gz
+$ echo "$GPG_PASSWORD" | gpg --passphrase-fd 0 --detach-sign --armor dist/*.tar.gz
     -> Hint: Find GPG password here: $MAVEN_HOME/conf/settings.xml
     -> Will create dist/${basename}.tar.gz.asc
 
