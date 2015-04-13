@@ -26,10 +26,10 @@ class RRangeSizeCollectionMatcher(RInstanceMatcher):
             raise ValueError("Arg 'min_size' > arg 'max_size': {} > {}".format(min_size, max_size))
 
     # @override
-    def matches(self, seq) -> bool:
-        if not super().matches(seq):
+    def matches(self, collection) -> bool:
+        if not super().matches(collection):
             return False
-        L = len(seq)
+        L = len(collection)
         if -1 != self.__min_size and L < self.__min_size:
             return False
         if -1 != self.__max_size and L > self.__max_size:

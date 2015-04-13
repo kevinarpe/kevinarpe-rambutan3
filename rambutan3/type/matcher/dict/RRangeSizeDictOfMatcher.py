@@ -20,10 +20,10 @@ class RRangeSizeDictOfMatcher(RRangeSizeDictMatcher):
         self.__value_matcher = value_matcher
 
     # @override
-    def matches(self, d) -> bool:
-        if not super().matches(d):
+    def matches(self, dictionary) -> bool:
+        if not super().matches(dictionary):
             return False
-        x = RDictOfMatcher.core_matches(d, key_matcher=self.__key_matcher, value_matcher=self.__value_matcher)
+        x = RDictOfMatcher.core_matches(dictionary, key_matcher=self.__key_matcher, value_matcher=self.__value_matcher)
         return x
 
     # @override

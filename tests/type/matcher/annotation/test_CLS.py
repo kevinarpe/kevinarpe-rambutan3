@@ -53,8 +53,8 @@ def test_method():
     X().method()
     with pytest.raises(RCheckArgsError):
         X.method(123)
-    # with pytest.raises(RCheckArgsError):
-    X.method(X())
+    with pytest.raises(RCheckArgsError):
+        X.method(X())
     with pytest.raises(RCheckArgsError):
         X().method(X())
 
@@ -93,6 +93,7 @@ def test_method2():
         X.method2(123, "abc")
     with pytest.raises(RCheckArgsError):
         X().method2(123, "abc")
-    X.method2(X(), 123)
+    with pytest.raises(RCheckArgsError):
+        X.method2(X(), 123)
     with pytest.raises(RCheckArgsError):
         X().method2(X(), 123)

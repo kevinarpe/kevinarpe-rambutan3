@@ -1,6 +1,6 @@
 from rambutan3.type.matcher.annotation.INT import INT
 from rambutan3.type.matcher.annotation.SET_OF import SET_OF
-from rambutan3.type.matcher.annotation.OPT import OPT
+from rambutan3.type.matcher.annotation.NONE import NONE
 from rambutan3.type.matcher.annotation.STR import STR
 from rambutan3.type.matcher.annotation.TUPLE import TUPLE
 from rambutan3.type.matcher.annotation.TUPLE_OF import TUPLE_OF
@@ -14,7 +14,7 @@ def test():
     assert not SET_OF(INT).matches({1, 2, 3, "abc"})
     assert SET_OF(INT | STR).matches({1, 2, 3, "abc"})
     assert not SET_OF(INT).matches({1, 2, 3, "abc", None})
-    assert SET_OF(INT | STR | OPT).matches({1, 2, 3, "abc", None})
+    assert SET_OF(INT | STR | NONE).matches({1, 2, 3, "abc", None})
     assert not SET_OF(INT).matches("abc")
     assert not SET_OF(INT).matches(None)
     assert not SET_OF(INT).matches(tuple())

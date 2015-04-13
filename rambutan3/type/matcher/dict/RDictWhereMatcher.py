@@ -3,6 +3,7 @@ from rambutan3.container.frozendict import frozendict
 from rambutan3.type.matcher.RAbstractTypeMatcher import RAbstractTypeMatcher
 from rambutan3.type.matcher.dict.RDictEnum import RDictEnum
 from rambutan3.type.matcher.dict.RDictMatcher import RDictMatcher
+from rambutan3.type.string import RStrUtil
 
 
 RDictWhereMatcher = None
@@ -57,6 +58,14 @@ class RDictWhereMatcher(RDictMatcher):
 
     # @override
     def __str__(self):
-        where_clause = "exactly" if self.__is_exact else "at least"
-        x = "{} where {} {}".format(super().__str__(), where_clause, self.__matcher_dict)
+        where_clause = "EXACTLY" if self.__is_exact else "AT LEAST"
+        matcher_dict_str = \
+            "{" \
+            + ", ".join(
+                [
+                    RStrUtil.auto_quote(key) + ": " + RStrUtil.auto_quote(value)
+                    for key, value in self.__matcher_dict.items()
+                ]) \
+            + "}"
+        x = "{} where {} {}".format(super().__str__(), where_clause, matcher_dict_str)
         return x

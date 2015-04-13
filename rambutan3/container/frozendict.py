@@ -33,5 +33,5 @@ class frozendict(dict):
 
     def __repr__(self):
         x = dict.__repr__(self)
-        y = "frozendict(%s)".format(x)
+        y = "frozendict({})".format(x)
         return y

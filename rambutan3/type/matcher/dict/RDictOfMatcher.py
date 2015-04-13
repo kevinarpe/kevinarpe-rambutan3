@@ -58,16 +58,16 @@ class RDictOfMatcher(RDictMatcher):
             RArgs.check_is_instance(value_matcher, RAbstractTypeMatcher, "value_matcher")
 
     @classmethod
-    def core_matches(cls, d: dict, *,
+    def core_matches(cls, dictionary: dict, *,
                      key_matcher: RAbstractTypeMatcher=None,
                      value_matcher: RAbstractTypeMatcher=None):
         if key_matcher:
-            for key in d.keys():
+            for key in dictionary.keys():
                 if not key_matcher.matches(key):
                     return False
 
         if value_matcher:
-            for value in d.values():
+            for value in dictionary.values():
                 if not value_matcher.matches(value):
                     return False
 

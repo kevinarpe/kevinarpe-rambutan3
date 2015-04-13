@@ -1,6 +1,7 @@
 import importlib
 import inspect
 from rambutan3.type.matcher.RAbstractTypeMatcher import RAbstractTypeMatcher
+from rambutan3.type.matcher.error.RCheckArgsError import RCheckArgsError
 
 
 RAbstractClassOrSelfInstanceMatcher = None
@@ -14,9 +15,13 @@ class RAbstractClassOrSelfInstanceMatcher(RAbstractTypeMatcher):
         # 1: Subclass ctor -- RSelfInstanceMatcher or RClassInstanceMatcher
         # 2: Annotation macro -- SELF() or CLS()
         # 3: Target module / class point of method declaration -- def xyz(self: SELF()[, ...])
+        if len(stack_list) < 4:
+            raise RCheckArgsError("Failed to find declaring class via stack")
         caller_tuple = stack_list[3]
         caller_frame = caller_tuple[0]
         caller_locals_dict = caller_frame.f_locals
+        if '__module__' not in caller_locals_dict:
+            raise RCheckArgsError("Failed to find special local variable '__module__': Perhaps this function is not defined within a class?")
         # Ex: rambutan.types.matcher.RSelfTypeChecker
         caller_module_name = caller_locals_dict['__module__']
         self.__caller_module = importlib.import_module(caller_module_name)

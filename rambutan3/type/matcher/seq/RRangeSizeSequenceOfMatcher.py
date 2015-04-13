@@ -18,10 +18,10 @@ class RRangeSizeSequenceOfMatcher(RRangeSizeSequenceMatcher):
         self.__element_matcher = element_matcher
 
     # @override
-    def matches(self, seq) -> bool:
-        if not super().matches(seq):
+    def matches(self, collection) -> bool:
+        if not super().matches(collection):
             return False
-        x = all(self.__element_matcher.matches(y) for y in seq)
+        x = all(self.__element_matcher.matches(y) for y in collection)
         return x
 
     # @override

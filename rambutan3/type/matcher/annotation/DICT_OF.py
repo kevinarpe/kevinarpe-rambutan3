@@ -3,9 +3,9 @@ from rambutan3.type.matcher.dict.RDictEnum import RDictEnum
 from rambutan3.type.matcher.dict.RDictOfMatcher import RDictOfMatcher
 
 
-def BUILTIN_DICT_OF(*,
-                    key_matcher: RAbstractTypeMatcher=None,
-                    value_matcher: RAbstractTypeMatcher=None) \
+def DICT_OF(*,
+            key_matcher: RAbstractTypeMatcher=None,
+            value_matcher: RAbstractTypeMatcher=None) \
         -> RDictOfMatcher:
-    x = RDictOfMatcher(RDictEnum.BUILTIN_DICT, key_matcher=key_matcher, value_matcher=value_matcher)
+    x = RDictOfMatcher(RDictEnum.DICT, key_matcher=key_matcher, value_matcher=value_matcher)
     return x

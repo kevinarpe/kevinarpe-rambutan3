@@ -1,4 +1,4 @@
 from rambutan3.type import RTypes
-from rambutan3.type.matcher.RAbstractTypeMatcher import RLogicalOrTypeMatcher
+from rambutan3.type.matcher.RInstanceMatcher import RInstanceMatcher
 
-FUNC = RLogicalOrTypeMatcher(*RTypes.FUNCTION_TYPE_TUPLE)
+FUNC = RInstanceMatcher(*RTypes.FUNCTION_TYPE_TUPLE)

@@ -1,7 +1,7 @@
 from rambutan3.type.matcher.annotation.INT import INT
 from rambutan3.type.matcher.annotation.LIST import LIST
 from rambutan3.type.matcher.annotation.LIST_OF import LIST_OF
-from rambutan3.type.matcher.annotation.OPT import OPT
+from rambutan3.type.matcher.annotation.NONE import NONE
 from rambutan3.type.matcher.annotation.STR import STR
 
 
@@ -14,7 +14,7 @@ def test():
     assert not LIST_OF(INT).matches([1, 2, 3, "abc"])
     assert LIST_OF(INT | STR).matches([1, 2, 3, "abc"])
     assert not LIST_OF(INT).matches([1, 2, 3, "abc", None])
-    assert LIST_OF(INT | STR | OPT).matches([1, 2, 3, "abc", None])
+    assert LIST_OF(INT | STR | NONE).matches([1, 2, 3, "abc", None])
     assert not LIST_OF(INT).matches("abc")
     assert not LIST_OF(INT).matches(None)
     assert not LIST_OF(INT).matches(tuple())

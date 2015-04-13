@@ -18,3 +18,6 @@ class RFunctionSignatureMatcherBuilder:
     def returnsNothing(self) -> RFunctionSignatureMatcher:
         x = RFunctionSignatureMatcher(param_matcher_tuple=self.__param_matcher_tuple)
         return x
+
+    def matches(self, dummy):
+        raise TypeError("Type matcher incomplete: Must first call returns() or returnsNothing()")
