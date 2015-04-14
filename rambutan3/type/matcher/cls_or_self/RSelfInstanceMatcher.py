@@ -2,7 +2,10 @@ from rambutan3.type.matcher.cls_or_self.RAbstractClassOrSelfInstanceMatcher impo
 
 
 class RSelfInstanceMatcher(RAbstractClassOrSelfInstanceMatcher):
-    """Never use this class directly.  Instead, use: {@link SELF#SELF()}."""
+    """Never use this class directly.  Instead, use: {@link SELF#SELF()}.
+
+    Technically, this class is a delayed caller class lookup for {@link builtins#isinstance()}.
+    """
 
     def __init__(self):
         super().__init__()

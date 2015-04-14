@@ -15,7 +15,6 @@ from rambutan3.type.matcher.error.RCheckArgsErrorFormatterWithPrefix import RChe
 
 ParamTuple = collections.namedtuple('ParamTuple', ['param', 'value_matcher'])
 
-# TODO: Disable non-RAbstractTypeMatcher annotations?  Me thinks yes.
 class _RCheckArgs:
     """Special internal class used by @check_args"""
 
@@ -58,7 +57,6 @@ class _RCheckArgs:
             param_tuple = ParamTuple(param=param, value_matcher=value_matcher)
             self.__param_tuple_list.append(param_tuple)
 
-        # TODO: Why is return_annotation checking disabled?
         if self.__func_signature.return_annotation is inspect.Signature.empty:
             self.__return_value_matcher = NONE
         # elif isinstance(self.__func_signature.return_annotation, type):
@@ -84,6 +82,9 @@ class _RCheckArgs:
                 # The first parameter for a method is always 'self', but when calling a method, 'self' is passed implicitly.
                 # The first parameter for a classmethod is always 'cls', but when calling a method, 'cls' is passed implicitly.
                 # Reduce the offset by one as first arg for method or classmethod will not be 'self' or 'cls'.
+                # TODO: Allow SELF() and CLS() to have additional uses besides first argument.
+                # Why?  Imagine __iadd__ for a special list class.  It might want to restrict incoming data to be the
+                # same type as self.  It is a reasonable use case.
                 arg_num_offset -= 1
                 if 0 != param_index:
                     raise RCheckArgsError("SELF() and CLS() are only valid for first argument")

@@ -1,0 +1,1 @@
+Write tiny script to add license header to *.py files
