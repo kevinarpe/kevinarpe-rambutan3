@@ -1,3 +1,4 @@
+from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
 from rambutan3.enumeration.REnum import REnum
 from rambutan3.check_args.RCheckArgs import check_args
 from rambutan3.check_args.annotation.SELF import SELF
@@ -12,3 +13,9 @@ class RTypedEnum(REnum):
         {@link RCheckArgs#check_args}), but automagically assigned to property {@link Enum#value}.
         """
         super().__init__()
+
+    # @overrides
+    @property
+    def value(self) -> RAbstractTypeMatcher:
+        x = super().value
+        return x

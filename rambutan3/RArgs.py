@@ -192,7 +192,10 @@ def check_is_instance(value, class_or_type_or_tuple_of: (type, tuple), arg_name:
                             .format(formatted_arg_name, x, type(value).__name__, value))
         else:
             raise TypeError("Argument '{}': Expected type '{}', but found value of type '{}': '{}'"
-                            .format(formatted_arg_name, class_or_type_or_tuple_of.__name__, type(value).__name__, value))
+                            .format(formatted_arg_name,
+                                    class_or_type_or_tuple_of.__name__,
+                                    type(value).__name__,
+                                    value))
     return value
 
 

@@ -4,6 +4,9 @@ from rambutan3.string.RStr import RStr
 
 
 RPatternText = None
+
+
+# noinspection PyRedeclaration
 class RPatternText(RStr):
     """
     Wraps a {@link str} value that matches a regular expression.

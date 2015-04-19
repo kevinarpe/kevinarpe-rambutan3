@@ -1,7 +1,11 @@
 from rambutan3 import RArgs
 from rambutan3.check_args.range.RRangeBoundFunctionEnum_ import RRangeBoundFunctionEnum_
 
+
 RRangeBoundFunction_ = None
+
+
+# noinspection PyRedeclaration
 class RRangeBoundFunction_:
     """
     This class exists only to be used by matchers.

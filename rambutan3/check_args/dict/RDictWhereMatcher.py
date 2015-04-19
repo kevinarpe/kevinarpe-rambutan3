@@ -7,6 +7,9 @@ from rambutan3.string import RStrUtil
 
 
 RDictWhereMatcher = None
+
+
+# noinspection PyRedeclaration
 class RDictWhereMatcher(RDictMatcher):
 
     def __init__(self, dict_enum: RDictEnum, matcher_dict: dict, *, is_exact: bool):

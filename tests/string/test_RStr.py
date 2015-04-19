@@ -8,6 +8,7 @@ def test_ctor():
     str("abc") == RStr("abc")
     str("") == RStr("")
 
+
 def test_iter():
     with pytest.raises(TypeError):
         iter(RStr("abc"))

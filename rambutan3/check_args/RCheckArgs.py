@@ -14,6 +14,7 @@ from rambutan3.check_args.error.RTypeMatcherErrorFormatterWithPrefix import RTyp
 
 ParamTuple = collections.namedtuple('ParamTuple', ['param', 'type_matcher'])
 
+
 class _RCheckArgsCallable:
     """Special internal class used by @check_args"""
 
@@ -48,7 +49,7 @@ class _RCheckArgsCallable:
             # Check param default value
             if param.default is not inspect.Parameter.empty:
                 type_matcher.check(param.default, self.__ERROR_FORMATTER,
-                                    "Default value for argument #{} '{}': ", 1 + index, param.name)
+                                   "Default value for argument #{} '{}': ", 1 + index, param.name)
 
             param_tuple = ParamTuple(param=param, type_matcher=type_matcher)
             self.__param_tuple_list.append(param_tuple)
@@ -74,8 +75,10 @@ class _RCheckArgsCallable:
         arg_num_offset = 1
         for param_index, param_tuple in enumerate(self.__param_tuple_list):
             if isinstance(param_tuple.type_matcher, (RSelfInstanceMatcher, RClassInstanceMatcher)):
-                # The first parameter for a method is always 'self', but when calling a method, 'self' is passed implicitly.
-                # The first parameter for a classmethod is always 'cls', but when calling a method, 'cls' is passed implicitly.
+                # The first parameter for a method is always 'self',
+                # but when calling a method, 'self' is passed implicitly.
+                # The first parameter for a classmethod is always 'cls',
+                # but when calling a method, 'cls' is passed implicitly.
                 # Reduce the offset by one as first arg for method or classmethod will not be 'self' or 'cls'.
                 # TODO: Allow SELF() and CLS() to have additional uses besides first argument.
                 # Why?  Imagine __iadd__ for a special list class.  It might want to restrict incoming data to be the
@@ -85,7 +88,8 @@ class _RCheckArgsCallable:
                     raise RCheckArgsError("SELF() and CLS() are only valid for first argument")
                 if isinstance(param_tuple.type_matcher, RClassInstanceMatcher):
                     if not isinstance(self.__func, classmethod):
-                        raise RCheckArgsError("CLS() is only valid for class methods (functions using @classmethod decorator)")
+                        raise RCheckArgsError(
+                            "CLS() is only valid for class methods (functions using @classmethod decorator)")
                     # The first argument ('cls') is never available here.  Continue with faith...
                     continue
 
@@ -345,11 +349,16 @@ def __wrap_func(func: types.FunctionType) -> types.FunctionType:
 
 __TRACEBACK = RInstanceMatcher(types.TracebackType)
 
+
+# noinspection PyPep8Naming
 def TRACEBACK() -> RInstanceMatcher:
     return __TRACEBACK
 
+
 __FRAME = RInstanceMatcher(types.FrameType)
 
+
+# noinspection PyPep8Naming
 def FRAME() -> RInstanceMatcher:
     return __FRAME
 

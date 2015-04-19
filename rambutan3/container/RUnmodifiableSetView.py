@@ -1,4 +1,4 @@
-from rambutan3.container.RForwardingUnmodifiableSet import RForwardingUnmodifiableSet
+from rambutan3.container.RAbstractForwardingUnmodifiableSet import RAbstractForwardingUnmodifiableSet
 from rambutan3.container.RSet import RSet
 from rambutan3.check_args.RCheckArgs import check_args
 from rambutan3.check_args.annotation.INSTANCE_OF import INSTANCE_OF
@@ -6,7 +6,7 @@ from rambutan3.check_args.annotation.SELF import SELF
 from rambutan3.check_args.annotation.SET import SET
 
 
-class RUnmodifiableSetView(RForwardingUnmodifiableSet):
+class RUnmodifiableSetView(RAbstractForwardingUnmodifiableSet):
 
     @check_args
     def __init__(self: SELF(), delegate_set: SET | INSTANCE_OF(RSet)):

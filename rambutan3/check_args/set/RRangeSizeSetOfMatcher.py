@@ -5,6 +5,9 @@ from rambutan3.check_args.set.RSetEnum import RSetEnum
 
 
 RRangeSizeSetOfMatcher = None
+
+
+# noinspection PyRedeclaration
 class RRangeSizeSetOfMatcher(RRangeSizeSetMatcher):
 
     def __init__(self,

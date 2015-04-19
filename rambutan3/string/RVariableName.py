@@ -17,6 +17,7 @@ class RVariableName(RPatternText):
 
     __TOKEN_PATTERN = re.compile(r"^[A-Za-z_][0-9A-Za-z_]*$")
 
+    # noinspection PyMissingConstructor
     def __init__(self, value: str):
         # Insane: We call RPatternText.new() only to validate argument 'value'.
         # We do not save the result, and allow the implicit ctor to be called.

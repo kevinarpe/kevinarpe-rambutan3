@@ -5,6 +5,9 @@ from rambutan3.check_args.base.RInstanceMatcher import RInstanceMatcher
 
 
 RRestrictedInstanceMatcher = None
+
+
+# noinspection PyRedeclaration
 class RRestrictedInstanceMatcher(RAbstractForwardingTypeMatcher):
     """Restricted type instance matcher -- certain subclasses may be excluded.
     This class primarily exists to restrict bools from matching ints, as bool is a subclass of int.

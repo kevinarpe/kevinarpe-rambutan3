@@ -3,7 +3,7 @@ from abc import abstractmethod
 from rambutan3.container.RList import RList
 
 
-class RForwardingUnmodifiableList(Sequence, RList):
+class RAbstractForwardingUnmodifiableList(Sequence, RList):
 
     @property
     def _blocked_attribute(self):

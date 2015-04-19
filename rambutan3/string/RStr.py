@@ -22,6 +22,7 @@ class RStr(str):
         # e.g., iter(123) -> 'int' object is not iterable
         raise TypeError("'{}' object is not iterable".format(self.__class__.__name__))
 
+    # noinspection PyMethodMayBeStatic
     def iter(self):
         x = super().__iter__()
         return x

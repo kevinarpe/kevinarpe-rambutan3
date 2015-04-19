@@ -22,6 +22,7 @@ def test_method():
     with pytest.raises(RCheckArgsError):
         X.method()
     with pytest.raises(RCheckArgsError):
+        # noinspection PyCallByClass
         X.method(123)
     X.method(X())
 
@@ -33,7 +34,9 @@ def test_method2():
     with pytest.raises(RCheckArgsError):
         X.method2()
     with pytest.raises(RCheckArgsError):
+        # noinspection PyCallByClass
         X.method2(123)
     with pytest.raises(RCheckArgsError):
+        # noinspection PyCallByClass
         X.method2(123, "abc")
     X.method2(X(), 123)

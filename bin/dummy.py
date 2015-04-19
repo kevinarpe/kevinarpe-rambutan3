@@ -19,6 +19,7 @@ class X(metaclass=ABCMeta):
     def __str__(self):
         pass
 
+
 class Y(X):
 
     def __hash__(self):
@@ -29,13 +30,15 @@ class Y(X):
         z2 = hash(super())
         return x
 
+
 @check_args
-#def overrides(func: types.FunctionType) -> types.FunctionType:
 def overrides(func: FUNC) -> FUNC:
     func.__overrides__ = True
     return func
 
+
 class RAbstractBaseClassMeta(ABCMeta):
+    # noinspection PyMethodParameters
     def __new__(mcls, name, bases, namespace):
             x = super().__new__(mcls, name, bases, namespace)
             return x
@@ -44,15 +47,19 @@ class RAbstractBaseClassMeta(ABCMeta):
 class RAbstractBaseClass(metaclass=RAbstractBaseClassMeta):
     pass
 
+
 class AbstractClass(RAbstractBaseClass):
     @abstractmethod
     def f(self):
         pass
 
+
+# noinspection PyAbstractClass
 class Z(AbstractClass):
     @overrides
     def f2(self):
         print("f()")
+
 
 def main():
     msg = RMessageText("abc")

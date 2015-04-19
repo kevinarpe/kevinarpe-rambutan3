@@ -7,6 +7,7 @@ from rambutan3.check_args.annotation.SELF import SELF
 from rambutan3.check_args.annotation.TYPE_MATCHER import TYPE_MATCHER
 
 
+# noinspection PyAbstractClass
 class RAbstractForwardingTypedDict(RAbstractForwardingDict):
 
     __ERROR_FORMATTER_KEY = RTypeMatcherErrorFormatter()
@@ -40,10 +41,8 @@ class RAbstractForwardingTypedDict(RAbstractForwardingDict):
 
     def __setitem__(self, key, value):
         if self.__key_matcher is not None:
-            # self.__key_matcher.check(key, "Key '{}': ", key)
             self.__key_matcher.check(key, self.__ERROR_FORMATTER_KEY, "Key {}='{}': ", type(key).__name__, key)
         if self.__value_matcher is not None:
-            # self.__value_matcher.check(value, "Key '{}': Value '{}': ", key, value)
             self.__value_matcher.check(value, self.__ERROR_FORMATTER_VALUE, "(Key: Value): ({}='{}': {}='{}'): ",
                                        type(key).__name__, key, type(value).__name__, value)
         self._delegate[key] = value

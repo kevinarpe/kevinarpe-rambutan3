@@ -3,9 +3,10 @@ from rambutan3.check_args.dict.RDictEnum import RDictEnum
 from rambutan3.check_args.dict.RDictOfMatcher import RDictOfMatcher
 
 
+# noinspection PyPep8Naming
 def DICT_OF(*,
             key_matcher: RAbstractTypeMatcher=None,
             type_matcher: RAbstractTypeMatcher=None) \
         -> RDictOfMatcher:
-    x = RDictOfMatcher(RDictEnum.DICT, key_matcher=key_matcher, type_matcher=type_matcher)
+    x = RDictOfMatcher(RDictEnum.DICT, key_matcher=key_matcher, value_matcher=type_matcher)
     return x

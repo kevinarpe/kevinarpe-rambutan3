@@ -3,6 +3,9 @@ from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
 
 
 RInstanceMatcher = None
+
+
+# noinspection PyRedeclaration
 class RInstanceMatcher(RAbstractTypeMatcher):
     """Type instance matcher
 

@@ -3,6 +3,9 @@ from rambutan3.check_args.base.RInstanceMatcher import RInstanceMatcher
 
 
 RRangeSizeCollectionMatcher = None
+
+
+# noinspection PyRedeclaration
 class RRangeSizeCollectionMatcher(RInstanceMatcher):
 
     def __init__(self, class_or_type_tuple: tuple, *, min_size: int=-1, max_size: int=-1):
@@ -29,10 +32,10 @@ class RRangeSizeCollectionMatcher(RInstanceMatcher):
     def matches(self, collection) -> bool:
         if not super().matches(collection):
             return False
-        L = len(collection)
-        if -1 != self.__min_size and L < self.__min_size:
+        x = len(collection)
+        if -1 != self.__min_size and x < self.__min_size:
             return False
-        if -1 != self.__max_size and L > self.__max_size:
+        if -1 != self.__max_size and x > self.__max_size:
             return False
         return True
 

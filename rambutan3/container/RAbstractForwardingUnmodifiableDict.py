@@ -3,7 +3,7 @@ from abc import abstractmethod
 from rambutan3.container.RDict import RDict
 
 
-class RForwardingUnmodifiableDict(Mapping, RDict):
+class RAbstractForwardingUnmodifiableDict(Mapping, RDict):
 
     @property
     def _blocked_attribute(self):
@@ -22,6 +22,7 @@ class RForwardingUnmodifiableDict(Mapping, RDict):
             x = self._delegate[key]
             return x
         if hasattr(self.__class__, "__missing__"):
+            # noinspection PyUnresolvedReferences
             x = self.__class__.__missing__(self, key)
             return x
         raise KeyError(key)

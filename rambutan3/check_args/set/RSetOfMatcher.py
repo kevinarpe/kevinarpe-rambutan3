@@ -5,6 +5,9 @@ from rambutan3.check_args.set.RSetMatcher import RSetMatcher
 
 
 RSetOfMatcher = None
+
+
+# noinspection PyRedeclaration
 class RSetOfMatcher(RSetMatcher):
 
     def __init__(self, set_enum: RSetEnum, element_matcher: RAbstractTypeMatcher):

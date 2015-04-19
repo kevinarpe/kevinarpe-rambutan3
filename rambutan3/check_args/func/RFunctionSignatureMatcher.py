@@ -6,6 +6,9 @@ from rambutan3.check_args.base.RInstanceMatcher import RInstanceMatcher
 
 
 RFunctionSignatureMatcher = None
+
+
+# noinspection PyRedeclaration
 class RFunctionSignatureMatcher(RInstanceMatcher):
 
     def __init__(self, param_matcher_tuple: tuple, opt_return_matcher: RAbstractTypeMatcher=None):

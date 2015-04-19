@@ -5,6 +5,9 @@ from rambutan3.check_args.seq.RSequenceEnum import RSequenceEnum
 
 
 RRangeSizeSequenceOfMatcher = None
+
+
+# noinspection PyRedeclaration
 class RRangeSizeSequenceOfMatcher(RRangeSizeSequenceMatcher):
 
     def __init__(self,

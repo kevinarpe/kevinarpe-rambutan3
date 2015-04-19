@@ -2,10 +2,12 @@
 
 # Ref: http://code.activestate.com/recipes/414283/
 # Ref: http://legacy.python.org/dev/peps/pep-0416/
+# noinspection PyPep8Naming
 class frozendict(dict):
 
+    # noinspection PyMethodParameters,PyPropertyDefinition
     @property
-    def _blocked_attribute(obj):
+    def _blocked_attribute(self):
         raise AttributeError("A frozendict cannot be modified.")
 
     # _blocked_attribute = property(_blocked_attribute)
@@ -18,6 +20,7 @@ class frozendict(dict):
         dict.__init__(new, *args, **kwargs)
         return new
 
+    # noinspection PyMissingConstructor
     def __init__(self, *args, **kwargs):
         pass
 
