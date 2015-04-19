@@ -3,6 +3,9 @@ from rambutan3.check_args.range.RRangeBoundFunction_ import RRangeBoundFunction_
 
 
 RRangeBound_ = None
+
+
+# noinspection PyRedeclaration
 class RRangeBound_:
     """
     This class exists only to be used by matchers.

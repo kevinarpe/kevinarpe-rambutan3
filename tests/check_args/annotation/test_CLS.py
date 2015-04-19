@@ -8,11 +8,13 @@ from rambutan3.check_args.error.RCheckArgsError import RCheckArgsError
 
 class X:
 
+    # noinspection PyNestedDecorators
     @check_args
     @classmethod
     def method(cls: CLS()):
         pass
 
+    # noinspection PyNestedDecorators
     @check_args
     @classmethod
     def method2(cls: CLS(), data: INT):
@@ -31,10 +33,13 @@ def test_naked_method():
     X.naked_method()
     X().naked_method()
     with pytest.raises(TypeError):
+        # noinspection PyArgumentList
         X.naked_method(123)
     with pytest.raises(TypeError):
+        # noinspection PyArgumentList
         X.naked_method(X())
     with pytest.raises(TypeError):
+        # noinspection PyArgumentList
         X().naked_method(X())
 
 
@@ -55,16 +60,22 @@ def test_naked_method2():
     X.naked_method2("abc")
     X().naked_method2("abc")
     with pytest.raises(TypeError):
+        # noinspection PyArgumentList
         X.naked_method2()
     with pytest.raises(TypeError):
+        # noinspection PyArgumentList
         X().naked_method2()
     with pytest.raises(TypeError):
+        # noinspection PyArgumentList
         X.naked_method2(123, "abc")
     with pytest.raises(TypeError):
+        # noinspection PyArgumentList
         X().naked_method2(123, "abc")
     with pytest.raises(TypeError):
+        # noinspection PyArgumentList
         X.naked_method2(X(), 123)
     with pytest.raises(TypeError):
+        # noinspection PyArgumentList
         X().naked_method2(X(), 123)
 
 

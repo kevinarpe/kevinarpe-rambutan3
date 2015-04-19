@@ -5,6 +5,9 @@ from rambutan3.check_args.seq.RSequenceMatcher import RSequenceMatcher
 
 
 RSequenceOfMatcher = None
+
+
+# noinspection PyRedeclaration
 class RSequenceOfMatcher(RSequenceMatcher):
 
     def __init__(self, sequence_enum: RSequenceEnum, element_matcher: RAbstractTypeMatcher):

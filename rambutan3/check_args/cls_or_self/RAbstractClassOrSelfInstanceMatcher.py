@@ -6,6 +6,9 @@ from rambutan3.check_args.error.RCheckArgsError import RCheckArgsError
 
 
 RAbstractClassOrSelfInstanceMatcher = None
+
+
+# noinspection PyAbstractClass
 class RAbstractClassOrSelfInstanceMatcher(RAbstractTypeMatcher):
 
     def __init__(self):
@@ -22,7 +25,8 @@ class RAbstractClassOrSelfInstanceMatcher(RAbstractTypeMatcher):
         caller_frame = caller_tuple[0]
         caller_locals_dict = caller_frame.f_locals
         if '__module__' not in caller_locals_dict:
-            raise RCheckArgsError("Failed to find special local variable '__module__': Perhaps this function is not defined within a class?")
+            raise RCheckArgsError("Failed to find special local variable '__module__':"
+                                  + "\n\tPerhaps this function is not defined within a class?")
         # Ex: rambutan.types.matcher.RSelfTypeChecker
         caller_module_name = caller_locals_dict['__module__']
         self.__caller_module = importlib.import_module(caller_module_name)

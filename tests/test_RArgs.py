@@ -28,8 +28,10 @@ def _pass_check_not_none(value, arg_name: str):
 
 
 class _Iterable:
+
     def __iter__(self):
         return self
+
     def __next__(self):
         return self
 
@@ -42,7 +44,7 @@ def test_check_is_iterable():
     _pass_check_is_iterable((123,), "blah")
     _pass_check_is_iterable((123, 456), "blah")
     _pass_check_is_iterable([], "blah")
-    _pass_check_is_iterable([123,], "blah")
+    _pass_check_is_iterable([123], "blah")
     _pass_check_is_iterable([123, 456], "blah")
     _pass_check_is_iterable(_Iterable(), "blah")
 
@@ -206,12 +208,16 @@ def test_check_iterable_not_empty_and_items_is_instance():
 
 
 def _fail_check_iterable_not_empty_and_items_is_instance(exception_type: Exception,
-                                           iterable, class_or_type_or_tuple_of: (type, tuple), arg_name: str):
+                                                         iterable,
+                                                         class_or_type_or_tuple_of: (type, tuple),
+                                                         arg_name: str):
     with pytest.raises(exception_type):
         RArgs.check_iterable_not_empty_and_items_is_instance(iterable, class_or_type_or_tuple_of, arg_name)
 
 
-def _pass_check_iterable_not_empty_and_items_is_instance(iterable, class_or_type_or_tuple_of: (type, tuple), arg_name: str):
+def _pass_check_iterable_not_empty_and_items_is_instance(iterable,
+                                                         class_or_type_or_tuple_of: (type, tuple),
+                                                         arg_name: str):
     result = RArgs.check_iterable_not_empty_and_items_is_instance(iterable, class_or_type_or_tuple_of, arg_name)
     assert iterable is result
 

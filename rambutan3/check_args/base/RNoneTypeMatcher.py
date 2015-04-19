@@ -1,7 +1,10 @@
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
 
 
-ROptionalTypeMatcher = None
+RNoneTypeMatcher = None
+
+
+# noinspection PyRedeclaration
 class RNoneTypeMatcher(RAbstractTypeMatcher):
 
     def __init__(self):
@@ -13,7 +16,7 @@ class RNoneTypeMatcher(RAbstractTypeMatcher):
         return x
 
     # @override
-    def __eq__(self, other: ROptionalTypeMatcher) -> bool:
+    def __eq__(self, other: RNoneTypeMatcher) -> bool:
         x = isinstance(other, RNoneTypeMatcher)
         return x
 

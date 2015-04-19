@@ -3,6 +3,9 @@ from rambutan3.string import RStrUtil
 
 
 RAnyValueOfMatcher = None
+
+
+# noinspection PyRedeclaration
 class RAnyValueOfMatcher(RAbstractTypeMatcher):
 
     def __init__(self, *value_tuple):

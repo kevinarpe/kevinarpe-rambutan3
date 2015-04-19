@@ -3,6 +3,9 @@ from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
 
 
 RSubclassMatcher = None
+
+
+# noinspection PyRedeclaration
 class RSubclassMatcher(RAbstractTypeMatcher):
     """Type and (sub)class matcher
 

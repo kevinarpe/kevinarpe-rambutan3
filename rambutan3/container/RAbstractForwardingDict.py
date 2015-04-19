@@ -16,6 +16,7 @@ class RAbstractForwardingDict(MutableMapping, RDict):
             x = self._delegate[key]
             return x
         if hasattr(self.__class__, "__missing__"):
+            # noinspection PyUnresolvedReferences
             x = self.__class__.__missing__(self, key)
             return x
         raise KeyError(key)

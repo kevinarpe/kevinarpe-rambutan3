@@ -26,10 +26,11 @@ class RTypedDict(RAbstractForwardingTypedDict):
                optional; added to new dict, but subject to key_matcher and value_matcher restrictions
         """
         super().__init__(key_matcher, value_matcher)
-        self.__dict = { }
+        self.__dict = {}
         if dictionary:  # not None and not empty
             self.update(dictionary)
 
+    # @overrides
     @property
     def _delegate(self) -> dict:
         return self.__dict

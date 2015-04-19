@@ -5,6 +5,9 @@ from rambutan3 import RArgs, RTypes
 
 
 RRangeBoundFunctionEnumData_ = None
+
+
+# noinspection PyRedeclaration
 class RRangeBoundFunctionEnumData_:
     """This class exists only to be used by matchers."""
 

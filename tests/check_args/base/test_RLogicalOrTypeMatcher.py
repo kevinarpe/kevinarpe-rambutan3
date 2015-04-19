@@ -12,8 +12,10 @@ _BOOL_MATCHER = RInstanceMatcher(bool)
 
 def test_ctor():
     with pytest.raises(TypeError):
+        # noinspection PyArgumentList,PyArgumentList
         RLogicalOrTypeMatcher()
     with pytest.raises(TypeError):
+        # noinspection PyArgumentList
         RLogicalOrTypeMatcher(None)
     with pytest.raises(TypeError):
         RLogicalOrTypeMatcher(None, _STR_MATCHER)

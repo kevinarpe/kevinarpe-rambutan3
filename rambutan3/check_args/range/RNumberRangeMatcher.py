@@ -4,6 +4,9 @@ from rambutan3.check_args.range.RRange_ import RRange_
 
 
 RNumberRangeMatcher = None
+
+
+# noinspection PyRedeclaration
 class RNumberRangeMatcher(RAbstractTypeMatcher):
 
     __ALLOWED_TYPE_TUPLE = (int, float)

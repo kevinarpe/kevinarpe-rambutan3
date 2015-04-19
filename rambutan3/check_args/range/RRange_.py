@@ -8,6 +8,9 @@ from rambutan3.check_args.range.RRangeBoundFunctionEnumData_ import RRangeBoundF
 
 
 RRange_ = None
+
+
+# noinspection PyRedeclaration
 class RRange_:
     """
     This class exists only to be used by matchers.
@@ -78,13 +81,13 @@ class RRange_:
         RArgs.check_not_none(item, "item")
         if isinstance(item, type(self)):
             #: :type item: RRange
-            if not item.__bound1 in self.__bound1:
+            if item.__bound1 not in self.__bound1:
                 return False
             if (not self.__opt_bound2) != (not item.__opt_bound2):
                 return False
             x = item.__opt_bound2 in self.__opt_bound2
         else:
-            if not item in self.__bound1:
+            if item not in self.__bound1:
                 return False
             x = True
             if self.__opt_bound2:

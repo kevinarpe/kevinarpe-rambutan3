@@ -2,8 +2,6 @@ import pytest
 
 from rambutan3.check_args.base.RInstanceMatcher import RInstanceMatcher
 
-from rambutan3.check_args.base.RInstanceMatcher import RInstanceMatcher
-
 
 class X:
     pass

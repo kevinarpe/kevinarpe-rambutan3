@@ -11,6 +11,7 @@ class RDelegator:
     def __init__(self, delegate):
         super().__setattr__("__delegate", delegate)
 
+    # noinspection PyMethodMayBeStatic
     def _super_getattribute(self, name):
         """
         Provides special non-delegated access to {@code object#__getattribute__()}.

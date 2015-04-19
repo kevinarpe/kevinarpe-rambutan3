@@ -11,8 +11,11 @@ from rambutan3.check_args.error.RTypeMatcherErrorFormatter import RTypeMatcherEr
 
 
 RAbstractTypeMatcher = None
+
+
 # Ref: https://docs.python.org/3/library/abc.html#abc.abstractmethod
 # Using this decorator requires that the class’s metaclass is ABCMeta or is derived from it.
+# noinspection PyRedeclaration
 class RAbstractTypeMatcher(ABC):
     """Abstract base class for all type matchers, include type matchers."""
 
@@ -79,7 +82,8 @@ class RAbstractTypeMatcher(ABC):
         """
         pass
 
-    # Accordingly, when defining __eq__(), one should also define __ne__() so that the operators will behave as expected.
+    # Accordingly, when defining __eq__(), one should also define __ne__()
+    # so that the operators will behave as expected.
     # Ref: https://docs.python.org/3/reference/datamodel.html
     def __ne__(self, other: RAbstractTypeMatcher) -> bool:
         x = not (self == other)
@@ -95,6 +99,9 @@ class RAbstractTypeMatcher(ABC):
 
 
 RLogicalOrTypeMatcher = None
+
+
+# noinspection PyRedeclaration
 class RLogicalOrTypeMatcher(RAbstractTypeMatcher):
     """Combines two or more type matchers to create a unified logical OR type matcher
 

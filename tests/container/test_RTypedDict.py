@@ -8,12 +8,12 @@ def test():
     with pytest.raises(ValueError):
         RTypedDict()
 
-    RTypedDict(key_matcher=INT, dictionary={ 123: "abc", 456: 789})
+    RTypedDict(key_matcher=INT, dictionary={123: "abc", 456: 789})
 
     with pytest.raises(RCheckArgsError):
-        RTypedDict(key_matcher=INT, dictionary={ 123: "abc", 456: 789, None: None})
+        RTypedDict(key_matcher=INT, dictionary={123: "abc", 456: 789, None: None})
 
-    RTypedDict(value_matcher=INT, dictionary={ "abc": 123, 456: 789})
+    RTypedDict(value_matcher=INT, dictionary={"abc": 123, 456: 789})
 
     with pytest.raises(RCheckArgsError):
-        RTypedDict(value_matcher=INT, dictionary={ "abc": 123, 456: 789, None: None})
+        RTypedDict(value_matcher=INT, dictionary={"abc": 123, 456: 789, None: None})

@@ -2,6 +2,9 @@ from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
 
 
 RAnyTypeMatcher = None
+
+
+# noinspection PyRedeclaration
 class RAnyTypeMatcher(RAbstractTypeMatcher):
 
     def __init__(self):

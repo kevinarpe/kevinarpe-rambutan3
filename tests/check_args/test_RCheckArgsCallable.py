@@ -1,4 +1,5 @@
 import pytest
+# noinspection PyProtectedMember
 from rambutan3.check_args.RCheckArgs import check_args, _RCheckArgsCallable
 from rambutan3.check_args.annotation.CLS import CLS
 from rambutan3.check_args.annotation.FLOAT import FLOAT
@@ -8,9 +9,11 @@ from rambutan3.check_args.annotation.STR import STR
 from rambutan3.check_args.error.RCheckArgsError import RCheckArgsError
 
 
+# noinspection PyDecorator
 @staticmethod
 def blah():
     pass
+
 
 class X:
 
@@ -26,11 +29,13 @@ class X:
     def dummy3(self: CLS()):
         pass
 
+    # noinspection PyNestedDecorators
     @check_args
     @classmethod
     def dummy4(cls: CLS(), z: INT):
         pass
 
+    # noinspection PyNestedDecorators
     @check_args
     @staticmethod
     def dummy5(z: INT):

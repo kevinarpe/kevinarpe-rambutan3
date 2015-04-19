@@ -1,6 +1,7 @@
 
 
 # Ref: http://code.activestate.com/recipes/414283/
+# noinspection PyPep8Naming
 class hashabledict(dict):
 
     def __hash__(self):

@@ -4,6 +4,9 @@ from rambutan3.check_args.base.RInstanceMatcher import RInstanceMatcher
 
 
 RStrictInstanceMatcher = None
+
+
+# noinspection PyRedeclaration
 class RStrictInstanceMatcher(RAbstractForwardingTypeMatcher):
     """Strict type instance matcher -- subclasses do not match
 

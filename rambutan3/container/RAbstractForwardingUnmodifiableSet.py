@@ -3,7 +3,7 @@ from abc import abstractmethod
 from rambutan3.container.RSet import RSet
 
 
-class RForwardingUnmodifiableSet(Set, RSet):
+class RAbstractForwardingUnmodifiableSet(Set, RSet):
 
     @property
     def _blocked_attribute(self):
