@@ -1,9 +1,9 @@
 from rambutan3.container.RForwardingUnmodifiableSet import RForwardingUnmodifiableSet
 from rambutan3.container.RSet import RSet
-from rambutan3.type.matcher.RCheckArgs import check_args
-from rambutan3.type.matcher.annotation.INSTANCE_OF import INSTANCE_OF
-from rambutan3.type.matcher.annotation.SELF import SELF
-from rambutan3.type.matcher.annotation.SET import SET
+from rambutan3.check_args.RCheckArgs import check_args
+from rambutan3.check_args.annotation.INSTANCE_OF import INSTANCE_OF
+from rambutan3.check_args.annotation.SELF import SELF
+from rambutan3.check_args.annotation.SET import SET
 
 
 class RUnmodifiableSetView(RForwardingUnmodifiableSet):

@@ -1,5 +1,9 @@
 from abc import abstractmethod, ABCMeta
+
 from bin import Sample
+from rambutan3.check_args.RCheckArgs import check_args
+from rambutan3.check_args.annotation.FUNC import FUNC
+from rambutan3.string.RMessageText import RMessageText
 
 
 class X(metaclass=ABCMeta):
@@ -25,7 +29,40 @@ class Y(X):
         z2 = hash(super())
         return x
 
+@check_args
+#def overrides(func: types.FunctionType) -> types.FunctionType:
+def overrides(func: FUNC) -> FUNC:
+    func.__overrides__ = True
+    return func
+
+class RAbstractBaseClassMeta(ABCMeta):
+    def __new__(mcls, name, bases, namespace):
+            x = super().__new__(mcls, name, bases, namespace)
+            return x
+
+
+class RAbstractBaseClass(metaclass=RAbstractBaseClassMeta):
+    pass
+
+class AbstractClass(RAbstractBaseClass):
+    @abstractmethod
+    def f(self):
+        pass
+
+class Z(AbstractClass):
+    @overrides
+    def f2(self):
+        print("f()")
+
 def main():
+    msg = RMessageText("abc")
+    msg_iter = iter(msg)
+    for char in msg_iter:
+        pass
+    for char in msg:
+        pass
+    Z().f2()
+
     x_hash = hash(X())
     y_hash = hash(Y())
     print(Sample.MAYBE_CONST)
