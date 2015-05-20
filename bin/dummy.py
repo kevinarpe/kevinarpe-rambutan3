@@ -1,4 +1,8 @@
+from PyQt5.QtWidgets import QApplication, QMessageBox
 from abc import abstractmethod, ABCMeta
+import sys
+
+# from PySide.QtGui import QApplication, QMessageBox
 
 from bin import Sample
 from rambutan3.check_args.RCheckArgs import check_args
@@ -62,6 +66,8 @@ class Z(AbstractClass):
 
 
 def main():
+    app = QApplication(sys.argv)
+    QMessageBox.aboutQt(None, 'Yaya')
     msg = RMessageText("abc")
     msg_iter = iter(msg)
     for char in msg_iter:
