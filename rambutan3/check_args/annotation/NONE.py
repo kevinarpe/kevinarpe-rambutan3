@@ -1,4 +1,11 @@
-from rambutan3.check_args.base.RNoneTypeMatcher import RNoneTypeMatcher
+"""
+@author Kevin Connor ARPE (kevinarpe@gmail.com)
+
+@see ANY
+@see NOT_NONE
+"""
+
+from rambutan3.check_args.annotation.INSTANCE_OF import INSTANCE_OF
 
 
-NONE = RNoneTypeMatcher()
+NONE = INSTANCE_OF(type(None))

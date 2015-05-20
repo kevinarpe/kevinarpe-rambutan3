@@ -1,3 +1,11 @@
-from rambutan3.check_args.base.RAnyTypeMatcher import RAnyTypeMatcher
+"""
+@author Kevin Connor ARPE (kevinarpe@gmail.com)
 
-ANY = RAnyTypeMatcher()
+@see NONE
+@see NOT_NONE
+"""
+
+from rambutan3.check_args.annotation.INSTANCE_OF import INSTANCE_OF
+
+# This allows None.
+ANY = INSTANCE_OF(object)

@@ -9,4 +9,4 @@ def test():
     assert ANY.matches(dict())
     assert ANY.matches(set())
     assert ANY.matches([123])
-    assert not ANY.matches(None)
+    assert ANY.matches(None)

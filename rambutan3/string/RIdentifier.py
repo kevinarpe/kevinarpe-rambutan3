@@ -2,7 +2,7 @@ import re
 from rambutan3.string.RPatternText import RPatternText
 
 
-class RVariableName(RPatternText):
+class RIdentifier(RPatternText):
     """
     Wraps a {@link str} value that is a valid C programming language variable:
     (1) Starts with [A-Za-z_]

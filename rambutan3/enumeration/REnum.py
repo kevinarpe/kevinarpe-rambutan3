@@ -1,6 +1,8 @@
 from enum import Enum
+import enum
 
 
+@enum.unique
 class REnum(Enum):
 
     def __init__(self, *args):
