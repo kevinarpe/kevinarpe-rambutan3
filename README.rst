@@ -13,12 +13,15 @@ This project is available as a PyPI package here:
 https://pypi.python.org/pypi/kevinarpe-rambutan3
 
 Installation command:
+
     pip install kevinarpe-rambutan3
 
 If you are behind a (corporate) Internet proxy/firewall, try the --proxy
 argument:
+
     pip --proxy http://${username}:${password}@proxy_company.sample.com install kevinarpe-rambutan3
 
 Finally, you may download the .tar.gz from PyPI and install via:
+
     pip install kevinarpe-rambutan3-x.y.z.tar.gz
 
