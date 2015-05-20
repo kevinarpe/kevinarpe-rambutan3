@@ -1,5 +1,4 @@
-from rambutan3.check_args.base.RInstanceMatcher import RInstanceMatcher
-from rambutan3.string.RNonEmptyStr import RNonEmptyStr
+from rambutan3.check_args.base.RNonEmptyStrMatcher import RNonEmptyStrMatcher
 
 
-NON_EMPTY_STR = RInstanceMatcher(RNonEmptyStr)
+NON_EMPTY_STR = RNonEmptyStrMatcher()

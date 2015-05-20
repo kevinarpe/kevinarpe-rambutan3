@@ -15,14 +15,18 @@ class RIdentifier(RPatternText):
     @author Kevin Connor ARPE (kevinarpe@gmail.com)
     """
 
-    __TOKEN_PATTERN = re.compile(r"^[A-Za-z_][0-9A-Za-z_]*$")
+    __REGEX_PATTERN = re.compile(r"^[A-Za-z_][0-9A-Za-z_]*$")
+
+    @classmethod
+    def REGEX_PATTERN(cls):
+        return cls.__REGEX_PATTERN
 
     # noinspection PyMissingConstructor
     def __init__(self, value: str):
         # Insane: We call RPatternText.new() only to validate argument 'value'.
         # We do not save the result, and allow the implicit ctor to be called.
         # Magic!
-        RPatternText.new(value, self.__TOKEN_PATTERN)
+        RPatternText.new(value, self.__REGEX_PATTERN)
         # Crazy, crazy, crazy.  Do not call super().__init__()!  No idea how this magic works.
         # super().__init__(value)
         # super().__init__()

@@ -28,6 +28,8 @@ class RPatternText(RStr):
                any string that matches regular expression in {@code regex_pattern}
         @param regex_pattern
                regular expression to restrict valid string values
+               do not forget to include begin and end anchors to match the entire string,
+               e.g., {@code ^abc[def]ghi$}
 
         @throws TypeError
                 if {@code value} is not type {@link str}
@@ -38,7 +40,7 @@ class RPatternText(RStr):
         @see re#compile()
         """
         RArgs.check_is_instance(regex_pattern, RTypes.REGEX_PATTERN_TYPE, "regex_pattern")
-        if not regex_pattern.match(value):
+        if not regex_pattern.search(value):
             raise ValueError("Argument 'value' does not match pattern '{}': '{}'".format(regex_pattern.pattern, value))
         x = RPatternText(value)
         return x

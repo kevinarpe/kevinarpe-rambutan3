@@ -40,10 +40,7 @@ class RNumberRangeMatcher(RAbstractTypeMatcher):
 
     # @override
     def __hash__(self) -> int:
-        # Ref: http://stackoverflow.com/questions/29435556/how-to-combine-hash-codes-in-in-python3
-        super_hash = super().__hash__()
-        self_hash = hash(self.__range)
-        x = super_hash ^ self_hash
+        x = hash(self.__range)
         return x
 
     # @override
