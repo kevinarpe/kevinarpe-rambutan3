@@ -16,10 +16,18 @@ Installation command:
 
     pip install kevinarpe-rambutan3
 
+Upgrade command:
+
+    pip install --upgrade kevinarpe-rambutan3
+
 If you are behind a (corporate) Internet proxy/firewall, try the --proxy
 argument:
 
     pip --proxy http://${username}:${password}@proxy_company.sample.com install kevinarpe-rambutan3
+
+Upgrade command behind a (corporate) Internet proxy/firewall:
+
+    pip --proxy http://${username}:${password}@proxy_company.sample.com install --upgrade kevinarpe-rambutan3
 
 Finally, you may download the .tar.gz from PyPI and install via:
 

@@ -18,7 +18,8 @@ class RRegexMatcher(RAbstractTypeMatcher):
         if not isinstance(value, str):
             return False
         x = self.__regex_pattern.search(value)
-        return x
+        y = bool(x)
+        return y
 
     # @override
     def __eq__(self, other: RRegexMatcher) -> bool:

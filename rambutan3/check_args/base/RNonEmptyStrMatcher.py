@@ -1,6 +1,6 @@
-from rambutan3 import RArgs
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
 from rambutan3.string.RNonEmptyStr import RNonEmptyStr
+
 
 RNonEmptyStrMatcher = None
 
@@ -28,7 +28,7 @@ class RNonEmptyStrMatcher(RAbstractTypeMatcher):
 
     # @override
     def __hash__(self) -> int:
-        x = hash(self)
+        x = super(object, self).__hash__()
         return x
 
     # @override

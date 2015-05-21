@@ -75,7 +75,7 @@ class RFunctionSignatureMatcher(RInstanceMatcher):
 
     # @override
     def __str__(self) -> str:
-        args = " , ".join(self.__param_matcher_tuple)
+        args = " , ".join([str(pm) for pm in self.__param_matcher_tuple])
         x = "def *({})".format(args)
         if self.__opt_return_matcher:
             x += " -> {}".format(self.__opt_return_matcher)
