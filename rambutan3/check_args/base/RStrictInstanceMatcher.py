@@ -23,6 +23,7 @@ class RStrictInstanceMatcher(RAbstractForwardingTypeMatcher):
     @see builtins#type()
     """
 
+    # noinspection PyMissingConstructor
     def __init__(self, *class_or_type_tuple):
         """
         @param *class_or_type_tuple
@@ -33,7 +34,7 @@ class RStrictInstanceMatcher(RAbstractForwardingTypeMatcher):
         @throws TypeError
                 if {@code *class_or_type_tuple} contains a item that is not a type/class
         """
-        super().__init__()
+        # Intentional: Do not call super(RAbstractForwardingTypeMatcher, self).__init__()
         self.__matcher = RInstanceMatcher(*class_or_type_tuple)
         self.__class_or_type_tuple = class_or_type_tuple
 

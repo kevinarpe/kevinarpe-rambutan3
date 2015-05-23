@@ -19,6 +19,7 @@ class RInstanceMatcher(RAbstractTypeMatcher):
     @see builtins#isinstance()
     """
 
+    # noinspection PyMissingConstructor
     def __init__(self, *class_or_type_tuple):
         """
         @param *class_or_type_tuple
@@ -29,7 +30,7 @@ class RInstanceMatcher(RAbstractTypeMatcher):
         @throws TypeError
                 if {@code *class_or_type_tuple} contains a item that is not a type/class
         """
-        super().__init__()
+        # Intentional: Do not call super(RAbstractTypeMatcher, self).__init__()
         RArgs.check_iterable_not_empty_and_items_is_instance(class_or_type_tuple, type, "*class_or_type_tuple")
         self.__type_tuple = class_or_type_tuple
         self.__type_frozenset = frozenset(class_or_type_tuple)

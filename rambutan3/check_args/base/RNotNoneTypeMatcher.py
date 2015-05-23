@@ -7,8 +7,10 @@ RNotNoneTypeMatcher = None
 # noinspection PyRedeclaration
 class RNotNoneTypeMatcher(RAbstractTypeMatcher):
 
+    # noinspection PyMissingConstructor
     def __init__(self):
-        super().__init__()
+        # Intentional: Do not call super(RAbstractTypeMatcher, self).__init__()
+        pass
 
     # @override
     def matches(self, value) -> bool:

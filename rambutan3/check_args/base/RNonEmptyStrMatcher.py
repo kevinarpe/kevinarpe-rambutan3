@@ -8,8 +8,9 @@ RNonEmptyStrMatcher = None
 # noinspection PyRedeclaration
 class RNonEmptyStrMatcher(RAbstractTypeMatcher):
 
+    # noinspection PyMissingConstructor
     def __init__(self):
-        # Intentional: Do not call super().__init__()
+        # Intentional: Do not call super(RAbstractTypeMatcher, self).__init__()
         pass
 
     # @override

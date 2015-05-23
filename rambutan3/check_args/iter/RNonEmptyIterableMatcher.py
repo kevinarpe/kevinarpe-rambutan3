@@ -16,6 +16,7 @@ class RNonEmptyIterableMatcher(RAbstractTypeMatcher):
     @see RArgs#check_iterable_not_empty()
     """
 
+    # noinspection PyMissingConstructor
     def __init__(self):
         # Intentional: Do not call super().__init__()
         pass

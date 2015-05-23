@@ -11,8 +11,9 @@ RAbstractClassOrSelfInstanceMatcher = None
 # noinspection PyAbstractClass
 class RAbstractClassOrSelfInstanceMatcher(RAbstractTypeMatcher):
 
+    # noinspection PyMissingConstructor
     def __init__(self):
-        super().__init__()
+        # Intentional: Do not call super(RAbstractTypeMatcher, self).__init__()
         stack_list = inspect.stack()
         # 0, 1, 2, 3 -> to the correct stack frame
         # 0: This method

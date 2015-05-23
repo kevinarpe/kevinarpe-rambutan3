@@ -7,7 +7,9 @@ RLogicalNotTypeMatcher = None
 
 class RLogicalNotTypeMatcher(RAbstractTypeMatcher):
 
+    # noinspection PyMissingConstructor
     def __init__(self, delegate: RAbstractTypeMatcher):
+        # Intentional: Do not call super(RAbstractTypeMatcher, self).__init__()
         RArgs.check_is_instance(delegate, RAbstractTypeMatcher, "delegate")
         self.__delegate = delegate
 

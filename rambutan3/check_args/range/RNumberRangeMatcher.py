@@ -11,13 +11,14 @@ class RNumberRangeMatcher(RAbstractTypeMatcher):
 
     __ALLOWED_TYPE_TUPLE = (int, float)
 
+    # noinspection PyMissingConstructor
     def __init__(self,
                  number_matcher: RAbstractTypeMatcher,
                  bound_op1: str,
                  value1: (int, float),
                  bound_op2: str=None,
                  value2: (int, float)=None):
-        super().__init__()
+        # Intentional: Do not call super(RAbstractTypeMatcher, self).__init__()
         RArgs.check_is_instance(number_matcher, RAbstractTypeMatcher, "matcher")
         self.__number_matcher = number_matcher
         self.__range = RRange_.create(bound_op1, value1, bound_op2, value2)
@@ -45,5 +46,5 @@ class RNumberRangeMatcher(RAbstractTypeMatcher):
 
     # @override
     def __str__(self):
-        x = "{}: {}".format(super().__str__(), self.__range)
+        x = "{}: {}".format(self.__number_matcher.__str__(), self.__range)
         return x

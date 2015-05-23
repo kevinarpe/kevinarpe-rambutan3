@@ -9,6 +9,7 @@ RIterableOfMatcher = None
 # noinspection PyRedeclaration
 class RIterableOfMatcher(RAbstractTypeMatcher):
 
+    # noinspection PyMissingConstructor
     def __init__(self, element_matcher: RAbstractTypeMatcher):
         # Intentional: Do not call super().__init__()
         self.__delegate = RIterableMatcher()

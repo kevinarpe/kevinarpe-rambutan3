@@ -5,6 +5,10 @@ from rambutan3.check_args.error.RTypeMatcherErrorFormatter import RTypeMatcherEr
 
 class RAbstractForwardingTypeMatcher(RAbstractTypeMatcher):
 
+    # noinspection PyMissingConstructor
+    def __init__(self):
+        raise NotImplementedError('Internal error: Do not call this constructor')
+
     @property
     @abstractmethod
     def _delegate(self) -> RAbstractTypeMatcher:

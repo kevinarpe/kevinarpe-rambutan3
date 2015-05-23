@@ -19,6 +19,9 @@ RAbstractTypeMatcher = None
 class RAbstractTypeMatcher(ABC):
     """Abstract base class for all type matchers, include type matchers."""
 
+    def __init__(self):
+        raise NotImplementedError('Internal error: Do not call this constructor')
+
     @abstractmethod
     def matches(self, value) -> bool:
         """Tests if value matches
@@ -30,7 +33,7 @@ class RAbstractTypeMatcher(ABC):
 
         @return {@code True} if value matches, else {@code False}
         """
-        raise NotImplementedError()
+        raise NotImplementedError('Internal error: Do not call this member function')
 
     def check(self,
               value,
@@ -65,7 +68,6 @@ class RAbstractTypeMatcher(ABC):
 
         @see RLogicalOrValueMatcher
         """
-
         x = RLogicalOrTypeMatcher(self, other)
         return x
 
@@ -80,7 +82,7 @@ class RAbstractTypeMatcher(ABC):
                 Else, result of type matcher equality test
 
         """
-        pass
+        raise NotImplementedError('Internal error: Do not call this member function')
 
     # Accordingly, when defining __eq__(), one should also define __ne__()
     # so that the operators will behave as expected.
@@ -91,11 +93,11 @@ class RAbstractTypeMatcher(ABC):
 
     @abstractmethod
     def __hash__(self) -> int:
-        pass
+        raise NotImplementedError('Internal error: Do not call this member function')
 
     @abstractmethod
     def __str__(self) -> str:
-        pass
+        raise NotImplementedError('Internal error: Do not call this member function')
 
 
 RLogicalOrTypeMatcher = None
@@ -108,6 +110,7 @@ class RLogicalOrTypeMatcher(RAbstractTypeMatcher):
     This class is fully tested.
     """
 
+    # noinspection PyMissingConstructor
     def __init__(self,
                  left: (RAbstractTypeMatcher, RLogicalOrTypeMatcher),
                  right: (RAbstractTypeMatcher, RLogicalOrTypeMatcher)):
@@ -120,7 +123,7 @@ class RLogicalOrTypeMatcher(RAbstractTypeMatcher):
 
         @return new type matcher that combines first and second type matcher as logical OR type matcher
         """
-        super().__init__()
+        # Intentional: Do not call super(RAbstractTypeMatcher, self).__init__()
         RArgs.check_is_instance(left, RAbstractTypeMatcher, "left")
         RArgs.check_is_instance(right, RAbstractTypeMatcher, "right")
 

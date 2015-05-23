@@ -19,6 +19,7 @@ class RRestrictedInstanceMatcher(RAbstractForwardingTypeMatcher):
     @see builtins#type()
     """
 
+    # noinspection PyMissingConstructor
     def __init__(self, *,
                  allowed_class_or_type_tuple: tuple,
                  not_allowed_class_or_type_tuple: tuple):
@@ -33,7 +34,7 @@ class RRestrictedInstanceMatcher(RAbstractForwardingTypeMatcher):
         @throws TypeError
                 if {@code allowed_class_or_type_tuple} contains a item that is not a type/class
         """
-        super().__init__()
+        # Intentional: Do not call super(RAbstractForwardingTypeMatcher, self).__init__()
         RArgs.check_is_instance(allowed_class_or_type_tuple, tuple, "allowed_class_or_type_tuple")
         RArgs.check_is_instance(not_allowed_class_or_type_tuple, tuple, "not_allowed_class_or_type_tuple")
         self.__matcher = RInstanceMatcher(*allowed_class_or_type_tuple)

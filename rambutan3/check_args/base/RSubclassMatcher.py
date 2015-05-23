@@ -23,8 +23,9 @@ class RSubclassMatcher(RAbstractTypeMatcher):
     @see builtins#issubclass()
     """
 
+    # noinspection PyMissingConstructor
     def __init__(self, class_or_type: type):
-        super().__init__()
+        # Intentional: Do not call super(RAbstractTypeMatcher, self).__init__()
         RArgs.check_is_instance(class_or_type, type, "class_or_type")
         self.__type = class_or_type
 

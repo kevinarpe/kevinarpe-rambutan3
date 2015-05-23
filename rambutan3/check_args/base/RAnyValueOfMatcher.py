@@ -8,8 +8,9 @@ RAnyValueOfMatcher = None
 # noinspection PyRedeclaration
 class RAnyValueOfMatcher(RAbstractTypeMatcher):
 
+    # noinspection PyMissingConstructor
     def __init__(self, *value_tuple):
-        super().__init__()
+        # Intentional: Do not call super(RAbstractTypeMatcher, self).__init__()
         if not value_tuple:
             raise ValueError("Argument '*value_tuple' is empty")
         self.__value_frozenset = frozenset(value_tuple)

@@ -8,8 +8,9 @@ RRegexMatcher = None
 # noinspection PyRedeclaration
 class RRegexMatcher(RAbstractTypeMatcher):
 
+    # noinspection PyMissingConstructor
     def __init__(self, regex_pattern: RTypes.REGEX_PATTERN_TYPE):
-        # Intentional: Do not call super().__init__()
+        # Intentional: Do not call super(RAbstractTypeMatcher, self).__init__()
         RArgs.check_is_instance(regex_pattern, RTypes.REGEX_PATTERN_TYPE, "pattern")
         self.__regex_pattern = regex_pattern
 

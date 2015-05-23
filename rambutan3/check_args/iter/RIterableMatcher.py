@@ -16,6 +16,7 @@ class RIterableMatcher(RAbstractTypeMatcher):
     @see RArgs#is_iterable()
     """
 
+    # noinspection PyMissingConstructor
     def __init__(self):
         # Intentional: Do not call super().__init__()
         pass

@@ -9,8 +9,9 @@ RNonEmptyIterableOfMatcher = None
 # noinspection PyRedeclaration
 class RNonEmptyIterableOfMatcher(RAbstractTypeMatcher):
 
+    # noinspection PyMissingConstructor
     def __init__(self, element_matcher: RAbstractTypeMatcher):
-        # Intentional: Do not call super().__init__()
+        # Intentional: Do not call super(RAbstractTypeMatcher, self).__init__()
         self.__delegate = RNonEmptyIterableMatcher()
         RArgs.check_is_instance(element_matcher, RAbstractTypeMatcher, "element_matcher")
         self.__element_matcher = element_matcher
