@@ -248,6 +248,8 @@ remove_virtualenv()
 
 git_push_plus_tags()
 {
+    # Must call separately!
+    git push
     git push --tags
 }
 
