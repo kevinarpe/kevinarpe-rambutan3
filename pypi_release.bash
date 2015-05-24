@@ -43,7 +43,7 @@ main()
 
     check_which_python3_matches_virtualenv
     pushd "$cwd"
-    check_zero_git_uncommitted_changes
+#    check_zero_git_uncommitted_changes
     update_version
     git_commit_changes
     check_zero_git_uncommitted_changes
@@ -117,12 +117,20 @@ update_version()
     cat "$VERSION_FILE_NAME" 1> /dev/null 2>&1
     local current_version="$(cat "$VERSION_FILE_NAME")"
 
-    printf -- 'Current version: [%s]\n' "$current_version"
-    local next_version=''
-    read -p 'Next version: ' next_version
+    while true
+    do
+        printf -- 'Current version: [%s]\n' "$current_version"
+        local next_version=''
+        read -p 'Next version: ' next_version
 
-    # Intentional: Do not anchor with '$'.  Allow trailing non-digits, e.g., 'a' (for alpha)
-    [[ "$next_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+ ]]
+        # Intentional: Do not anchor with '$'.  Allow trailing non-digits, e.g., 'a' (for alpha)
+        if [[ "$next_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+ ]]
+        then
+            break
+        else
+            printf -- 'ERROR: Invalid version format.  Please try again.\n\n'
+        fi
+    done
 
     printf -- '%s\n' "$next_version" > "$VERSION_FILE_NAME"
 }
