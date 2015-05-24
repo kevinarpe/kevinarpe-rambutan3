@@ -22,10 +22,11 @@ RELEASE_MODE_PROD='prod'
 PYPI_URL_TEST='https://testpypi.python.org/pypi'
 PYPI_URL_PROD='https://pypi.python.org/pypi'
 
-VERSION_FILE_NAME='version.txt'
+VERSION_FILE_PATH="$(dirname "$(readlink -f "$0")")/version.txt"
 
 main()
 {
+    check_version_file_exists
     if [ $# != 1 ]
     then
         echo_usage_and_exit_on_error 'ERROR: Expected exactly one argument: RELEASE_MODE'
@@ -65,9 +66,11 @@ main()
 echo_usage_and_exit_on_error()
 {
     local error="$1" ; shift
+    local current_version="$(cat "$VERSION_FILE_PATH")"
 
     printf -- '%s\n\n' "$error"
     printf -- 'Usage: "%s" {%s,%s}\n\n' "$0" "$RELEASE_MODE_TEST" "$RELEASE_MODE_PROD"
+    printf -- 'Current version: [%s]\n\n' "$current_version"
     printf -- 'Example setup.py version for %s: 1.0.2a0\n' "$RELEASE_MODE_TEST"
     printf -- 'Example setup.py version for %s: 1.0.2\n' "$RELEASE_MODE_PROD"
     exit 1
@@ -112,16 +115,30 @@ check_zero_git_uncommitted_changes()
     fi
 }
 
+check_version_file_exists()
+{
+    if ! cat "$VERSION_FILE_PATH" 1> /dev/null 2>&1
+    then
+        printf -- 'ERROR: Version file [%s] does not exist\n' "$VERSION_FILE_PATH"
+        exit 1
+    fi
+}
+
 update_version()
 {
-    cat "$VERSION_FILE_NAME" 1> /dev/null 2>&1
-    local current_version="$(cat "$VERSION_FILE_NAME")"
+    local current_version="$(cat "$VERSION_FILE_PATH")"
 
     while true
     do
         printf -- 'Current version: [%s]\n' "$current_version"
         local next_version=''
         read -p 'Next version: ' next_version
+
+        if [ "$next_version" = "$current_version" ]
+        then
+            printf -- 'ERROR: Version is unchanged.  Please try again.\n\n'
+            continue
+        fi
 
         # Intentional: Do not anchor with '$'.  Allow trailing non-digits, e.g., 'a' (for alpha)
         if [[ "$next_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+ ]]
@@ -132,19 +149,19 @@ update_version()
         fi
     done
 
-    printf -- '%s\n' "$next_version" > "$VERSION_FILE_NAME"
+    printf -- '%s\n' "$next_version" > "$VERSION_FILE_PATH"
 }
 
 git_commit_changes()
 {
-    local next_version="$(cat "$VERSION_FILE_NAME")"
+    local next_version="$(cat "$VERSION_FILE_PATH")"
     git add --all
     git commit --message="$0: Next version: [$next_version]"
 }
 
 git_tag_version()
 {
-    local next_version="$(cat "$VERSION_FILE_NAME")"
+    local next_version="$(cat "$VERSION_FILE_PATH")"
     git tag --message="$0: Next version: [$next_version]" "$next_version"
 }
 
