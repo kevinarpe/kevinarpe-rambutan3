@@ -5,8 +5,6 @@
 @see NONE
 """
 
-from rambutan3.check_args.annotation.NONE import NONE
-from rambutan3.check_args.annotation.NOT import NOT
+from rambutan3.check_args.base.RNotNoneTypeMatcher import RNotNoneTypeMatcher
 
-
-NOT_NONE = NOT(NONE)
+NOT_NONE = RNotNoneTypeMatcher()

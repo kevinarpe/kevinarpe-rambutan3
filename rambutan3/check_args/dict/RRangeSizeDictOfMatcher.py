@@ -1,4 +1,5 @@
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
+from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 from rambutan3.check_args.dict.RDictEnum import RDictEnum
 from rambutan3.check_args.dict.RDictOfMatcher import RDictOfMatcher
 from rambutan3.check_args.dict.RRangeSizeDictMatcher import RRangeSizeDictMatcher
@@ -23,10 +24,13 @@ class RRangeSizeDictOfMatcher(RRangeSizeDictMatcher):
         self.__value_matcher = value_matcher
 
     # @override
-    def matches(self, dictionary) -> bool:
-        if not super().matches(dictionary):
+    def matches(self, d: dict, matcher_error: RTypeMatcherError=None) -> bool:
+        if not super().matches(d, matcher_error):
             return False
-        x = RDictOfMatcher.core_matches(dictionary, key_matcher=self.__key_matcher, value_matcher=self.__value_matcher)
+
+        x = RDictOfMatcher.core_matches(d, matcher_error,
+                                        key_matcher=self.__key_matcher,
+                                        value_matcher=self.__value_matcher)
         return x
 
     # @override

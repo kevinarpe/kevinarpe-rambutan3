@@ -1,5 +1,5 @@
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
-
+from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 
 RNotNoneTypeMatcher = None
 
@@ -13,8 +13,12 @@ class RNotNoneTypeMatcher(RAbstractTypeMatcher):
         pass
 
     # @override
-    def matches(self, value) -> bool:
+    def matches(self, value, matcher_error: RTypeMatcherError=None) -> bool:
         x = value is not None
+
+        if not x and matcher_error:
+            matcher_error.add_failed_match(self, value)
+
         return x
 
     # @override

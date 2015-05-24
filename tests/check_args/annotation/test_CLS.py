@@ -3,7 +3,7 @@ import pytest
 from rambutan3.check_args.RCheckArgs import check_args
 from rambutan3.check_args.annotation.CLS import CLS
 from rambutan3.check_args.annotation.INT import INT
-from rambutan3.check_args.error.RCheckArgsError import RCheckArgsError
+from rambutan3.check_args.RCheckArgsError import RCheckArgsError
 
 
 class X:

@@ -60,8 +60,8 @@ class Z(AbstractClass):
     def f2(self):
         print("f()")
 
-
 def main():
+    e = ValueError("message")
     msg = RMessageText("abc")
     msg_iter = iter(msg)
     for char in msg_iter:

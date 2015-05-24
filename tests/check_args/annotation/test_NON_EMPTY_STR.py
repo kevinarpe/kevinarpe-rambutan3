@@ -1,4 +1,3 @@
-import pytest
 from rambutan3.check_args.annotation.NON_EMPTY_STR import NON_EMPTY_STR
 from rambutan3.string.RNonEmptyStr import RNonEmptyStr
 

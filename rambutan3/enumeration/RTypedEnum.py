@@ -5,6 +5,8 @@ from rambutan3.check_args.annotation.SELF import SELF
 from rambutan3.check_args.annotation.TYPE_MATCHER import TYPE_MATCHER
 
 
+# Note: Do *not* annotate this class with @enum.unique.
+# It will 'block' the check in subclasses using the same annotation.
 class RTypedEnum(REnum):
 
     @check_args

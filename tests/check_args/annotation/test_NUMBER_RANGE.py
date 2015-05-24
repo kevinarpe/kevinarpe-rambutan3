@@ -1,6 +1,6 @@
 import pytest
 
-from rambutan3.check_args.error.RCheckArgsError import RCheckArgsError
+from rambutan3.check_args.RCheckArgsError import RCheckArgsError
 from rambutan3.check_args.annotation.NUMBER_RANGE import NUMBER_RANGE
 
 

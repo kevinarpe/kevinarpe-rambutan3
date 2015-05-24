@@ -1,4 +1,5 @@
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
+from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 from rambutan3.string import RStrUtil
 
 
@@ -16,8 +17,12 @@ class RAnyValueOfMatcher(RAbstractTypeMatcher):
         self.__value_frozenset = frozenset(value_tuple)
 
     # @override
-    def matches(self, value) -> bool:
+    def matches(self, value, matcher_error: RTypeMatcherError=None) -> bool:
         x = value in self.__value_frozenset
+
+        if not x and matcher_error:
+            matcher_error.add_failed_match(self, value)
+
         return x
 
     # @override

@@ -1,9 +1,11 @@
+import enum
 from _collections_abc import Set, MutableSet
 
 from rambutan3.container.hashableset import hashableset
 from rambutan3.enumeration.REnum import REnum
 
 
+@enum.unique
 class RSetEnum(REnum):
 
     BUILTIN_SET = (set,)

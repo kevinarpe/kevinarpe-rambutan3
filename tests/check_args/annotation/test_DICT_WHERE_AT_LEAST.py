@@ -2,6 +2,7 @@ from rambutan3.check_args.annotation.BOOL import BOOL
 from rambutan3.check_args.annotation.DICT_WHERE_AT_LEAST import DICT_WHERE_AT_LEAST
 from rambutan3.check_args.annotation.FLOAT import FLOAT
 from rambutan3.check_args.annotation.INT import INT
+from rambutan3.check_args.annotation.NONE import NONE
 from rambutan3.check_args.annotation.STR import STR
 
 
@@ -34,3 +35,27 @@ def test():
         .matches({"d": {"x": 123.456, "y": None}})
     assert not DICT_WHERE_AT_LEAST({"d": DICT_WHERE_AT_LEAST({"x": FLOAT})}) \
         .matches({"d": {"xyz": 123.456, "y": None}})
+
+    assert DICT_WHERE_AT_LEAST({}) \
+        .matches({})
+
+    assert DICT_WHERE_AT_LEAST({}) \
+        .matches({"extra_key": 123})
+
+    assert not DICT_WHERE_AT_LEAST({"abc": INT}) \
+        .matches({})
+
+    assert not DICT_WHERE_AT_LEAST({"abc": INT}) \
+        .matches({"extra_key": 123})
+
+    assert not DICT_WHERE_AT_LEAST({"abc": NONE}) \
+        .matches({})
+
+    assert DICT_WHERE_AT_LEAST({"abc": NONE}) \
+        .matches({"abc": None})
+
+    assert DICT_WHERE_AT_LEAST({"abc": NONE}) \
+        .matches({"abc": None, "extra_key": None})
+
+    assert not DICT_WHERE_AT_LEAST({"abc": NONE}) \
+        .matches({"extra_key": None})

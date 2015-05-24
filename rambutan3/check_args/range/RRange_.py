@@ -18,8 +18,8 @@ class RRange_:
 
     __PRIVATE_CTOR_KEY = random.randint(0, 256)
 
-    #: :type: dict of (str, _RRangeBoundFunctionEnumData)
     __BOUND_OP_TO_DATA_DICT = {x.value.op: x for x in RRangeBoundFunctionEnum_.__members__.values()}
+    """:type: dict[str, _RRangeBoundFunctionEnumData]"""
 
     @classmethod
     def create(cls, bound_op1: str, value1, opt_bound_op2: str, opt_value2) -> RRange_:
@@ -32,16 +32,16 @@ class RRange_:
     @classmethod
     def for_one_bound(cls, bound_op: str, value) -> RRange_:
         RRangeBoundFunctionEnumData_.check_bound_op_set_contains(
-            bound_op, "bound_op", RRangeBoundFunctionEnumData_.ONE_BOUND_OP_SET)
+            bound_op, "bound_op", RRangeBoundFunctionEnumData_.ONE_BOUND_OP_STR_SET)
         x = RRange_(cls.__PRIVATE_CTOR_KEY, bound_op, value)
         return x
 
     @classmethod
     def for_two_bounds(cls, bound_op1: str, value1, bound_op2: str, value2) -> RRange_:
         RRangeBoundFunctionEnumData_.check_bound_op_set_contains(
-            bound_op1, "bound_op1", RRangeBoundFunctionEnumData_.TWO_BOUND_OP1_SET)
+            bound_op1, "bound_op1", RRangeBoundFunctionEnumData_.TWO_BOUND_OP1_STR_SET)
         RRangeBoundFunctionEnumData_.check_bound_op_set_contains(
-            bound_op2, "bound_op2", RRangeBoundFunctionEnumData_.TWO_BOUND_OP2_SET)
+            bound_op2, "bound_op2", RRangeBoundFunctionEnumData_.TWO_BOUND_OP2_STR_SET)
         x = RRange_(cls.__PRIVATE_CTOR_KEY, bound_op1, value1, bound_op2, value2)
         return x
 
@@ -80,7 +80,7 @@ class RRange_:
         """ This is the membership operator: in """
         RArgs.check_not_none(item, "item")
         if isinstance(item, type(self)):
-            #: :type item: RRange
+            """:type item: RRange"""
             if item.__bound1 not in self.__bound1:
                 return False
             if (not self.__opt_bound2) != (not item.__opt_bound2):

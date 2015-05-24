@@ -31,7 +31,7 @@ class RRangeBoundFunction_:
         """ This is the membership operator: in """
         RArgs.check_is_instance(other, RRangeBoundFunction_, "other")
         if (self.__op_func_enum_data.op_func is other.__op_func_enum_data.op_func) \
-                or (self.__same_side(other) and self.__includes(other)):
+        or (self.__same_side(other) and self.__includes(other)):
             x = self.__op_func_enum_data.op_func(other.__value, self.__value)
             return x
         else:

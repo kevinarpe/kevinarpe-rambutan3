@@ -1,5 +1,6 @@
 from rambutan3 import RArgs
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
+from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 from rambutan3.check_args.range.RRange_ import RRange_
 
 
@@ -24,17 +25,18 @@ class RNumberRangeMatcher(RAbstractTypeMatcher):
         self.__range = RRange_.create(bound_op1, value1, bound_op2, value2)
 
     # @override
-    def matches(self, value: (int, float)) -> bool:
-        if not self.__number_matcher.matches(value):
-            return False
-        x = (value in self.__range)
-        return x
+    def matches(self, value: (int, float), matcher_error: RTypeMatcherError=None) -> bool:
+        result = self.__number_matcher.matches(value, matcher_error)
+        if result:
+            result = (value in self.__range)
+            if not result and matcher_error:
+                matcher_error.add_failed_match(self, value)
+
+        return result
 
     # @override
     def __eq__(self, other: RNumberRangeMatcher) -> bool:
         if not isinstance(other, RNumberRangeMatcher):
-            return False
-        if not super().__eq__(other):
             return False
         x = (self.__range == other.__range)
         return x
@@ -46,5 +48,5 @@ class RNumberRangeMatcher(RAbstractTypeMatcher):
 
     # @override
     def __str__(self):
-        x = "{}: {}".format(self.__number_matcher.__str__(), self.__range)
+        x = "{} where {}".format(self.__number_matcher.__str__(), self.__range)
         return x

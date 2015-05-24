@@ -2,7 +2,7 @@ import pytest
 
 from rambutan3.check_args.annotation.INSTANCE_OF import INSTANCE_OF
 from rambutan3.check_args.annotation.POSITIVE_INT import POSITIVE_INT
-from rambutan3.check_args.error.RCheckArgsError import RCheckArgsError
+from rambutan3.check_args.RCheckArgsError import RCheckArgsError
 from rambutan3.container.RTypedEnumDict import RTypedEnumDict
 from rambutan3.enumeration.RTypedEnum import RTypedEnum
 from rambutan3.string.RMessageText import RMessageText

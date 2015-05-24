@@ -2,7 +2,7 @@ from rambutan3 import RArgs
 from rambutan3.check_args.base.RAbstractForwardingTypeMatcher import RAbstractForwardingTypeMatcher
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
 from rambutan3.check_args.base.RInstanceMatcher import RInstanceMatcher
-
+from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 
 RRestrictedInstanceMatcher = None
 
@@ -46,8 +46,13 @@ class RRestrictedInstanceMatcher(RAbstractForwardingTypeMatcher):
         return self.__matcher
 
     # @overrides
-    def matches(self, value) -> bool:
-        if not super().matches(value):
+    def matches(self, value, matcher_error: RTypeMatcherError=None) -> bool:
+        if not self.__matcher.matches(value, matcher_error):
             return False
+
         x = not isinstance(value, self.__not_allowed_class_or_type_tuple)
+
+        if not x and matcher_error:
+            matcher_error.add_failed_match(self, value)
+
         return x

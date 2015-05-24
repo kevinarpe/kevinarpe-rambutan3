@@ -1,5 +1,6 @@
 from rambutan3 import RArgs
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
+from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 
 
 RLogicalNotTypeMatcher = None
@@ -14,9 +15,13 @@ class RLogicalNotTypeMatcher(RAbstractTypeMatcher):
         self.__delegate = delegate
 
     # @override
-    def matches(self, value) -> bool:
-        x = self.__delegate.matches(value)
+    def matches(self, value, matcher_error: RTypeMatcherError=None) -> bool:
+        x = self.__delegate.matches(value, matcher_error)
         y = not x
+
+        if not y and matcher_error:
+            matcher_error.add_failed_match(self, value)
+
         return y
 
     # @override

@@ -1,4 +1,6 @@
 import re
+
+from rambutan3.string.RMessageText import RMessageText
 from rambutan3.string.RPatternText import RPatternText
 
 
@@ -16,10 +18,15 @@ class RIdentifier(RPatternText):
     """
 
     __REGEX_PATTERN = re.compile(r"^[A-Za-z_][0-9A-Za-z_]*$")
+    __HUMAN_READABLE_HINT = RMessageText("identifier, e.g., ClassName or var_name3")
 
     @classmethod
     def REGEX_PATTERN(cls):
         return cls.__REGEX_PATTERN
+
+    @classmethod
+    def HUMAN_READABLE_HINT(cls):
+        return cls.__HUMAN_READABLE_HINT
 
     # noinspection PyMissingConstructor
     def __init__(self, value: str):

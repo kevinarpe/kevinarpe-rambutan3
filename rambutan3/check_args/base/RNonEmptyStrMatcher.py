@@ -1,4 +1,5 @@
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
+from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 from rambutan3.string.RNonEmptyStr import RNonEmptyStr
 
 
@@ -14,12 +15,18 @@ class RNonEmptyStrMatcher(RAbstractTypeMatcher):
         pass
 
     # @override
-    def matches(self, value) -> bool:
+    def matches(self, value, matcher_error: RTypeMatcherError=None) -> bool:
         if isinstance(value, RNonEmptyStr):
             return True
-        if not isinstance(value, str):
-            return False
-        x = (0 != len(value))
+
+        if isinstance(value, str):
+            x = (0 != len(value))
+        else:
+            x = False
+
+        if not x and matcher_error:
+            matcher_error.add_failed_match(self, value)
+
         return x
 
     # @override

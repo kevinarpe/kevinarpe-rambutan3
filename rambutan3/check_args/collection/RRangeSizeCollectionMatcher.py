@@ -1,6 +1,7 @@
 from rambutan3 import RArgs
 from rambutan3.check_args.base.RInstanceMatcher import RInstanceMatcher
-
+from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
+from rambutan3.string.RMessageText import RMessageText
 
 RRangeSizeCollectionMatcher = None
 
@@ -29,15 +30,20 @@ class RRangeSizeCollectionMatcher(RInstanceMatcher):
             raise ValueError("Arg 'min_size' > arg 'max_size': {} > {}".format(min_size, max_size))
 
     # @override
-    def matches(self, collection) -> bool:
-        if not super().matches(collection):
+    def matches(self, collection, matcher_error: RTypeMatcherError=None) -> bool:
+        if not super().matches(collection, matcher_error):
             return False
-        x = len(collection)
-        if -1 != self.__min_size and x < self.__min_size:
-            return False
-        if -1 != self.__max_size and x > self.__max_size:
-            return False
-        return True
+
+        size = len(collection)
+
+        if (-1 == self.__min_size or size >= self.__min_size) \
+        and (-1 == self.__max_size or size <= self.__max_size):
+            return True
+
+        if matcher_error:
+            matcher_error.add_failed_match(self, collection, RMessageText("Size is {}".format(size)))
+
+        return False
 
     # @override
     def __eq__(self, other: RRangeSizeCollectionMatcher) -> bool:

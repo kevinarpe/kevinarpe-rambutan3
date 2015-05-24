@@ -3,7 +3,7 @@ import inspect
 from rambutan3 import RArgs, RTypes
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
 from rambutan3.check_args.base.RInstanceMatcher import RInstanceMatcher
-
+from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 
 RFunctionSignatureMatcher = None
 
@@ -29,31 +29,39 @@ class RFunctionSignatureMatcher(RInstanceMatcher):
         self.__opt_return_matcher = opt_return_matcher
 
     # @override
-    def matches(self, func: RTypes.FUNCTION_TYPE_TUPLE) -> bool:
-        if not super().matches(func):
+    def matches(self, func: RTypes.FUNCTION_TYPE_TUPLE, matcher_error: RTypeMatcherError=None) -> bool:
+        if not super().matches(func, matcher_error):
             return False
-        #: :type: Signature
+
         sig = inspect.signature(func)
-        #: :type: dict of (str, Parameter)
+        """:type: Signature"""
+
         name_to_param_dict = sig.parameters
-        if len(name_to_param_dict) != len(self.__param_matcher_tuple):
-            return False
+        """:type: dict[str, Parameter]"""
 
-        #: :type param: Parameter
-        for index, param in enumerate(name_to_param_dict.values()):
-            actual_matcher = param.annotation
-            #: :type: RAbstractTypeMatcher
-            expected_matcher = self.__param_matcher_tuple[index]
-            if expected_matcher != actual_matcher:
-                return False
+        result = (len(name_to_param_dict) == len(self.__param_matcher_tuple))
 
-        if sig.return_annotation is not None and self.__opt_return_matcher is not None:
-            x = (sig.return_annotation == self.__opt_return_matcher)
-            return x
-        else:
-            # False if exactly one has return annotation.
-            x = (sig.return_annotation is None) != (self.__opt_return_matcher is None)
-            return x
+        if result:
+            for index, param in enumerate(name_to_param_dict.values()):
+                actual_matcher = param.annotation
+                """:type: RAbstractTypeMatcher"""
+
+                expected_matcher = self.__param_matcher_tuple[index]
+                if expected_matcher != actual_matcher:
+                    result = False
+                    break
+
+        if result:
+            if (sig.return_annotation is not None) and (self.__opt_return_matcher is not None):
+                result = (sig.return_annotation == self.__opt_return_matcher)
+            else:
+                # False if exactly one has return annotation.
+                result = (sig.return_annotation is None) != (self.__opt_return_matcher is None)
+
+        if not result and matcher_error:
+            matcher_error.add_failed_match(self, func)
+
+        return result
 
     # @override
     def __eq__(self, other: RFunctionSignatureMatcher) -> bool:

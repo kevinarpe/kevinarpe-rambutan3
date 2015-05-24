@@ -1,3 +1,4 @@
+from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 from rambutan3.check_args.cls_or_self.RAbstractClassOrSelfInstanceMatcher import RAbstractClassOrSelfInstanceMatcher
 
 
@@ -11,8 +12,12 @@ class RSelfInstanceMatcher(RAbstractClassOrSelfInstanceMatcher):
         super().__init__()
 
     # @override
-    def matches(self, value) -> bool:
+    def matches(self, value, matcher_error: RTypeMatcherError=None) -> bool:
         x = isinstance(value, self._caller_class)
+
+        if not x and matcher_error:
+            matcher_error.add_failed_match(self, value)
+
         return x
 
     # @override

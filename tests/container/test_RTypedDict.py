@@ -1,6 +1,7 @@
 import pytest
+
 from rambutan3.check_args.annotation.INT import INT
-from rambutan3.check_args.error.RCheckArgsError import RCheckArgsError
+from rambutan3.check_args.RCheckArgsError import RCheckArgsError
 from rambutan3.container.RTypedDict import RTypedDict
 
 

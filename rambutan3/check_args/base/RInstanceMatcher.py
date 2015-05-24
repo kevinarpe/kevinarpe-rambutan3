@@ -1,6 +1,6 @@
 from rambutan3 import RArgs
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
-
+from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 
 RInstanceMatcher = None
 
@@ -36,8 +36,12 @@ class RInstanceMatcher(RAbstractTypeMatcher):
         self.__type_frozenset = frozenset(class_or_type_tuple)
 
     # @override
-    def matches(self, value) -> bool:
+    def matches(self, value, matcher_error: RTypeMatcherError=None) -> bool:
         x = isinstance(value, self.__type_tuple)
+
+        if not x and matcher_error:
+            matcher_error.add_failed_match(self, value)
+
         return x
 
     # @override

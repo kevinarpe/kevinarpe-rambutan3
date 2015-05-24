@@ -2,13 +2,15 @@
 
 @author Kevin Connor ARPE (kevinarpe@gmail.com)
 """
+import inspect
+import pprint
 
 from abc import abstractmethod, ABC
 
 from rambutan3 import RArgs
-from rambutan3.check_args.error.RCheckArgsError import RCheckArgsError
-from rambutan3.check_args.error.RTypeMatcherErrorFormatter import RTypeMatcherErrorFormatter
-
+from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
+from rambutan3.check_args.RCheckArgsError import RCheckArgsError
+from rambutan3.error.RIllegalStateError import RIllegalStateError
 
 RAbstractTypeMatcher = None
 
@@ -23,40 +25,155 @@ class RAbstractTypeMatcher(ABC):
         raise NotImplementedError('Internal error: Do not call this constructor')
 
     @abstractmethod
-    def matches(self, value) -> bool:
+    def matches(self, value, matcher_error: RTypeMatcherError=None) -> bool:
         """Tests if value matches
 
         Example: if matcher requires an instance of type {@code str}, then {@code "abc"} will return {@code True}.
 
         @param value
                value to test / match / check
+        @param matcher_error
+               None on first call.  If result is False, will be called again with non-None value.
+               Matchers must:
+               1) correctly update this object when traversing to sub-/child-matchers.
+               2) correctly update this object when failing matches
 
         @return {@code True} if value matches, else {@code False}
         """
         raise NotImplementedError('Internal error: Do not call this member function')
 
-    def check(self,
-              value,
-              error_formatter: RTypeMatcherErrorFormatter=RTypeMatcherErrorFormatter(),
-              *args,
-              **kwargs) -> None:
+    # RCheckArgsError.args[0] always holds a str message
+    def check_arg(self, value, arg_name: str, *arg_name_format_args):
         """Checks if a value matches this matcher ({@code self})
 
         @param value
-               value to test
-        @param error_formatter (optional: RCheckArgsErrorFormatter)
-               generates an exception message if test fails
-        @param *args
-               passed directly to {@code error_formatter.format()}
-        @param **kwargs
-               passed directly to {@code error_formatter.format()}
+               reference to test
+        @param arg_name
+               name of argument to be used in thrown exception message, e.g., {@code "max_size"}
+        @param *arg_name_format_args
+               zero or more arguments passed to {@link str#format()} along with {@code arg_name}
+               Example: if {@code arg_name} is {@code "Index {}"},
+                        then {@code *arg_name_format_args} might be {@code 7}.
+               Example: if {@code arg_name} is {@code "{}[{}]"},
+                        then {@code *arg_name_format_args} might be {@code ("Index", 7)}.
+
+        @return checked value
 
         @throws RCheckArgsError
-                if test fails
+                if {@link #matches()} fails
+                e.args[0] always holds a str message
         """
-        if not self.matches(value):
-            x = error_formatter.format(self, value, *args, **kwargs)
-            raise RCheckArgsError(x)
+        if self.matches(value):
+            return value
+
+        # Run again to capture the error.
+        matcher_error = RTypeMatcherError()
+        second_result = self.matches(value, matcher_error)
+
+        formatted_arg_name = arg_name.format(*arg_name_format_args)
+
+        # In theory, this should always be False, but let's check to be safe.
+        if second_result:
+            raise RIllegalStateError('Internal error: Second call to matches() passed'
+                                     '\nvalue: [{}]'
+                                     '\nformatted_arg_name: [{}]'
+                                     '\nself: [{}]'
+                                     .format(value, formatted_arg_name, self))
+
+        traverse_path_str = matcher_error.traverse_path_str()
+        formatted_arg_name += traverse_path_str
+
+        # In this big ugly below, we are trying to format a beautiful error message.
+        # Two broad paths:
+        # (1) traverse_path_str is empty, so this is a top-level matcher failure
+        # (2) traverse_path_str is not empty, so this is a child-level matcher failure
+        # Why is this block of code so ugly and complicated?
+        # We are trying create the most dense error message possible.  No waste / clutter.
+
+        # Sample for (1):
+        # rambutan3.check_args.RCheckArgsError.RCheckArgsError:
+        # Argument name : bound2
+        # Expected type : any value of {'<', '<='}
+        # Expected type2: NoneType
+        # Actual   type : str
+        # Actual  value : '>'
+
+        # Sample for (2):
+        # rambutan3.check_args.RCheckArgsError.RCheckArgsError:
+        # Argument name & path : arg_name_is_v['apps'][1]['name']
+        # Expected child type  : str matching regex /^\s*\S+/ (human-readable message)
+        # Actual   child type  : str
+        # Actual   child value : ' '
+        # Expected child type 2: str matching regex /^[A-Za-z_][0-9A-Za-z_]*$/ (identifier, e.g., ClassName or var_name3)
+        # Actual   child type 2: str
+        # Actual   child value2: ' '
+        # Expected root  type : dict where EXACTLY {'apps': list where size >= 1 of [dict where EXACTLY {'name': str matching regex /^\s*\S+/ (human-readable message) | str matching regex /^[A-Za-z_][0-9A-Za-z_]*$/ (identifier, e.g., ClassName or var_name3), 'size': int where x > 0}]}
+        # Actual   root  type : dict
+        # Actual   root  value:
+        # {'apps': [{'name': 'blah',
+        #            'size': 123},
+        #           {'name': ' ',
+        #            'size': 123}]}
+
+        if traverse_path_str:
+            msg = "\nArgument name & path : {}".format(formatted_arg_name)
+        else:
+            msg = "\nArgument name : {}".format(formatted_arg_name)
+
+        for index, failed_matcher_tuple in enumerate(matcher_error.failed_match_tuple_set_view):
+            """:type failed_matcher_tuple: RTypeMatcherError.RFailedMatcherTuple"""
+            failed_matcher = failed_matcher_tuple.matcher
+            failed_value = failed_matcher_tuple.value
+            formatted_failed_value = self.__format_value(failed_value)
+            optional_error_message = failed_matcher_tuple.optional_error_message
+            num = ' ' if 0 == index else '{}'.format(1 + index)
+
+            if traverse_path_str:
+                msg += "\nExpected child type {}: {}" \
+                       "\nActual   child type {}: {}" \
+                       "\nActual   child value{}: {}" \
+                       .format(num, failed_matcher,
+                               num, type(failed_value).__name__,
+                               num, formatted_failed_value)
+
+                if optional_error_message:
+                    msg += "\nMatcher error       : {}".format(optional_error_message)
+
+            else:
+                msg += "\nExpected type{}: {}".format(num, failed_matcher)
+
+                if optional_error_message:
+                    msg += "\nMatcher error{}: {}".format(num, optional_error_message)
+
+        if traverse_path_str:
+            formatted_value = self.__format_value(value)
+            msg += "\nExpected root  type : {}" \
+                   "\nActual   root  type : {}" \
+                   "\nActual   root  value: {}" \
+                   .format(self,
+                           type(value).__name__,
+                           formatted_value)
+        else:
+            formatted_value = self.__format_value(value)
+            msg += "\nActual   type : {}" \
+                   "\nActual  value : {}" \
+                .format(type(value).__name__,
+                        formatted_value)
+
+        raise RCheckArgsError(msg)
+
+    def __format_value(self, value):
+        if inspect.isfunction(value):
+            x = 'def {}{}'.format(value.__qualname__, inspect.signature(value))
+        else:
+            # width=1 is a trick to force pformat() to always format containers across multiple lines
+            x = pprint.pformat(value, width=1)
+
+            # If this is a multi-line pformat(), then prepend another newline for readability.
+            if '\n' in x:
+                x = '\n' + x
+
+        return x
 
     def __or__(self, other: RAbstractTypeMatcher) -> RAbstractTypeMatcher:
         """operator|: Combines {@code self} with {@code other} to create logical OR type matcher
@@ -98,6 +215,13 @@ class RAbstractTypeMatcher(ABC):
     @abstractmethod
     def __str__(self) -> str:
         raise NotImplementedError('Internal error: Do not call this member function')
+        # TODO: Do impl next
+        # x = self._core_str(0)
+
+    # # TODO: Not sure about indent_level:int or indent:str
+    # @abstractmethod
+    # def _core_str2(self, indent_level: int) -> str:
+    #     raise NotImplementedError('Internal error: Do not call this member function')
 
 
 RLogicalOrTypeMatcher = None
@@ -142,9 +266,9 @@ class RLogicalOrTypeMatcher(RAbstractTypeMatcher):
         self.__matcher_frozenset = frozenset(matcher_list)
 
     # @override
-    def matches(self, value) -> bool:
+    def matches(self, value, matcher_error: RTypeMatcherError=None) -> bool:
         # Ref: http://stackoverflow.com/q/5217489/257299
-        x = any(y.matches(value) for y in self.__matcher_tuple)
+        x = any(y.matches(value, matcher_error) for y in self.__matcher_tuple)
         return x
 
     def __iter__(self):

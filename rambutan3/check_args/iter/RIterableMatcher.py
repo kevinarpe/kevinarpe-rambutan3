@@ -1,6 +1,6 @@
 from rambutan3 import RArgs
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
-
+from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 
 RIterableMatcher = None
 
@@ -22,12 +22,17 @@ class RIterableMatcher(RAbstractTypeMatcher):
         pass
 
     # @override
-    def matches(self, value) -> bool:
+    def matches(self, value, matcher_error: RTypeMatcherError=None) -> bool:
         try:
             RArgs.check_is_iterable(value, "value")
-            return True
+            x = True
         except Exception as e:
-            return False
+            x = False
+
+        if not x and matcher_error:
+            matcher_error.add_failed_match(self, value)
+
+        return x
 
     # @override
     def __eq__(self, other: RIterableMatcher) -> bool:

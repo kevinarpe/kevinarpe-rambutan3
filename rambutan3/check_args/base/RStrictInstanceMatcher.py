@@ -1,6 +1,7 @@
 from rambutan3.check_args.base.RAbstractForwardingTypeMatcher import RAbstractForwardingTypeMatcher
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
 from rambutan3.check_args.base.RInstanceMatcher import RInstanceMatcher
+from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 
 
 RStrictInstanceMatcher = None
@@ -44,7 +45,13 @@ class RStrictInstanceMatcher(RAbstractForwardingTypeMatcher):
         return self.__matcher
 
     # @overrides
-    def matches(self, value) -> bool:
+    def matches(self, value, matcher_error: RTypeMatcherError=None) -> bool:
         value_type = type(value)
+        # Intentional override: Do not defer to delegate / RInstanceMatcher here.
+        # Notice we use 'is' operator here and not isinstance().
         x = any(value_type is class_or_type for class_or_type in self.__class_or_type_tuple)
+
+        if not x and matcher_error:
+            matcher_error.add_failed_match(self, value)
+
         return x

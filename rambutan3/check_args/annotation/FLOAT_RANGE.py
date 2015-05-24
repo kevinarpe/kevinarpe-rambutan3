@@ -7,8 +7,8 @@ from rambutan3.check_args.range.RFloatRangeMatcher import RFloatRangeMatcher
 from rambutan3.check_args.range.RRangeBoundFunctionEnumData_ import RRangeBoundFunctionEnumData_
 
 
-__RANGE_BOUND_OP1 = ANY_VALUE_OF(*RRangeBoundFunctionEnumData_.ONE_BOUND_OP_SET)
-__RANGE_BOUND_OP2 = ANY_VALUE_OF(*RRangeBoundFunctionEnumData_.TWO_BOUND_OP2_SET)
+__RANGE_BOUND_OP1 = ANY_VALUE_OF(*RRangeBoundFunctionEnumData_.ONE_BOUND_OP_STR_SET)
+__RANGE_BOUND_OP2 = ANY_VALUE_OF(*RRangeBoundFunctionEnumData_.TWO_BOUND_OP2_STR_SET)
 
 
 # noinspection PyPep8Naming

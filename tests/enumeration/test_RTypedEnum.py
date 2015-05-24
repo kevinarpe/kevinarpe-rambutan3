@@ -3,7 +3,7 @@ import pytest
 from rambutan3.check_args.annotation.BOOL import BOOL
 from rambutan3.check_args.annotation.INT import INT
 from rambutan3.check_args.annotation.STR import STR
-from rambutan3.check_args.error.RCheckArgsError import RCheckArgsError
+from rambutan3.check_args.RCheckArgsError import RCheckArgsError
 from rambutan3.enumeration.RTypedEnum import RTypedEnum
 
 

@@ -1,16 +1,15 @@
 import inspect
+
 import types
 import collections
 
 from rambutan3 import RArgs
+from rambutan3.check_args.RCheckArgsError import RCheckArgsError
 from rambutan3.check_args.annotation.NONE import NONE
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
 from rambutan3.check_args.base.RInstanceMatcher import RInstanceMatcher
 from rambutan3.check_args.cls_or_self.RClassInstanceMatcher import RClassInstanceMatcher
 from rambutan3.check_args.cls_or_self.RSelfInstanceMatcher import RSelfInstanceMatcher
-from rambutan3.check_args.error.RCheckArgsError import RCheckArgsError
-from rambutan3.check_args.error.RTypeMatcherErrorFormatterWithPrefix import RTypeMatcherErrorFormatterWithPrefix
-
 
 ParamTuple = collections.namedtuple('ParamTuple', ['param', 'type_matcher'])
 
@@ -19,7 +18,6 @@ class _RCheckArgsCallable:
     """Special internal class used by @check_args"""
 
     __FUNC_TYPE_TUPLE = (types.FunctionType, staticmethod, classmethod)
-    __ERROR_FORMATTER = RTypeMatcherErrorFormatterWithPrefix()
 
     def __init__(self, func: (types.FunctionType, staticmethod, classmethod)):
         RArgs.check_is_instance(func, self.__FUNC_TYPE_TUPLE, "func")
@@ -48,8 +46,7 @@ class _RCheckArgsCallable:
             """:type: RAbstractTypeMatcher"""
             # Check param default value
             if param.default is not inspect.Parameter.empty:
-                type_matcher.check(param.default, self.__ERROR_FORMATTER,
-                                   "Default value for argument #{} '{}': ", 1 + index, param.name)
+                type_matcher.check_arg(param.default, "Default value for argument #{} '{}': ", 1 + index, param.name)
 
             param_tuple = ParamTuple(param=param, type_matcher=type_matcher)
             self.__param_tuple_list.append(param_tuple)
@@ -59,6 +56,7 @@ class _RCheckArgsCallable:
             self.__return_type_matcher = NONE
         elif isinstance(self.__func_signature.return_annotation, RAbstractTypeMatcher):
             self.__return_type_matcher = self.__func_signature.return_annotation
+            """:type: RAbstractTypeMatcher"""
         else:
             raise RCheckArgsError("Return value annotation: Expected type '{}', but found type '{}'"
                                   .format(RAbstractTypeMatcher.__name__,
@@ -74,7 +72,10 @@ class _RCheckArgsCallable:
 
         arg_num_offset = 1
         for param_index, param_tuple in enumerate(self.__param_tuple_list):
-            if isinstance(param_tuple.type_matcher, (RSelfInstanceMatcher, RClassInstanceMatcher)):
+            type_matcher = param_tuple.type_matcher
+            """:type: RAbstractTypeMatcher"""
+
+            if isinstance(type_matcher, (RSelfInstanceMatcher, RClassInstanceMatcher)):
                 # The first parameter for a method is always 'self',
                 # but when calling a method, 'self' is passed implicitly.
                 # The first parameter for a classmethod is always 'cls',
@@ -86,7 +87,7 @@ class _RCheckArgsCallable:
                 arg_num_offset -= 1
                 if 0 != param_index:
                     raise RCheckArgsError("SELF() and CLS() are only valid for first argument")
-                if isinstance(param_tuple.type_matcher, RClassInstanceMatcher):
+                if isinstance(type_matcher, RClassInstanceMatcher):
                     if not isinstance(self.__func, classmethod):
                         raise RCheckArgsError(
                             "CLS() is only valid for class methods (functions using @classmethod decorator)")
@@ -102,23 +103,25 @@ class _RCheckArgsCallable:
                 raise RCheckArgsError("Argument #{} ({}) is missing and has no default value"
                                       .format(param_index + arg_num_offset, param_tuple.param.name))
 
-            if inspect.Parameter.VAR_POSITIONAL == param_tuple.param.kind:
-                value_tuple = value
-                for value_index, value in enumerate(value_tuple):
-                    param_tuple.type_matcher.check(value, self.__ERROR_FORMATTER, "*{}[{}]: ",
-                                                   param_tuple.param.name, value_index)
-            elif inspect.Parameter.VAR_KEYWORD == param_tuple.param.kind:
-                key_value_dict = value
-                for key, value in key_value_dict.items():
-                    param_tuple.type_matcher.check(value, self.__ERROR_FORMATTER, "**{}['{}']: ",
-                                                   param_tuple.param.name, key)
-            else:
-                param_tuple.type_matcher.check(value, self.__ERROR_FORMATTER, "Argument #{} '{}': ",
-                                               param_index + arg_num_offset, param_tuple.param.name)
+            # if inspect.Parameter.VAR_POSITIONAL == param_tuple.param.kind:
+            #     value_tuple = value
+            #     for value_index, value in enumerate(value_tuple):
+            #         type_matcher.check_arg(value, "*{}[{}]: ", param_tuple.param.name, value_index)
+            #
+            # elif inspect.Parameter.VAR_KEYWORD == param_tuple.param.kind:
+            #     key_value_dict = value
+            #     for key, value in key_value_dict.items():
+            #         type_matcher.check_arg(value, "**{}['{}']: ", param_tuple.param.name, key)
+            # else:
+            #     type_matcher.check_arg(value, param_tuple.param.name)
+
+            # Disable old code above, which treated *args and **kwargs as special argument types.
+            # Leaving the old code above for history.
+            type_matcher.check_arg(value, param_tuple.param.name)
 
         result = self.__unwrapped_func(*args, **kwargs)
 
-        self.__return_type_matcher.check(result, self.__ERROR_FORMATTER, "Return value: ")
+        self.__return_type_matcher.check_arg(result, "Return value: ")
 
         return result
 
@@ -281,6 +284,34 @@ def check_args(func: (types.FunctionType, staticmethod, classmethod, property)) 
 
         max_value = property(fget=__get_max_value, fset=__set_max_value, fdel=__del_max_value)
     }</pre>
+
+    About *args
+    ===========
+    Zero or more variable positional arguments are captured by the * parameter prefix.
+    This parameter may optionally be named, e.g., *args, *varArgs, *var_args.
+    If unnamed, captured values are inaccessible.
+    If named, values are captured as a tuple.
+
+    Parameter annotations should use matchers:
+        * TUPLE_OF()
+        * NON_EMPTY_TUPLE_OF()
+        * RANGE_SIZE_TUPLE_OF()
+
+    About **kwargs
+    ==============
+    Zero or more variable keyword arguments are captured by the ** parameter prefix.
+    This parameter may optionally be named, e.g., **kwargs, **varKeywordArgs, **var_keyword_args.
+    If unnamed, captured values are inaccessible.
+    If named, values are captured as a dict(ionary) with str keys.
+    Note: The keys are always of type str!  It is not possible to capture non-str keys.
+    Keys of non-str type will generate compile- or run-time errors.
+
+    Parameter annotations should use matchers:
+        * BUILTIN_DICT_OF()
+        * NON_EMPTY_BUILTIN_DICT_OF()
+        * RANGE_SIZE_BUILTIN_DICT_OF()
+        * BUILTIN_DICT_WHERE_EXACTLY()
+        * BUILTIN_DICT_WHERE_AT_LEAST()
     """
     if isinstance(func, property):
         x = __wrap_property(func)
@@ -338,12 +369,6 @@ def __wrap_func(func: types.FunctionType) -> types.FunctionType:
     setattr(check_args_delegator, '__doc__', func.__doc__)
     setattr(check_args_delegator, __CHECK_ARGS_ATTR_NAME, True)
     return check_args_delegator
-
-
-# @lru_cache(maxsize=None)
-# def TYPE_MATCHER_OF(instance_matcher: RInstanceMatcher) -> RInstanceMatcherMatcher:
-#     x = RInstanceMatcherMatcher(instance_matcher)
-#     return x
 
 # TODO: Move remaining items out
 

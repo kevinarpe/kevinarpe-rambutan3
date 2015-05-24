@@ -1,5 +1,7 @@
 from rambutan3 import RArgs
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
+from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
+from rambutan3.check_args.iter.RIterableOfMatcher import RIterableOfMatcher
 from rambutan3.check_args.seq.RRangeSizeSequenceMatcher import RRangeSizeSequenceMatcher
 from rambutan3.check_args.seq.RSequenceEnum import RSequenceEnum
 
@@ -21,10 +23,11 @@ class RRangeSizeSequenceOfMatcher(RRangeSizeSequenceMatcher):
         self.__element_matcher = element_matcher
 
     # @override
-    def matches(self, collection) -> bool:
-        if not super().matches(collection):
+    def matches(self, collection, matcher_error: RTypeMatcherError=None) -> bool:
+        if not super().matches(collection, matcher_error):
             return False
-        x = all(self.__element_matcher.matches(y) for y in collection)
+
+        x = RIterableOfMatcher.core_matches(collection, self.__element_matcher, matcher_error)
         return x
 
     # @override

@@ -1,5 +1,7 @@
 from rambutan3 import RArgs
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
+from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
+from rambutan3.check_args.base.traverse.RTypeMatcherTraversePathStepType import RTypeMatcherTraversePathStepType
 from rambutan3.check_args.iter.RIterableMatcher import RIterableMatcher
 
 
@@ -17,10 +19,27 @@ class RIterableOfMatcher(RAbstractTypeMatcher):
         self.__element_matcher = element_matcher
 
     # @override
-    def matches(self, iter) -> bool:
-        if not self.__delegate.matches(iter):
+    def matches(self, iterable, matcher_error: RTypeMatcherError=None) -> bool:
+        if not self.__delegate.matches(iterable, matcher_error):
             return False
-        x = all(self.__element_matcher.matches(y) for y in iter)
+
+        x = self.core_matches(iterable, self.__element_matcher, matcher_error)
+        return x
+
+    @classmethod
+    def core_matches(self,
+                     iterable,
+                     element_matcher: RAbstractTypeMatcher,
+                     matcher_error: RTypeMatcherError=None) -> bool:
+        x = all(element_matcher.matches(y, matcher_error) for y in iterable)
+
+        if not x and matcher_error:
+            # Slow path: Report errors here
+            for index, value in enumerate(iterable):
+                if not element_matcher.matches(value):
+                    matcher_error.add_traverse_path_step(RTypeMatcherTraversePathStepType.Index, index)
+                    break
+
         return x
 
     # @override

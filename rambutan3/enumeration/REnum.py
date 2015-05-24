@@ -2,7 +2,8 @@ from enum import Enum
 import enum
 
 
-@enum.unique
+# Note: Do *not* annotate this class with @enum.unique.
+# It will 'block' the check in subclasses using the same annotation.
 class REnum(Enum):
 
     def __init__(self, *args):

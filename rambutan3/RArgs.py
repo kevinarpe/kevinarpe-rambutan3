@@ -13,6 +13,12 @@ def check_not_none(value, arg_name: str, *arg_name_format_args):
            reference to test
     @param arg_name
            name of argument to be used in thrown exception message, e.g., {@code "max_size"}
+    @param *arg_name_format_args
+           zero or more arguments passed to {@link str#format()} along with {@code arg_name}
+           Example: if {@code arg_name} is {@code "Index {}"},
+                    then {@code *arg_name_format_args} might be {@code 7}.
+           Example: if {@code arg_name} is {@code "{}[{}]"},
+                    then {@code *arg_name_format_args} might be {@code ("Index", 7)}.
 
     @return checked value
 
@@ -25,7 +31,7 @@ def check_not_none(value, arg_name: str, *arg_name_format_args):
     return value
 
 
-def check_is_iterable(iterable, arg_name: str):
+def check_is_iterable(iterable, arg_name: str, *arg_name_format_args):
     """Tests if a value is iterable -- allows iter(iterable).
 
     As a special exception, any subclass of {@link builtins#str} is not considered iterable.
@@ -37,6 +43,12 @@ def check_is_iterable(iterable, arg_name: str):
            reference to test
     @param arg_name
            name of argument to be used in thrown exception message, e.g., {@code "data_list"}
+    @param *arg_name_format_args
+           zero or more arguments passed to {@link str#format()} along with {@code arg_name}
+           Example: if {@code arg_name} is {@code "Index {}"},
+                    then {@code *arg_name_format_args} might be {@code 7}.
+           Example: if {@code arg_name} is {@code "{}[{}]"},
+                    then {@code *arg_name_format_args} might be {@code ("Index", 7)}.
 
     @return checked iterable
 
@@ -48,17 +60,19 @@ def check_is_iterable(iterable, arg_name: str):
         # No need for explicit None check; this will fail with None
         iter(iterable)
     except Exception as e:
+        formatted_arg_name = arg_name.format(*arg_name_format_args)
         msg = "Argument '{}' of type '{}' is not iterable: '{}'\n\t{}"\
-            .format(arg_name, type(iterable).__name__, iterable, e)
+              .format(formatted_arg_name, type(iterable).__name__, iterable, e)
         raise TypeError(msg) from e
 
     if isinstance(iterable, str):
+        formatted_arg_name = arg_name.format(*arg_name_format_args)
         raise TypeError("SPECIAL CASE: Argument '{}' of type '{}' is technically iterable, but not allowed: '{}'"
-                        .format(arg_name, type(iterable).__name__, iterable))
+                        .format(formatted_arg_name, type(iterable).__name__, iterable))
     return iterable
 
 
-def check_iterable_items_not_none(iterable, arg_name: str):
+def check_iterable_items_not_none(iterable, arg_name: str, *arg_name_format_args):
     """Tests if an iterable and all items are not {@code None}.
 
     An empty iterable will pass this test.
@@ -67,6 +81,12 @@ def check_iterable_items_not_none(iterable, arg_name: str):
            reference to test
     @param arg_name
            name of argument to be used in thrown exception message, e.g., {@code "file_name_list"}
+    @param *arg_name_format_args
+           zero or more arguments passed to {@link str#format()} along with {@code arg_name}
+           Example: if {@code arg_name} is {@code "Index {}"},
+                    then {@code *arg_name_format_args} might be {@code 7}.
+           Example: if {@code arg_name} is {@code "{}[{}]"},
+                    then {@code *arg_name_format_args} might be {@code ("Index", 7)}.
 
     @return checked iterable
 
@@ -78,24 +98,31 @@ def check_iterable_items_not_none(iterable, arg_name: str):
     @see #check_is_iterable()
     @see #check_iterable_not_empty()
     """
-    check_is_iterable(iterable, arg_name)
+    check_is_iterable(iterable, arg_name, *arg_name_format_args)
 
     for index, value in enumerate(iterable):
         if value is None:
-            raise ValueError("Iterable argument '{}[{}]' is None".format(arg_name, index))
+            formatted_arg_name = arg_name.format(*arg_name_format_args)
+            raise ValueError("Iterable argument '{}[{}]' is None".format(formatted_arg_name, index))
     return iterable
 
 
 __SENTINEL = object()
 
 
-def check_iterable_not_empty(iterable, arg_name: str):
+def check_iterable_not_empty(iterable, arg_name: str, *arg_name_format_args):
     """Tests if an iterable is not {@code None} and not empty
 
     @param iterable
            reference to test
     @param arg_name (str)
            name of argument to be used in thrown exception message, e.g., {@code "file_name_list"}
+    @param *arg_name_format_args
+           zero or more arguments passed to {@link str#format()} along with {@code arg_name}
+           Example: if {@code arg_name} is {@code "Index {}"},
+                    then {@code *arg_name_format_args} might be {@code 7}.
+           Example: if {@code arg_name} is {@code "{}[{}]"},
+                    then {@code *arg_name_format_args} might be {@code ("Index", 7)}.
 
     @return checked iterable
 
@@ -111,17 +138,24 @@ def check_iterable_not_empty(iterable, arg_name: str):
 
     # Ref: http://stackoverflow.com/a/3114573/257299
     if __SENTINEL is next(iter(iterable), __SENTINEL):
-        raise ValueError("Iterable argument '{}' is empty".format(arg_name))
+        formatted_arg_name = arg_name.format(*arg_name_format_args)
+        raise ValueError("Iterable argument '{}' is empty".format(formatted_arg_name))
     return iterable
 
 
-def check_iterable_not_empty_and_items_not_none(iterable, arg_name: str):
+def check_iterable_not_empty_and_items_not_none(iterable, arg_name: str, *arg_name_format_args):
     """Tests if an iterable is not {@code None}, not empty, and all items are not {@code None}.
 
     @param iterable
            reference to test
     @param arg_name (str)
            name of argument to be used in thrown exception message, e.g., {@code "file_name_list"}
+    @param *arg_name_format_args
+           zero or more arguments passed to {@link str#format()} along with {@code arg_name}
+           Example: if {@code arg_name} is {@code "Index {}"},
+                    then {@code *arg_name_format_args} might be {@code 7}.
+           Example: if {@code arg_name} is {@code "{}[{}]"},
+                    then {@code *arg_name_format_args} might be {@code ("Index", 7)}.
 
     @return checked iterable
 
@@ -133,8 +167,8 @@ def check_iterable_not_empty_and_items_not_none(iterable, arg_name: str):
     @see #check_iterable_not_empty()
     @see #check_iterable_items_not_none()
     """
-    check_iterable_not_empty(iterable, arg_name)
-    check_iterable_items_not_none(iterable, arg_name)
+    check_iterable_not_empty(iterable, arg_name, *arg_name_format_args)
+    check_iterable_items_not_none(iterable, arg_name, *arg_name_format_args)
     return iterable
 
 
@@ -199,7 +233,9 @@ def check_is_instance(value, class_or_type_or_tuple_of: (type, tuple), arg_name:
     return value
 
 
-def check_iterable_items_is_instance(iterable, class_or_type_or_tuple_of: (type, tuple), arg_name: str):
+def check_iterable_items_is_instance(iterable,
+                                     class_or_type_or_tuple_of: (type, tuple),
+                                     arg_name: str, *arg_name_format_args):
     """Tests if items from an iterable are instances of a type.
 
     An empty iterable will pass this test.
@@ -212,6 +248,12 @@ def check_iterable_items_is_instance(iterable, class_or_type_or_tuple_of: (type,
            class, type, or tuple of classes or types.  Must not be a list (or sequence).
     @param arg_name
            name of argument to be used in thrown exception message, e.g., {@code "file_name_list"}
+    @param *arg_name_format_args
+           zero or more arguments passed to {@link str#format()} along with {@code arg_name}
+           Example: if {@code arg_name} is {@code "Index {}"},
+                    then {@code *arg_name_format_args} might be {@code 7}.
+           Example: if {@code arg_name} is {@code "{}[{}]"},
+                    then {@code *arg_name_format_args} might be {@code ("Index", 7)}.
 
     @return checked iterable
 
@@ -225,13 +267,18 @@ def check_iterable_items_is_instance(iterable, class_or_type_or_tuple_of: (type,
     @see #check_is_iterable()
     @see #check_is_instance()
     """
-    check_is_iterable(iterable, arg_name)
+    check_is_iterable(iterable, arg_name, *arg_name_format_args)
     for index, value in enumerate(iterable):
-        check_is_instance(value, class_or_type_or_tuple_of, "{}[{}]", arg_name, index)
+        # Optimisation: Do not call str.format() here.
+        formatted_arg_name = arg_name + "[" + str(index) + "]"
+        check_is_instance(value, class_or_type_or_tuple_of, formatted_arg_name, *arg_name_format_args)
     return iterable
 
 
-def check_iterable_not_empty_and_items_is_instance(iterable, class_or_type_or_tuple_of: (type, tuple), arg_name: str):
+def check_iterable_not_empty_and_items_is_instance(iterable,
+                                                   class_or_type_or_tuple_of: (type, tuple),
+                                                   arg_name: str,
+                                                   *arg_name_format_args):
     """Tests if an iterable is not empty and items from an iterable are instances of a type.
 
     Example: Tuple {@code ("abc", "def")} has items of type {@link builtins#str}.
@@ -242,6 +289,12 @@ def check_iterable_not_empty_and_items_is_instance(iterable, class_or_type_or_tu
            class, type, or tuple of classes or types.  Must not be a list (or sequence).
     @param arg_name
            name of argument to be used in thrown exception message, e.g., {@code "file_name_list"}
+    @param *arg_name_format_args
+           zero or more arguments passed to {@link str#format()} along with {@code arg_name}
+           Example: if {@code arg_name} is {@code "Index {}"},
+                    then {@code *arg_name_format_args} might be {@code 7}.
+           Example: if {@code arg_name} is {@code "{}[{}]"},
+                    then {@code *arg_name_format_args} might be {@code ("Index", 7)}.
 
     @return checked iterable
 
@@ -258,7 +311,9 @@ def check_iterable_not_empty_and_items_is_instance(iterable, class_or_type_or_tu
     """
     check_iterable_not_empty(iterable, arg_name)
     for index, value in enumerate(iterable):
-        check_is_instance(value, class_or_type_or_tuple_of, "{}[{}]", arg_name, index)
+        # Optimisation: Do not call str.format() here.
+        formatted_arg_name = arg_name + "[" + str(index) + "]"
+        check_is_instance(value, class_or_type_or_tuple_of, formatted_arg_name, *arg_name_format_args)
     return iterable
 
 

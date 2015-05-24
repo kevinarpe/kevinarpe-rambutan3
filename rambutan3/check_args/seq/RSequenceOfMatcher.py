@@ -1,8 +1,10 @@
 from rambutan3 import RArgs
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
+from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
+from rambutan3.check_args.base.traverse.RTypeMatcherTraversePathStepType import RTypeMatcherTraversePathStepType
+from rambutan3.check_args.iter.RIterableOfMatcher import RIterableOfMatcher
 from rambutan3.check_args.seq.RSequenceEnum import RSequenceEnum
 from rambutan3.check_args.seq.RSequenceMatcher import RSequenceMatcher
-
 
 RSequenceOfMatcher = None
 
@@ -16,10 +18,11 @@ class RSequenceOfMatcher(RSequenceMatcher):
         self.__element_matcher = element_matcher
 
     # @override
-    def matches(self, seq) -> bool:
+    def matches(self, seq, matcher_error: RTypeMatcherError=None) -> bool:
         if not super().matches(seq):
             return False
-        x = all(self.__element_matcher.matches(y) for y in seq)
+
+        x = RIterableOfMatcher.core_matches(seq, self.__element_matcher, matcher_error)
         return x
 
     # @override

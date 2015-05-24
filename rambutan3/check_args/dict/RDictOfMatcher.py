@@ -1,5 +1,7 @@
 from rambutan3 import RArgs
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
+from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
+from rambutan3.check_args.base.traverse.RTypeMatcherTraversePathStepType import RTypeMatcherTraversePathStepType
 from rambutan3.check_args.dict.RDictEnum import RDictEnum
 from rambutan3.check_args.dict.RDictMatcher import RDictMatcher
 
@@ -19,10 +21,11 @@ class RDictOfMatcher(RDictMatcher):
         self.__value_matcher = value_matcher
 
     # @override
-    def matches(self, d: dict) -> bool:
+    def matches(self, d: dict, matcher_error: RTypeMatcherError=None) -> bool:
         if not super().matches(d):
             return False
-        x = self.core_matches(d, key_matcher=self.__key_matcher, value_matcher=self.__value_matcher)
+
+        x = self.core_matches(d, matcher_error, key_matcher=self.__key_matcher, value_matcher=self.__value_matcher)
         return x
 
     # @override
@@ -61,18 +64,22 @@ class RDictOfMatcher(RDictMatcher):
             RArgs.check_is_instance(value_matcher, RAbstractTypeMatcher, "type_matcher")
 
     @classmethod
-    def core_matches(cls, dictionary: dict, *,
+    def core_matches(cls,
+                     d: dict,
+                     matcher_error: RTypeMatcherError,
+                     *,
                      key_matcher: RAbstractTypeMatcher=None,
                      value_matcher: RAbstractTypeMatcher=None):
-        if key_matcher:
-            for key in dictionary.keys():
-                if not key_matcher.matches(key):
-                    return False
 
-        if value_matcher:
-            for value in dictionary.values():
-                if not value_matcher.matches(value):
-                    return False
+        for key, value in d.items():
+
+            if (key_matcher and not key_matcher.matches(key, matcher_error)) \
+            or (value_matcher and not value_matcher.matches(value, matcher_error)):
+
+                if matcher_error:
+                    matcher_error.add_traverse_path_step(RTypeMatcherTraversePathStepType.Key, key)
+
+                return False
 
         return True
 

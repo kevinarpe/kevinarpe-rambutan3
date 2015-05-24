@@ -2,11 +2,13 @@ import pytest
 # noinspection PyProtectedMember
 from rambutan3.check_args.RCheckArgs import check_args, _RCheckArgsCallable
 from rambutan3.check_args.annotation.CLS import CLS
+from rambutan3.check_args.annotation.DICT_OF import DICT_OF
 from rambutan3.check_args.annotation.FLOAT import FLOAT
 from rambutan3.check_args.annotation.INT import INT
 from rambutan3.check_args.annotation.SELF import SELF
 from rambutan3.check_args.annotation.STR import STR
-from rambutan3.check_args.error.RCheckArgsError import RCheckArgsError
+from rambutan3.check_args.RCheckArgsError import RCheckArgsError
+from rambutan3.check_args.annotation.TUPLE_OF import TUPLE_OF
 
 
 # noinspection PyDecorator
@@ -52,7 +54,7 @@ class X:
         pass
 
     @check_args
-    def dummy9(self: SELF(), a: INT, *args: STR, **kwargs: FLOAT):
+    def dummy9(self: SELF(), a: INT, *args: TUPLE_OF(STR), **kwargs: DICT_OF(value_matcher=FLOAT)):
         pass
 
     @check_args

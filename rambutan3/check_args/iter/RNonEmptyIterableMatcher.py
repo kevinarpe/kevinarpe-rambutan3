@@ -1,5 +1,6 @@
 from rambutan3 import RArgs
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
+from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 
 
 RNonEmptyIterableMatcher = None
@@ -9,7 +10,7 @@ RNonEmptyIterableMatcher = None
 class RNonEmptyIterableMatcher(RAbstractTypeMatcher):
     """Non-empty iterable instance matcher
 
-    TOOD: This class is fully tested.
+    TODO: This class is fully tested.
 
     @author Kevin Connor ARPE (kevinarpe@gmail.com)
 
@@ -22,12 +23,17 @@ class RNonEmptyIterableMatcher(RAbstractTypeMatcher):
         pass
 
     # @override
-    def matches(self, value) -> bool:
+    def matches(self, value, matcher_error: RTypeMatcherError=None) -> bool:
         try:
             RArgs.check_iterable_not_empty(value, "value")
-            return True
+            x = True
         except Exception as e:
-            return False
+            x = False
+
+        if not x and matcher_error:
+            matcher_error.add_failed_match(self, value)
+
+        return x
 
     # @override
     def __eq__(self, other: RNonEmptyIterableMatcher) -> bool:

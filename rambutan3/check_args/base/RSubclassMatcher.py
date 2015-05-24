@@ -1,5 +1,6 @@
 from rambutan3 import RArgs
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
+from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 
 
 RSubclassMatcher = None
@@ -30,18 +31,23 @@ class RSubclassMatcher(RAbstractTypeMatcher):
         self.__type = class_or_type
 
     # @override
-    def matches(self, value) -> bool:
+    def matches(self, value, matcher_error: RTypeMatcherError=None) -> bool:
         # TODO: Why the try-except here?  When does it throw?
         try:
             x = issubclass(value, self.__type)
-            return x
-        except:
-            return False
+        except Exception as e:
+            x = False
+
+        if not x and matcher_error:
+            matcher_error.add_failed_match(self, value)
+
+        return x
 
     # @override
     def __eq__(self, other: RSubclassMatcher) -> bool:
         if not isinstance(other, RSubclassMatcher):
             return False
+
         x = (self.__type == other.__type)
         return x
 
