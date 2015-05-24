@@ -22,7 +22,8 @@ RELEASE_MODE_PROD='prod'
 PYPI_URL_TEST='https://testpypi.python.org/pypi'
 PYPI_URL_PROD='https://pypi.python.org/pypi'
 
-VERSION_FILE_PATH="$(dirname "$(readlink -f "$0")")/version.txt"
+THIS_ABS_DIR_PATH="$(dirname "$(readlink -f "$0")")"
+VERSION_FILE_PATH="$THIS_ABS_DIR_PATH/version.txt"
 
 main()
 {
@@ -36,14 +37,13 @@ main()
     local release_mode="$1" ; shift
     check_release_mode "$release_mode"
 
-    local cwd="$(dirname "$(readlink -f "$0")")"
     local server_name="$(echo_server_name "$release_mode")"
     local orig_virtualenv_dir_path="$VIRTUAL_ENV"
     local test_virtualenv_dir_path="$(readlink -f "$VIRTUAL_ENV/../rambutan3-test-release")"
     local pypi_url="$(echo_pypi_url "$release_mode")"
 
     check_which_python3_matches_virtualenv
-    pushd "$cwd"
+    pushd "$THIS_ABS_DIR_PATH"
     check_zero_git_uncommitted_changes
     update_version
     git_commit_changes
@@ -59,7 +59,7 @@ main()
     pip_install_package "$pypi_url"
     remove_virtualenv "$test_virtualenv_dir_path"
     activate_virtualenv "$orig_virtualenv_dir_path"
-#    git_push_plus_tags
+    git_push_plus_tags
     popd
 }
 
