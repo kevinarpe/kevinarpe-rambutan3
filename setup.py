@@ -10,6 +10,7 @@ from setuptools import setup, find_packages
 # To use a consistent encoding
 from codecs import open
 from os import path
+import re
 
 here = path.abspath(path.dirname(__file__))
 
@@ -17,13 +18,31 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
+
+def __get_version() -> str:
+    file_path = path.join(here, 'version.txt')
+    fh = open(file_path, 'r')
+    version = fh.read()
+    version = version.strip()
+    # Intentional: Do not anchor with '$'.  Allow trailing non-digits, e.g., 'a' (for alpha)
+    version_regex = re.compile('^\d+\.\d+\.\d+')
+    if not version_regex.search(version):
+        raise ValueError("Version has unexpected format: [{}]".format(version))
+    print("Version: [{}]".format(version))
+    return version
+
+
+__VERSION = __get_version()
+
+
 setup(
     name='kevinarpe-rambutan3',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='1.3.0',
+#    version='1.3.0',
+    version=__VERSION,
 
     description='Python3 Utilities',
     long_description=long_description,

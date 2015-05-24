@@ -22,6 +22,8 @@ RELEASE_MODE_PROD='prod'
 PYPI_URL_TEST='https://testpypi.python.org/pypi'
 PYPI_URL_PROD='https://pypi.python.org/pypi'
 
+VERSION_FILE_NAME='version.txt'
+
 main()
 {
     if [ $# != 1 ]
@@ -39,19 +41,25 @@ main()
     local test_virtualenv_dir_path="$(readlink -f "$VIRTUAL_ENV/../rambutan3-test-release")"
     local pypi_url="$(echo_pypi_url "$release_mode")"
 
-    check_which_python3
-    cd "$cwd"
+    check_which_python3_matches_virtualenv
+    pushd "$cwd"
+    check_zero_git_uncommitted_changes
+    update_version
+    git_commit_changes
+    check_zero_git_uncommitted_changes
+    git_tag_version
     pypi_register_new_package "$server_name"
     create_source_dist
     gpg_sign_release
     upload_package_to_pypi "$server_name"
     create_virtualenv "$test_virtualenv_dir_path"
     activate_virtualenv "$test_virtualenv_dir_path"
-    check_which_python3
+    check_which_python3_matches_virtualenv
     pip_install_package "$pypi_url"
     remove_virtualenv "$test_virtualenv_dir_path"
     activate_virtualenv "$orig_virtualenv_dir_path"
-    cd -
+#    git_push_plus_tags
+    popd
 }
 
 echo_usage_and_exit_on_error()
@@ -93,7 +101,46 @@ echo_server_name()
     printf -- '%s' "$server_name"
 }
 
-check_which_python3()
+check_zero_git_uncommitted_changes()
+{
+    # Ref: http://stackoverflow.com/a/3879077/257299
+    if ! git diff-index --quiet HEAD
+    then
+        printf -- '\nERROR: Uncommited Git changes\n\n'
+        git status
+        git diff-index --quiet HEAD
+    fi
+}
+
+update_version()
+{
+    cat "$VERSION_FILE_NAME" 1> /dev/null 2>&1
+    local current_version="$(cat "$VERSION_FILE_NAME")"
+
+    printf -- 'Current version: [%s]\n' "$current_version"
+    local next_version=''
+    read -p 'Next version: ' next_version
+
+    # Intentional: Do not anchor with '$'.  Allow trailing non-digits, e.g., 'a' (for alpha)
+    [[ "$next_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+ ]]
+
+    printf -- '%s\n' "$next_version" > "$VERSION_FILE_NAME"
+}
+
+git_commit_changes()
+{
+    local next_version="$(cat "$VERSION_FILE_NAME")"
+    git add --all
+    git commit --message="$0: Next version: [$next_version]"
+}
+
+git_tag_version()
+{
+    local next_version="$(cat "$VERSION_FILE_NAME")"
+    git tag --message="$0: Next version: [$next_version]" "$next_version"
+}
+
+check_which_python3_matches_virtualenv()
 {
     [ "$VIRTUAL_ENV/bin/python3" = "$(which python3)" ]
 }
@@ -172,6 +219,11 @@ remove_virtualenv()
     local virtualenv_dir_path="$1"
 
     /bin/rm -Rf "$virtualenv_dir_path"
+}
+
+git_push_plus_tags()
+{
+    git push --tags
 }
 
 main "$@"
