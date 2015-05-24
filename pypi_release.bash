@@ -43,7 +43,7 @@ main()
 
     check_which_python3_matches_virtualenv
     pushd "$cwd"
-#    check_zero_git_uncommitted_changes
+    check_zero_git_uncommitted_changes
     update_version
     git_commit_changes
     check_zero_git_uncommitted_changes
