@@ -25,24 +25,30 @@ class RAbstractForwardingTypeMatcher(RAbstractTypeMatcher):
     def check_arg(self, value, arg_name: str, *arg_name_format_args):
         self._delegate.check_arg(value, arg_name, *arg_name_format_args)
 
-    # @override
-    def __or__(self, other: RAbstractTypeMatcher) -> RAbstractTypeMatcher:
-        x = self._delegate.__or__(other)
-        return x
+    # Leave this code for history.
+    # Disabled during testing as this causes bugs.
+    # # @override
+    # def __or__(self, other: RAbstractTypeMatcher) -> RAbstractTypeMatcher:
+    #     x = self._delegate.__or__(other)
+    #     return x
 
     # @override
     def __eq__(self, other: RAbstractTypeMatcher) -> bool:
         if not isinstance(other, type(self)):
             return False
+
         x = self._delegate.__eq__(other._delegate)
         return x
 
-    # @override
-    def __ne__(self, other: RAbstractTypeMatcher) -> bool:
-        if not isinstance(other, type(self)):
-            return True
-        x = self._delegate.__ne__(other._delegate)
-        return x
+    # Leave this code for history.
+    # Disabled during testing as this causes bugs.
+    # # @override
+    # def __ne__(self, other: RAbstractTypeMatcher) -> bool:
+    #     if not isinstance(other, type(self)):
+    #         return True
+    #
+    #     x = self._delegate.__ne__(other._delegate)
+    #     return x
 
     # @override
     def __hash__(self) -> int:

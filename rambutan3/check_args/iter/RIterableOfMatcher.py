@@ -27,15 +27,17 @@ class RIterableOfMatcher(RAbstractTypeMatcher):
         return x
 
     @classmethod
-    def core_matches(self,
+    def core_matches(cls,
                      iterable,
                      element_matcher: RAbstractTypeMatcher,
                      matcher_error: RTypeMatcherError=None) -> bool:
+
         x = all(element_matcher.matches(y, matcher_error) for y in iterable)
 
         if not x and matcher_error:
             # Slow path: Report errors here
             for index, value in enumerate(iterable):
+                # Intentional: Do not pass matcher_error here.
                 if not element_matcher.matches(value):
                     matcher_error.add_traverse_path_step(RTypeMatcherTraversePathStepType.Index, index)
                     break

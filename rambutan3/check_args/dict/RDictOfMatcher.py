@@ -84,7 +84,9 @@ class RDictOfMatcher(RDictMatcher):
         return True
 
     @classmethod
-    def core__str__(cls, super_str: str, *,
+    def core__str__(cls,
+                    super_str: str,
+                    *,
                     key_matcher: RAbstractTypeMatcher=None,
                     value_matcher: RAbstractTypeMatcher=None):
         m = ""

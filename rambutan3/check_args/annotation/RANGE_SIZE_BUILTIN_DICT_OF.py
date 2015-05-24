@@ -7,7 +7,9 @@ from rambutan3.check_args.dict.RRangeSizeDictOfMatcher import RRangeSizeDictOfMa
 def RANGE_SIZE_BUILTIN_DICT_OF(*,
                                key_matcher: RAbstractTypeMatcher=None,
                                type_matcher: RAbstractTypeMatcher=None,
-                               min_size: int=-1, max_size: int=-1) -> RRangeSizeDictOfMatcher:
+                               min_size: int=-1,
+                               max_size: int=-1) -> RRangeSizeDictOfMatcher:
+
     x = RRangeSizeDictOfMatcher(RDictEnum.BUILTIN_DICT,
                                 key_matcher=key_matcher,
                                 value_matcher=type_matcher,

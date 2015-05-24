@@ -124,7 +124,7 @@ class RAbstractTypeMatcher(ABC):
             """:type failed_matcher_tuple: RTypeMatcherError.RFailedMatcherTuple"""
             failed_matcher = failed_matcher_tuple.matcher
             failed_value = failed_matcher_tuple.value
-            formatted_failed_value = self.__format_value(failed_value)
+            formatted_failed_value = self._format_value(failed_value)
             optional_error_message = failed_matcher_tuple.optional_error_message
             num = ' ' if 0 == index else '{}'.format(1 + index)
 
@@ -146,7 +146,7 @@ class RAbstractTypeMatcher(ABC):
                     msg += "\nMatcher error{}: {}".format(num, optional_error_message)
 
         if traverse_path_str:
-            formatted_value = self.__format_value(value)
+            formatted_value = self._format_value(value)
             msg += "\nExpected root  type : {}" \
                    "\nActual   root  type : {}" \
                    "\nActual   root  value: {}" \
@@ -154,7 +154,7 @@ class RAbstractTypeMatcher(ABC):
                            type(value).__name__,
                            formatted_value)
         else:
-            formatted_value = self.__format_value(value)
+            formatted_value = self._format_value(value)
             msg += "\nActual   type : {}" \
                    "\nActual  value : {}" \
                 .format(type(value).__name__,
@@ -162,19 +162,19 @@ class RAbstractTypeMatcher(ABC):
 
         raise RCheckArgsError(msg)
 
-    def __format_value(self, value):
+    def _format_value(self, value):
         if inspect.isfunction(value):
             x = 'def {}{}'.format(value.__qualname__, inspect.signature(value))
         else:
-            # width=1 is a trick to force pformat() to always format containers across multiple lines
-            x = pprint.pformat(value, width=1)
-
-            # If this is a multi-line pformat(), then prepend another newline for readability.
+            x = pprint.pformat(value)
             if '\n' in x:
-                x = '\n' + x
+                # This is a multi-line pformat(), then prepend another newline for readability.
+                # width=1 is a trick to force pformat() to always format containers across multiple lines
+                x = '\n' + pprint.pformat(value, width=1)
 
         return x
 
+    # Advice: Do not override this method.  It will probably break later.
     def __or__(self, other: RAbstractTypeMatcher) -> RAbstractTypeMatcher:
         """operator|: Combines {@code self} with {@code other} to create logical OR type matcher
 
@@ -201,6 +201,7 @@ class RAbstractTypeMatcher(ABC):
         """
         raise NotImplementedError('Internal error: Do not call this member function')
 
+    # Advice: Do not override this method.  It will probably break later.
     # Accordingly, when defining __eq__(), one should also define __ne__()
     # so that the operators will behave as expected.
     # Ref: https://docs.python.org/3/reference/datamodel.html
@@ -280,6 +281,7 @@ class RLogicalOrTypeMatcher(RAbstractTypeMatcher):
     def __eq__(self, other: RLogicalOrTypeMatcher) -> bool:
         if not isinstance(other, RLogicalOrTypeMatcher):
             return False
+
         x = (self.__matcher_frozenset == other.__matcher_frozenset)
         return x
 
