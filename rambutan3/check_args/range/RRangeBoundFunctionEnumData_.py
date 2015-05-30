@@ -4,10 +4,6 @@ import types
 from rambutan3 import RArgs, RTypes
 
 
-RRangeBoundFunctionEnumData_ = None
-
-
-# noinspection PyRedeclaration
 class RRangeBoundFunctionEnumData_:
     """This class exists only to be used by matchers."""
 
@@ -49,7 +45,7 @@ class RRangeBoundFunctionEnumData_:
         x = (self.__op_func is operator.ge) or (self.__op_func is operator.le)
         return x
 
-    def __eq__(self, other: RRangeBoundFunctionEnumData_) -> bool:
+    def __eq__(self, other) -> bool:
         if not isinstance(other, RRangeBoundFunctionEnumData_):
             return False
 

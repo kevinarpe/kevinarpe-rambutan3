@@ -1,4 +1,4 @@
-from _collections_abc import Mapping
+from collections.abc import Mapping
 from abc import abstractmethod
 from rambutan3.container.RDict import RDict
 

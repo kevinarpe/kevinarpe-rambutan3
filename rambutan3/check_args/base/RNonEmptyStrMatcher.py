@@ -3,10 +3,6 @@ from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherErr
 from rambutan3.string.RNonEmptyStr import RNonEmptyStr
 
 
-RNonEmptyStrMatcher = None
-
-
-# noinspection PyRedeclaration
 class RNonEmptyStrMatcher(RAbstractTypeMatcher):
 
     # noinspection PyMissingConstructor
@@ -30,7 +26,7 @@ class RNonEmptyStrMatcher(RAbstractTypeMatcher):
         return x
 
     # @override
-    def __eq__(self, other: RNonEmptyStrMatcher) -> bool:
+    def __eq__(self, other) -> bool:
         x = isinstance(other, RNonEmptyStrMatcher)
         return x
 

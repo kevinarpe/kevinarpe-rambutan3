@@ -3,7 +3,7 @@ from rambutan3.enumeration.REnum import REnum
 
 
 @enum.unique
-class RTypeMatcherTraversePathStepType(REnum):
+class RTypeMatcherTraversePathStepEnum(REnum):
 
     Index = 1
     Key = 2

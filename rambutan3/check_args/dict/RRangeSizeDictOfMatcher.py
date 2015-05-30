@@ -5,10 +5,6 @@ from rambutan3.check_args.dict.RDictOfMatcher import RDictOfMatcher
 from rambutan3.check_args.dict.RRangeSizeDictMatcher import RRangeSizeDictMatcher
 
 
-RRangeSizeDictOfMatcher = None
-
-
-# noinspection PyRedeclaration
 class RRangeSizeDictOfMatcher(RRangeSizeDictMatcher):
 
     def __init__(self,
@@ -34,7 +30,7 @@ class RRangeSizeDictOfMatcher(RRangeSizeDictMatcher):
         return x
 
     # @override
-    def __eq__(self, other: RRangeSizeDictOfMatcher) -> bool:
+    def __eq__(self, other) -> bool:
         if not isinstance(other, RRangeSizeDictOfMatcher):
             return False
         if not super().__eq__(other):

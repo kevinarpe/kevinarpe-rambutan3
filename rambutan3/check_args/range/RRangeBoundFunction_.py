@@ -2,10 +2,6 @@ from rambutan3 import RArgs
 from rambutan3.check_args.range.RRangeBoundFunctionEnum_ import RRangeBoundFunctionEnum_
 
 
-RRangeBoundFunction_ = None
-
-
-# noinspection PyRedeclaration
 class RRangeBoundFunction_:
     """
     This class exists only to be used by matchers.
@@ -37,16 +33,16 @@ class RRangeBoundFunction_:
         else:
             return False
 
-    def __same_side(self, other: RRangeBoundFunction_) -> bool:
+    def __same_side(self, other) -> bool:
         x = self.__op_func_enum_data.is_greater == other.__op_func_enum_data.is_greater
         return x
 
-    def __includes(self, other: RRangeBoundFunction_) -> bool:
+    def __includes(self, other) -> bool:
         # >= includes >, but > does not include >=, and vice versa
         x = self.__op_func_enum_data.is_inclusive or not other.__op_func_enum_data.is_inclusive
         return x
 
-    def __eq__(self, other: RRangeBoundFunction_) -> bool:
+    def __eq__(self, other) -> bool:
         if not isinstance(other, RRangeBoundFunction_):
             return False
         x = (self.__op_func_enum_data == other.__op_func_enum_data and self.__value == other.__value)

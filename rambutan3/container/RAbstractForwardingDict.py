@@ -1,4 +1,4 @@
-from _collections_abc import MutableMapping
+from collections.abc import MutableMapping
 from abc import abstractmethod
 from rambutan3.container.RDict import RDict
 

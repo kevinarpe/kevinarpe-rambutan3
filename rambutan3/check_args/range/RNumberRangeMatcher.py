@@ -4,10 +4,6 @@ from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherErr
 from rambutan3.check_args.range.RRange_ import RRange_
 
 
-RNumberRangeMatcher = None
-
-
-# noinspection PyRedeclaration
 class RNumberRangeMatcher(RAbstractTypeMatcher):
 
     __ALLOWED_TYPE_TUPLE = (int, float)
@@ -35,7 +31,7 @@ class RNumberRangeMatcher(RAbstractTypeMatcher):
         return result
 
     # @override
-    def __eq__(self, other: RNumberRangeMatcher) -> bool:
+    def __eq__(self, other) -> bool:
         if not isinstance(other, RNumberRangeMatcher):
             return False
         x = (self.__range == other.__range)

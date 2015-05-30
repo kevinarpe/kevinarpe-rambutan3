@@ -1,12 +1,7 @@
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
 from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
-from rambutan3.string import RStrUtil
 
 
-RAnyValueOfMatcher = None
-
-
-# noinspection PyRedeclaration
 class RAnyValueOfMatcher(RAbstractTypeMatcher):
 
     # noinspection PyMissingConstructor
@@ -26,8 +21,11 @@ class RAnyValueOfMatcher(RAbstractTypeMatcher):
         return x
 
     # @override
-    def __eq__(self, other: RAnyValueOfMatcher) -> bool:
-        x = isinstance(other, RAnyValueOfMatcher)
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, RAnyValueOfMatcher):
+            return False
+
+        x = (self.__value_frozenset == other.__value_frozenset)
         return x
 
     # @override
@@ -37,5 +35,5 @@ class RAnyValueOfMatcher(RAbstractTypeMatcher):
 
     # @override
     def __str__(self):
-        x = "any value of {{{}}}".format(", ".join([RStrUtil.auto_quote(x) for x in self.__value_frozenset]))
+        x = "any value of {}".format(self.__value_frozenset)
         return x

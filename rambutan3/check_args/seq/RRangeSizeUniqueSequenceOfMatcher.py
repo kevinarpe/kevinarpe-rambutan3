@@ -5,21 +5,17 @@ from rambutan3.check_args.seq.RRangeSizeSequenceOfMatcher import RRangeSizeSeque
 from rambutan3.check_args.seq.RUniqueSequenceMatcher import RUniqueSequenceMatcher
 
 
-RRangeSizeUniqueSequenceOfMatcher = None
-
-
-# noinspection PyRedeclaration
 class RRangeSizeUniqueSequenceOfMatcher(RAbstractTypeMatcher):
 
     # noinspection PyMissingConstructor
     def __init__(self,
-                 sequence_enum: RSequenceEnum,
+                 seq_enum: RSequenceEnum,
                  element_matcher: RAbstractTypeMatcher,
                  *,
                  min_size: int=-1,
                  max_size: int=-1):
         self.__seq_of_matcher = \
-            RRangeSizeSequenceOfMatcher(sequence_enum, element_matcher, min_size=min_size, max_size=max_size)
+            RRangeSizeSequenceOfMatcher(seq_enum, element_matcher, min_size=min_size, max_size=max_size)
 
     # @override
     def matches(self, seq, matcher_error: RTypeMatcherError=None) -> bool:
@@ -30,7 +26,7 @@ class RRangeSizeUniqueSequenceOfMatcher(RAbstractTypeMatcher):
         return x
 
     # @override
-    def __eq__(self, other: RRangeSizeUniqueSequenceOfMatcher) -> bool:
+    def __eq__(self, other) -> bool:
         if not isinstance(other, RRangeSizeUniqueSequenceOfMatcher):
             return False
 

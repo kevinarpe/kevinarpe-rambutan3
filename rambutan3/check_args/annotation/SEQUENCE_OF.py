@@ -4,6 +4,6 @@ from rambutan3.check_args.seq.RSequenceOfMatcher import RSequenceOfMatcher
 
 
 # noinspection PyPep8Naming
-def SEQUENCE_OF(type_matcher: RAbstractTypeMatcher) -> RSequenceOfMatcher:
-    x = RSequenceOfMatcher(RSequenceEnum.SEQUENCE, type_matcher)
+def SEQUENCE_OF(matcher: RAbstractTypeMatcher) -> RSequenceOfMatcher:
+    x = RSequenceOfMatcher(RSequenceEnum.SEQUENCE, matcher)
     return x

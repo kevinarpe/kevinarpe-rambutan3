@@ -7,10 +7,6 @@ from rambutan3.check_args.range.RRangeBoundFunctionEnum_ import RRangeBoundFunct
 from rambutan3.check_args.range.RRangeBoundFunctionEnumData_ import RRangeBoundFunctionEnumData_
 
 
-RRange_ = None
-
-
-# noinspection PyRedeclaration
 class RRange_:
     """
     This class exists only to be used by matchers.
@@ -22,7 +18,7 @@ class RRange_:
     """:type: dict[str, _RRangeBoundFunctionEnumData]"""
 
     @classmethod
-    def create(cls, bound_op1: str, value1, opt_bound_op2: str, opt_value2) -> RRange_:
+    def create(cls, bound_op1: str, value1, opt_bound_op2: str, opt_value2):
         if not opt_bound_op2:
             x = cls.for_one_bound(bound_op1, value1)
         else:
@@ -30,14 +26,14 @@ class RRange_:
         return x
 
     @classmethod
-    def for_one_bound(cls, bound_op: str, value) -> RRange_:
+    def for_one_bound(cls, bound_op: str, value):
         RRangeBoundFunctionEnumData_.check_bound_op_set_contains(
             bound_op, "bound_op", RRangeBoundFunctionEnumData_.ONE_BOUND_OP_STR_SET)
         x = RRange_(cls.__PRIVATE_CTOR_KEY, bound_op, value)
         return x
 
     @classmethod
-    def for_two_bounds(cls, bound_op1: str, value1, bound_op2: str, value2) -> RRange_:
+    def for_two_bounds(cls, bound_op1: str, value1, bound_op2: str, value2):
         RRangeBoundFunctionEnumData_.check_bound_op_set_contains(
             bound_op1, "bound_op1", RRangeBoundFunctionEnumData_.TWO_BOUND_OP1_STR_SET)
         RRangeBoundFunctionEnumData_.check_bound_op_set_contains(
@@ -94,7 +90,7 @@ class RRange_:
                 x = item in self.__opt_bound2
         return x
 
-    def __eq__(self, other: RRange_) -> bool:
+    def __eq__(self, other) -> bool:
         if not isinstance(other, RRange_):
             return False
         x = (self.__bound1 == other.__bound1 and self.__opt_bound2 == other.__opt_bound2)

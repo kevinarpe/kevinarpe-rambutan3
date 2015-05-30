@@ -74,7 +74,6 @@ def test():
 #     #            "Argument 'user_credentials': Expected type [dict where EXACTLY {}], but found type [dict]: [{'extra_key': 123}]" \
 #     #            "\n\tError: Extra items: {'extra_key': 123}"
 #
-#     # TODO: LAST
 #     # BUILTIN_DICT_WHERE_EXACTLY({"abc": INT}).check_arg({}, "user_credentials")
 #     m = BUILTIN_DICT_WHERE_EXACTLY(
 #         {

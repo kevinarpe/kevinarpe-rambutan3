@@ -5,13 +5,11 @@ from rambutan3.check_args.base.RInstanceMatcher import RInstanceMatcher
 from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 
 
-RRestrictedInstanceMatcher = None
-
-
-# noinspection PyRedeclaration
 class RRestrictedInstanceMatcher(RAbstractForwardingTypeMatcher):
     """Restricted type instance matcher -- certain subclasses may be excluded.
-    This class primarily exists to restrict bools from matching ints, as bool is a subclass of int.
+    This class primarily exists to:
+    1) restrict bools from matching ints, as bool is a subclass of int
+    2) restrict strs from matching Sequence, as str is a subclass of Sequence
 
     This class is fully tested.
 
@@ -22,24 +20,25 @@ class RRestrictedInstanceMatcher(RAbstractForwardingTypeMatcher):
 
     # noinspection PyMissingConstructor
     def __init__(self, *,
-                 allowed_class_or_type_tuple: tuple,
-                 not_allowed_class_or_type_tuple: tuple):
+                 allowed_class_or_type_non_empty_tuple,
+                 not_allowed_class_or_type_iterable):
         """
-        @param allowed_class_or_type_tuple
-               tuple of allowed value type classes, e.g., {@link int}
-        @param not_allowed_class_or_type_tuple
-               tuple of not allowed value type classes, e.g., {@link bool}
+        @param allowed_class_or_type_non_empty_tuple
+               non-empty sequence of allowed value type classes, e.g., {@link int}
+        @param not_allowed_class_or_type_iterable
+               sequence of not allowed value type classes, e.g., {@link bool}
+               may be empty
 
         @throws ValueError
-                if {@code allowed_class_or_type_tuple} is empty
+                if {@code allowed_class_or_type_non_empty_tuple} is empty
         @throws TypeError
-                if {@code allowed_class_or_type_tuple} contains a item that is not a type/class
+                if {@code allowed_class_or_type_non_empty_tuple} contains a item that is not a type/class
         """
         # Intentional: Do not call super(RAbstractForwardingTypeMatcher, self).__init__()
-        RArgs.check_is_instance(allowed_class_or_type_tuple, tuple, "allowed_class_or_type_tuple")
-        RArgs.check_is_instance(not_allowed_class_or_type_tuple, tuple, "not_allowed_class_or_type_tuple")
-        self.__matcher = RInstanceMatcher(*allowed_class_or_type_tuple)
-        self.__not_allowed_class_or_type_tuple = not_allowed_class_or_type_tuple
+        RArgs.check_is_iterable(allowed_class_or_type_non_empty_tuple, "allowed_class_or_type_non_empty_tuple")
+        RArgs.check_is_iterable(not_allowed_class_or_type_iterable, "not_allowed_class_or_type_iterable")
+        self.__matcher = RInstanceMatcher(*allowed_class_or_type_non_empty_tuple)
+        self.__not_allowed_class_or_type_tuple = tuple(not_allowed_class_or_type_iterable)
 
     # @overrides
     @property

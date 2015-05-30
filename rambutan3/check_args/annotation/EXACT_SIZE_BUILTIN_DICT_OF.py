@@ -6,12 +6,12 @@ from rambutan3.check_args.dict.RRangeSizeDictOfMatcher import RRangeSizeDictOfMa
 # noinspection PyPep8Naming
 def EXACT_SIZE_BUILTIN_DICT_OF(*,
                                key_matcher: RAbstractTypeMatcher=None,
-                               type_matcher: RAbstractTypeMatcher=None,
+                               value_matcher: RAbstractTypeMatcher=None,
                                exact_size: int) -> RRangeSizeDictOfMatcher:
 
     x = RRangeSizeDictOfMatcher(RDictEnum.BUILTIN_DICT,
                                 key_matcher=key_matcher,
-                                value_matcher=type_matcher,
+                                value_matcher=value_matcher,
                                 min_size=exact_size,
                                 max_size=exact_size)
     return x

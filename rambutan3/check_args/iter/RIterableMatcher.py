@@ -2,10 +2,7 @@ from rambutan3 import RArgs
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
 from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 
-RIterableMatcher = None
 
-
-# noinspection PyRedeclaration
 class RIterableMatcher(RAbstractTypeMatcher):
     """Iterable instance matcher
 
@@ -35,7 +32,7 @@ class RIterableMatcher(RAbstractTypeMatcher):
         return x
 
     # @override
-    def __eq__(self, other: RIterableMatcher) -> bool:
+    def __eq__(self, other) -> bool:
         x = isinstance(other, RIterableMatcher)
         return x
 

@@ -1,3 +1,4 @@
+from rambutan3.check_args.base.RAbstractForwardingTypeMatcher import RAbstractForwardingTypeMatcher
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
 from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 from rambutan3.check_args.seq.RSequenceEnum import RSequenceEnum
@@ -6,14 +7,19 @@ from rambutan3.string import RStrUtil
 from rambutan3.string.RMessageText import RMessageText
 
 
-class RUniqueSequenceMatcher(RSequenceMatcher):
+class RUniqueSequenceMatcher(RAbstractForwardingTypeMatcher):
 
-    def __init__(self, sequence_enum: RSequenceEnum):
-        super().__init__(sequence_enum)
+    # noinspection PyMissingConstructor
+    def __init__(self, seq_enum: RSequenceEnum):
+        self.__delegate = RSequenceMatcher(seq_enum)
+
+    @property
+    def _delegate(self) -> RAbstractTypeMatcher:
+        return self.__delegate
 
     # @override
     def matches(self, seq, matcher_error: RTypeMatcherError=None) -> bool:
-        if not super().matches(seq, matcher_error):
+        if not self.__delegate.matches(seq, matcher_error):
             return False
 
         x = self.core_matches(self, seq, matcher_error)
@@ -41,5 +47,5 @@ class RUniqueSequenceMatcher(RSequenceMatcher):
 
     # @override
     def __str__(self):
-        x = "unique {}".format(super().__str__())
+        x = "unique " + str(self.__delegate)
         return x

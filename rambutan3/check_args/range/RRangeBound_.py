@@ -2,10 +2,6 @@ from rambutan3 import RArgs
 from rambutan3.check_args.range.RRangeBoundFunction_ import RRangeBoundFunction_
 
 
-RRangeBound_ = None
-
-
-# noinspection PyRedeclaration
 class RRangeBound_:
     """
     This class exists only to be used by matchers.
@@ -24,7 +20,7 @@ class RRangeBound_:
             x = self.__func(item)
         return x
 
-    def __eq__(self, other: RRangeBound_) -> bool:
+    def __eq__(self, other) -> bool:
         if not isinstance(other, RRangeBound_):
             return False
         x = (self.__func == other.__func)

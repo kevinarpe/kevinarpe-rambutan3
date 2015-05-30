@@ -3,10 +3,6 @@ from rambutan3 import RArgs, RTypes
 from rambutan3.string.RStr import RStr
 
 
-RPatternText = None
-
-
-# noinspection PyRedeclaration
 class RPatternText(RStr):
     """
     Wraps a {@link str} value that matches a regular expression.
@@ -22,7 +18,7 @@ class RPatternText(RStr):
     """
 
     @classmethod
-    def new(cls, value: str, regex_pattern: RTypes.REGEX_PATTERN_TYPE) -> RPatternText:
+    def new(cls, value: str, regex_pattern: RTypes.REGEX_PATTERN_TYPE):
         """
         @param value
                any string that matches regular expression in {@code regex_pattern}

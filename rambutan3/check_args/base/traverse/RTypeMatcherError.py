@@ -3,7 +3,7 @@ from collections import OrderedDict, namedtuple
 
 from rambutan3 import RArgs
 from rambutan3.check_args.base.traverse.RTypeMatcherTraversePathStep import RTypeMatcherTraversePathStep
-from rambutan3.check_args.base.traverse.RTypeMatcherTraversePathStepType import RTypeMatcherTraversePathStepType
+from rambutan3.check_args.base.traverse.RTypeMatcherTraversePathStepEnum import RTypeMatcherTraversePathStepEnum
 from rambutan3.error.RIllegalStateError import RIllegalStateError
 from rambutan3.string.RMessageText import RMessageText
 
@@ -16,7 +16,7 @@ class RTypeMatcherError:
         self.__reverse_step_list = []
         self.__failed_matcher_to_tuple_dict = OrderedDict()
 
-    def add_traverse_path_step(self, step_type: RTypeMatcherTraversePathStepType, value):
+    def add_traverse_path_step(self, step_type: RTypeMatcherTraversePathStepEnum, value):
         step = RTypeMatcherTraversePathStep(step_type, value)
         self.__reverse_step_list.append(step)
 

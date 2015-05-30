@@ -12,12 +12,9 @@ from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherErr
 from rambutan3.check_args.RCheckArgsError import RCheckArgsError
 from rambutan3.error.RIllegalStateError import RIllegalStateError
 
-RAbstractTypeMatcher = None
-
 
 # Ref: https://docs.python.org/3/library/abc.html#abc.abstractmethod
 # Using this decorator requires that the class’s metaclass is ABCMeta or is derived from it.
-# noinspection PyRedeclaration
 class RAbstractTypeMatcher(ABC):
     """Abstract base class for all type matchers, include type matchers."""
 
@@ -175,7 +172,7 @@ class RAbstractTypeMatcher(ABC):
         return x
 
     # Advice: Do not override this method.  It will probably break later.
-    def __or__(self, other: RAbstractTypeMatcher) -> RAbstractTypeMatcher:
+    def __or__(self, other):
         """operator|: Combines {@code self} with {@code other} to create logical OR type matcher
 
         @param other
@@ -189,7 +186,7 @@ class RAbstractTypeMatcher(ABC):
         return x
 
     @abstractmethod
-    def __eq__(self, other: RAbstractTypeMatcher) -> bool:
+    def __eq__(self, other) -> bool:
         """operator==: Compares {@code self} with {@code other}
 
         param other
@@ -205,7 +202,7 @@ class RAbstractTypeMatcher(ABC):
     # Accordingly, when defining __eq__(), one should also define __ne__()
     # so that the operators will behave as expected.
     # Ref: https://docs.python.org/3/reference/datamodel.html
-    def __ne__(self, other: RAbstractTypeMatcher) -> bool:
+    def __ne__(self, other) -> bool:
         x = not (self == other)
         return x
 
@@ -225,10 +222,6 @@ class RAbstractTypeMatcher(ABC):
     #     raise NotImplementedError('Internal error: Do not call this member function')
 
 
-RLogicalOrTypeMatcher = None
-
-
-# noinspection PyRedeclaration
 class RLogicalOrTypeMatcher(RAbstractTypeMatcher):
     """Combines two or more type matchers to create a unified logical OR type matcher
 
@@ -236,9 +229,7 @@ class RLogicalOrTypeMatcher(RAbstractTypeMatcher):
     """
 
     # noinspection PyMissingConstructor
-    def __init__(self,
-                 left: (RAbstractTypeMatcher, RLogicalOrTypeMatcher),
-                 right: (RAbstractTypeMatcher, RLogicalOrTypeMatcher)):
+    def __init__(self, left, right):
         """Never call this ctor directly; instead use operator|: {@link RValueMatcher#__or__()}
 
         @param left
@@ -278,7 +269,7 @@ class RLogicalOrTypeMatcher(RAbstractTypeMatcher):
         return x
 
     # @override
-    def __eq__(self, other: RLogicalOrTypeMatcher) -> bool:
+    def __eq__(self, other) -> bool:
         if not isinstance(other, RLogicalOrTypeMatcher):
             return False
 

@@ -3,10 +3,6 @@ from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
 from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 
 
-RSubclassMatcher = None
-
-
-# noinspection PyRedeclaration
 class RSubclassMatcher(RAbstractTypeMatcher):
     """Type and (sub)class matcher
 
@@ -44,7 +40,7 @@ class RSubclassMatcher(RAbstractTypeMatcher):
         return x
 
     # @override
-    def __eq__(self, other: RSubclassMatcher) -> bool:
+    def __eq__(self, other) -> bool:
         if not isinstance(other, RSubclassMatcher):
             return False
 

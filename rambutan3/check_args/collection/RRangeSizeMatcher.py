@@ -1,20 +1,13 @@
 from rambutan3 import RArgs
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
-from rambutan3.check_args.base.RInstanceMatcher import RInstanceMatcher
 from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 from rambutan3.string.RMessageText import RMessageText
 
 
-RRangeSizeCollectionMatcher = None
-
-
-# noinspection PyRedeclaration
-class RRangeSizeCollectionMatcher(RAbstractTypeMatcher):
+class RRangeSizeMatcher(RAbstractTypeMatcher):
 
     # noinspection PyMissingConstructor
-    def __init__(self, class_or_type_tuple: tuple, *, min_size: int=-1, max_size: int=-1):
-        RArgs.check_is_instance(class_or_type_tuple, tuple, "class_or_type_tuple")
-        self.__instance_matcher = RInstanceMatcher(*class_or_type_tuple)
+    def __init__(self, *, min_size: int=-1, max_size: int=-1):
         self.__check_sizes(min_size=min_size, max_size=max_size)
         self.__min_size = min_size
         self.__max_size = max_size
@@ -34,9 +27,6 @@ class RRangeSizeCollectionMatcher(RAbstractTypeMatcher):
 
     # @override
     def matches(self, collection, matcher_error: RTypeMatcherError=None) -> bool:
-        if not self.__instance_matcher.matches(collection, matcher_error):
-            return False
-
         size = len(collection)
 
         if (-1 == self.__min_size or size >= self.__min_size) \
@@ -44,22 +34,20 @@ class RRangeSizeCollectionMatcher(RAbstractTypeMatcher):
             return True
 
         if matcher_error:
-            matcher_error.add_failed_match(self, collection, RMessageText("Size is {}".format(size)))
+            matcher_error.add_failed_match(self, collection, RMessageText("Actual size is {}".format(size)))
 
         return False
 
     # @override
-    def __eq__(self, other: RRangeSizeCollectionMatcher) -> bool:
-        if not isinstance(other, RRangeSizeCollectionMatcher):
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, RRangeSizeMatcher):
             return False
-        if not self.__instance_matcher.__eq__(other):
-            return False
-        x = (self.__min_size == other.__min_size and self.__max_size == other.__max_size)
+        x = ((self.__min_size == other.__min_size) and (self.__max_size == other.__max_size))
         return x
 
     # @override
     def __hash__(self) -> int:
-        x = hash((self.__instance_matcher, self.__min_size, self.__max_size))
+        x = hash((self.__min_size, self.__max_size))
         return x
 
     # @override
@@ -71,5 +59,5 @@ class RRangeSizeCollectionMatcher(RAbstractTypeMatcher):
             if suffix:
                 suffix += " and "
             suffix = "size <= {}".format(self.__max_size)
-        x = self.__instance_matcher.__str__() + " where " + suffix
+        x = " where " + suffix
         return x

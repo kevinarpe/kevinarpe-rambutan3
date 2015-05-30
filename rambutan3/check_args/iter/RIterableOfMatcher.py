@@ -1,14 +1,10 @@
 from rambutan3 import RArgs
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
 from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
-from rambutan3.check_args.base.traverse.RTypeMatcherTraversePathStepType import RTypeMatcherTraversePathStepType
+from rambutan3.check_args.base.traverse.RTypeMatcherTraversePathStepEnum import RTypeMatcherTraversePathStepEnum
 from rambutan3.check_args.iter.RIterableMatcher import RIterableMatcher
 
 
-RIterableOfMatcher = None
-
-
-# noinspection PyRedeclaration
 class RIterableOfMatcher(RAbstractTypeMatcher):
 
     # noinspection PyMissingConstructor
@@ -39,13 +35,13 @@ class RIterableOfMatcher(RAbstractTypeMatcher):
             for index, value in enumerate(iterable):
                 # Intentional: Do not pass matcher_error here.
                 if not element_matcher.matches(value):
-                    matcher_error.add_traverse_path_step(RTypeMatcherTraversePathStepType.Index, index)
+                    matcher_error.add_traverse_path_step(RTypeMatcherTraversePathStepEnum.Index, index)
                     break
 
         return x
 
     # @override
-    def __eq__(self, other: RIterableOfMatcher) -> bool:
+    def __eq__(self, other) -> bool:
         if not isinstance(other, RIterableOfMatcher):
             return False
         x = (self.__element_matcher == other.__element_matcher)

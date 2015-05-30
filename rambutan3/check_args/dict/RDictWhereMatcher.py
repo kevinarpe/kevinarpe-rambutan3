@@ -1,7 +1,7 @@
 import threading
 from rambutan3 import RArgs
 from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
-from rambutan3.check_args.base.traverse.RTypeMatcherTraversePathStepType import RTypeMatcherTraversePathStepType
+from rambutan3.check_args.base.traverse.RTypeMatcherTraversePathStepEnum import RTypeMatcherTraversePathStepEnum
 from rambutan3.container.frozendict import frozendict
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
 from rambutan3.check_args.dict.RDictEnum import RDictEnum
@@ -9,10 +9,7 @@ from rambutan3.check_args.dict.RDictMatcher import RDictMatcher
 from rambutan3.string import RStrUtil
 from rambutan3.string.RMessageText import RMessageText
 
-RDictWhereMatcher = None
 
-
-# noinspection PyRedeclaration
 class RDictWhereMatcher(RDictMatcher):
 
     def __init__(self, dict_enum: RDictEnum, matcher_dict: dict, *, is_exact: bool):
@@ -20,8 +17,8 @@ class RDictWhereMatcher(RDictMatcher):
         RArgs.check_is_instance(matcher_dict, dict, "matcher_dict")
         RArgs.check_is_instance(is_exact, bool, "is_exact")
 
-        for key, type_matcher in matcher_dict.items():
-            RArgs.check_is_instance(type_matcher, RAbstractTypeMatcher, "type_matcher for key '{}'", key)
+        for key, value_matcher in matcher_dict.items():
+            RArgs.check_is_instance(value_matcher, RAbstractTypeMatcher, "value_matcher for key '{}'", key)
 
         self.__matcher_dict = frozendict(matcher_dict)
         self.__is_exact = is_exact
@@ -38,17 +35,17 @@ class RDictWhereMatcher(RDictMatcher):
         missing_key_set = self.__get_empty_threadlocal_missing_key_set()
         has_matcher_failed = False
 
-        for key, type_matcher in self.__matcher_dict.items():
+        for key, value_matcher in self.__matcher_dict.items():
             value = dict_copy.get(key, self.__sentinel)
 
             if self.__sentinel == value:
                 missing_key_set.add(key)
                 continue
 
-            if not type_matcher.matches(value, matcher_error):
+            if not value_matcher.matches(value, matcher_error):
                 # Be careful to only call add_traverse_path_step() for the first matcher failure.
                 if not has_matcher_failed and matcher_error:
-                    matcher_error.add_traverse_path_step(RTypeMatcherTraversePathStepType.Key, key)
+                    matcher_error.add_traverse_path_step(RTypeMatcherTraversePathStepEnum.Key, key)
 
                 has_matcher_failed = True
 
@@ -99,16 +96,13 @@ class RDictWhereMatcher(RDictMatcher):
 
         return x
 
-
-
-
     # @override
-    def __eq__(self, other: RDictWhereMatcher) -> bool:
+    def __eq__(self, other) -> bool:
         if not isinstance(other, RDictWhereMatcher):
             return False
         if not super().__eq__(other):
             return False
-        x = (self.__is_exact == other.__is_exact and self.__matcher_dict == other.__matcher_dict)
+        x = ((self.__is_exact == other.__is_exact) and (self.__matcher_dict == other.__matcher_dict))
         return x
 
     # @override
@@ -122,13 +116,6 @@ class RDictWhereMatcher(RDictMatcher):
     # @override
     def __str__(self):
         where_clause = "EXACTLY" if self.__is_exact else "AT LEAST"
-        matcher_dict_str = \
-            "{" \
-            + ", ".join(
-                [
-                    RStrUtil.auto_quote(key) + ": " + RStrUtil.auto_quote(value)
-                    for key, value in self.__matcher_dict.items()
-                ]) \
-            + "}"
-        x = "{} where {} {}".format(super().__str__(), where_clause, matcher_dict_str)
-        return x
+        x = RStrUtil.auto_quote_dict(self.__matcher_dict)
+        y = "{} where {} {}".format(super().__str__(), where_clause, x)
+        return y

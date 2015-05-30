@@ -3,9 +3,6 @@ from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
 from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 
 
-RLogicalNotTypeMatcher = None
-
-
 class RLogicalNotTypeMatcher(RAbstractTypeMatcher):
 
     # noinspection PyMissingConstructor
@@ -25,9 +22,10 @@ class RLogicalNotTypeMatcher(RAbstractTypeMatcher):
         return y
 
     # @override
-    def __eq__(self, other: RLogicalNotTypeMatcher) -> bool:
+    def __eq__(self, other) -> bool:
         if not isinstance(other, RLogicalNotTypeMatcher):
             return False
+
         x = (self.__delegate == other.__delegate)
         return x
 

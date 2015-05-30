@@ -1,10 +1,7 @@
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
 from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 
-RNotNoneTypeMatcher = None
 
-
-# noinspection PyRedeclaration
 class RNotNoneTypeMatcher(RAbstractTypeMatcher):
 
     # noinspection PyMissingConstructor
@@ -22,7 +19,7 @@ class RNotNoneTypeMatcher(RAbstractTypeMatcher):
         return x
 
     # @override
-    def __eq__(self, other: RNotNoneTypeMatcher) -> bool:
+    def __eq__(self, other) -> bool:
         x = isinstance(other, RNotNoneTypeMatcher)
         return x
 

@@ -4,8 +4,8 @@ from rambutan3.check_args.seq.RSequenceEnum import RSequenceEnum
 
 
 # noinspection PyPep8Naming
-def EXACT_SIZE_SEQUENCE_OF(type_matcher: RAbstractTypeMatcher, *, exact_size: int) \
+def EXACT_SIZE_SEQUENCE_OF(matcher: RAbstractTypeMatcher, *, exact_size: int) \
         -> RRangeSizeSequenceOfMatcher:
 
-    x = RRangeSizeSequenceOfMatcher(RSequenceEnum.SEQUENCE, type_matcher, min_size=exact_size, max_size=exact_size)
+    x = RRangeSizeSequenceOfMatcher(RSequenceEnum.SEQUENCE, matcher, min_size=exact_size, max_size=exact_size)
     return x

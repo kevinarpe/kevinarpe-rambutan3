@@ -1,5 +1,5 @@
 import enum
-from _collections_abc import Mapping, MutableMapping
+from collections.abc import Mapping, MutableMapping
 
 from rambutan3.container.frozendict import frozendict
 from rambutan3.container.hashabledict import hashabledict

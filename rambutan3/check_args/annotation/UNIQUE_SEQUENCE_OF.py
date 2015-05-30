@@ -4,6 +4,6 @@ from rambutan3.check_args.seq.RUniqueSequenceOfMatcher import RUniqueSequenceOfM
 
 
 # noinspection PyPep8Naming
-def UNIQUE_SEQUENCE_OF(type_matcher: RAbstractTypeMatcher) -> RUniqueSequenceOfMatcher:
-    x = RUniqueSequenceOfMatcher(RSequenceEnum.SEQUENCE, type_matcher)
+def UNIQUE_SEQUENCE_OF(matcher: RAbstractTypeMatcher) -> RUniqueSequenceOfMatcher:
+    x = RUniqueSequenceOfMatcher(RSequenceEnum.SEQUENCE, matcher)
     return x

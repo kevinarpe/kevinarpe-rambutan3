@@ -21,9 +21,9 @@ class RAbstractForwardingTypeMatcher(RAbstractTypeMatcher):
         x = self._delegate.matches(value, matcher_error)
         return x
 
-    # @override
-    def check_arg(self, value, arg_name: str, *arg_name_format_args):
-        self._delegate.check_arg(value, arg_name, *arg_name_format_args)
+    # # @override
+    # def check_arg(self, value, arg_name: str, *arg_name_format_args):
+    #     self._delegate.check_arg(value, arg_name, *arg_name_format_args)
 
     # Leave this code for history.
     # Disabled during testing as this causes bugs.

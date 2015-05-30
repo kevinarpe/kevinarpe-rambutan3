@@ -6,10 +6,10 @@ from rambutan3.check_args.dict.RRangeSizeDictOfMatcher import RRangeSizeDictOfMa
 # noinspection PyPep8Naming
 def NON_EMPTY_DICT_OF(*,
                       key_matcher: RAbstractTypeMatcher=None,
-                      type_matcher: RAbstractTypeMatcher=None) -> RRangeSizeDictOfMatcher:
+                      value_matcher: RAbstractTypeMatcher=None) -> RRangeSizeDictOfMatcher:
 
     x = RRangeSizeDictOfMatcher(RDictEnum.DICT,
                                 key_matcher=key_matcher,
-                                value_matcher=type_matcher,
+                                value_matcher=value_matcher,
                                 min_size=1)
     return x

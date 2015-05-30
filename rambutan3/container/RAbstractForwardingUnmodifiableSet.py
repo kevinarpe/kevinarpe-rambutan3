@@ -1,4 +1,4 @@
-from _collections_abc import Set
+from collections.abc import Set
 from abc import abstractmethod
 from rambutan3.container.RSet import RSet
 

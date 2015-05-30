@@ -1,0 +1,49 @@
+<!-- Ref: https://github.com/wenns/sample_sonar_python -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.github.kevinarpe.kevinarpe-rambutan3</groupId>
+    <artifactId>kevinarpe-rambutan3</artifactId>
+    <version>1.0.0</version>
+
+<!--
+  <build>
+    <sourceDirectory>.</sourceDirectory>
+    <!- - <outputDirectory>[YOUR CLASSES/BIN DIRECTORY</outputDirectory> - ->
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+          <excludes>
+            <exclude>**/*.*</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+-->
+    
+    <properties>
+<!--
+        <sonar.dynamicAnalysis>true</sonar.dynamicAnalysis>
+-->
+        <sonar.language>py</sonar.language>
+        <sonar-maven-plugin.version>2.6</sonar-maven-plugin.version>
+    </properties>
+
+    <build>
+        <sourceDirectory>.</sourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar-maven-plugin.version}</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+

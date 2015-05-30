@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" 
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <profiles>
+    <profile>
+      <id>sonar</id>
+      <properties>
+        <sonar.jdbc.url>jdbc:mysql://${env.MYSQL_HOSTNAME}:3306/sonar?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true</sonar.jdbc.url>
+        <sonar.jdbc.username>${env.MYSQL_USERNAME}</sonar.jdbc.username>
+        <sonar.jdbc.password>${env.MYSQL_PASSWORD}</sonar.jdbc.password>
+      </properties>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+    </profile>
+  </profiles>
+</settings>
+

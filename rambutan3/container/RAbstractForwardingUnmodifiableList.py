@@ -1,4 +1,4 @@
-from _collections_abc import Sequence
+from collections.abc import Sequence
 from abc import abstractmethod
 from rambutan3.container.RList import RList
 

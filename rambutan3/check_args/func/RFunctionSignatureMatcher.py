@@ -5,10 +5,7 @@ from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
 from rambutan3.check_args.base.RInstanceMatcher import RInstanceMatcher
 from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 
-RFunctionSignatureMatcher = None
 
-
-# noinspection PyRedeclaration
 class RFunctionSignatureMatcher(RInstanceMatcher):
 
     def __init__(self, param_matcher_tuple: tuple, opt_return_matcher: RAbstractTypeMatcher=None):
@@ -64,7 +61,7 @@ class RFunctionSignatureMatcher(RInstanceMatcher):
         return result
 
     # @override
-    def __eq__(self, other: RFunctionSignatureMatcher) -> bool:
+    def __eq__(self, other) -> bool:
         if not isinstance(other, RFunctionSignatureMatcher):
             return False
         if not super().__eq__(other):

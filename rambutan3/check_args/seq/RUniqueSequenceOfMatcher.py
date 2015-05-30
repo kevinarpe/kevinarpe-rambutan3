@@ -5,15 +5,11 @@ from rambutan3.check_args.seq.RSequenceOfMatcher import RSequenceOfMatcher
 from rambutan3.check_args.seq.RUniqueSequenceMatcher import RUniqueSequenceMatcher
 
 
-RUniqueSequenceOfMatcher = None
-
-
-# noinspection PyRedeclaration
 class RUniqueSequenceOfMatcher(RAbstractTypeMatcher):
 
     # noinspection PyMissingConstructor
-    def __init__(self, sequence_enum: RSequenceEnum, element_matcher: RAbstractTypeMatcher):
-        self.__seq_of_matcher = RSequenceOfMatcher(sequence_enum, element_matcher)
+    def __init__(self, seq_enum: RSequenceEnum, element_matcher: RAbstractTypeMatcher):
+        self.__seq_of_matcher = RSequenceOfMatcher(seq_enum, element_matcher)
 
     # @override
     def matches(self, seq, matcher_error: RTypeMatcherError=None) -> bool:
@@ -24,7 +20,7 @@ class RUniqueSequenceOfMatcher(RAbstractTypeMatcher):
         return x
 
     # @override
-    def __eq__(self, other: RUniqueSequenceOfMatcher) -> bool:
+    def __eq__(self, other) -> bool:
         if not isinstance(other, RUniqueSequenceOfMatcher):
             return False
 

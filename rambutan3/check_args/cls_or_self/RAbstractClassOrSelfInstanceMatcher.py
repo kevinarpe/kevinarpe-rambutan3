@@ -5,8 +5,6 @@ import importlib
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
 from rambutan3.check_args.RCheckArgsError import RCheckArgsError
 
-RAbstractClassOrSelfInstanceMatcher = None
-
 
 # noinspection PyAbstractClass
 class RAbstractClassOrSelfInstanceMatcher(RAbstractTypeMatcher):
@@ -45,7 +43,7 @@ class RAbstractClassOrSelfInstanceMatcher(RAbstractTypeMatcher):
         return self.__caller_class
 
     # @override
-    def __eq__(self, other: RAbstractClassOrSelfInstanceMatcher) -> bool:
+    def __eq__(self, other) -> bool:
         if not isinstance(other, type(self)):
             return False
 

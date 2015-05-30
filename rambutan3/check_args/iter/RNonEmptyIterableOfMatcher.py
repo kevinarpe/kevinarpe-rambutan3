@@ -5,10 +5,6 @@ from rambutan3.check_args.iter.RIterableOfMatcher import RIterableOfMatcher
 from rambutan3.check_args.iter.RNonEmptyIterableMatcher import RNonEmptyIterableMatcher
 
 
-RNonEmptyIterableOfMatcher = None
-
-
-# noinspection PyRedeclaration
 class RNonEmptyIterableOfMatcher(RAbstractTypeMatcher):
 
     # noinspection PyMissingConstructor
@@ -27,7 +23,7 @@ class RNonEmptyIterableOfMatcher(RAbstractTypeMatcher):
         return x
 
     # @override
-    def __eq__(self, other: RNonEmptyIterableOfMatcher) -> bool:
+    def __eq__(self, other) -> bool:
         if not isinstance(other, RNonEmptyIterableOfMatcher):
             return False
         x = (self.__element_matcher == other.__element_matcher)

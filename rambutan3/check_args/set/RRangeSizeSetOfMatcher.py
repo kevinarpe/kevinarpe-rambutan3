@@ -6,10 +6,6 @@ from rambutan3.check_args.set.RRangeSizeSetMatcher import RRangeSizeSetMatcher
 from rambutan3.check_args.set.RSetEnum import RSetEnum
 
 
-RRangeSizeSetOfMatcher = None
-
-
-# noinspection PyRedeclaration
 class RRangeSizeSetOfMatcher(RRangeSizeSetMatcher):
 
     def __init__(self,
@@ -31,7 +27,7 @@ class RRangeSizeSetOfMatcher(RRangeSizeSetMatcher):
         return x
 
     # @override
-    def __eq__(self, other: RRangeSizeSetOfMatcher) -> bool:
+    def __eq__(self, other) -> bool:
         if not isinstance(other, RRangeSizeSetOfMatcher):
             return False
         if not super().__eq__(other):

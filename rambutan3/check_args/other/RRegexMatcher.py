@@ -4,10 +4,7 @@ from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
 from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 from rambutan3.string.RMessageText import RMessageText
 
-RRegexMatcher = None
 
-
-# noinspection PyRedeclaration
 class RRegexMatcher(RAbstractTypeMatcher):
 
     # noinspection PyMissingConstructor
@@ -31,7 +28,7 @@ class RRegexMatcher(RAbstractTypeMatcher):
         return result
 
     # @override
-    def __eq__(self, other: RRegexMatcher) -> bool:
+    def __eq__(self, other) -> bool:
         if not isinstance(other, RRegexMatcher):
             return False
         x = (self.__regex_pattern == other.__regex_pattern)

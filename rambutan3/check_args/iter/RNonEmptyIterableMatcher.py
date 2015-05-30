@@ -3,10 +3,6 @@ from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
 from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 
 
-RNonEmptyIterableMatcher = None
-
-
-# noinspection PyRedeclaration
 class RNonEmptyIterableMatcher(RAbstractTypeMatcher):
     """Non-empty iterable instance matcher
 
@@ -36,7 +32,7 @@ class RNonEmptyIterableMatcher(RAbstractTypeMatcher):
         return x
 
     # @override
-    def __eq__(self, other: RNonEmptyIterableMatcher) -> bool:
+    def __eq__(self, other) -> bool:
         x = isinstance(other, RNonEmptyIterableMatcher)
         return x
 

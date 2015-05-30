@@ -6,10 +6,6 @@ from rambutan3.check_args.set.RSetEnum import RSetEnum
 from rambutan3.check_args.set.RSetMatcher import RSetMatcher
 
 
-RSetOfMatcher = None
-
-
-# noinspection PyRedeclaration
 class RSetOfMatcher(RSetMatcher):
 
     def __init__(self, set_enum: RSetEnum, element_matcher: RAbstractTypeMatcher):
@@ -26,7 +22,7 @@ class RSetOfMatcher(RSetMatcher):
         return x
 
     # @override
-    def __eq__(self, other: RSetOfMatcher) -> bool:
+    def __eq__(self, other) -> bool:
         if not isinstance(other, RSetOfMatcher):
             return False
         if not super().__eq__(other):

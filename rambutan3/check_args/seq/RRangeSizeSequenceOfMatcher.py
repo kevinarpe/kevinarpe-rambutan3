@@ -6,36 +6,35 @@ from rambutan3.check_args.seq.RRangeSizeSequenceMatcher import RRangeSizeSequenc
 from rambutan3.check_args.seq.RSequenceEnum import RSequenceEnum
 
 
-RRangeSizeSequenceOfMatcher = None
+class RRangeSizeSequenceOfMatcher(RAbstractTypeMatcher):
 
-
-# noinspection PyRedeclaration
-class RRangeSizeSequenceOfMatcher(RRangeSizeSequenceMatcher):
-
+    # noinspection PyMissingConstructor
     def __init__(self,
-                 sequence_enum: RSequenceEnum,
+                 seq_enum: RSequenceEnum,
                  element_matcher: RAbstractTypeMatcher,
                  *,
                  min_size: int=-1,
                  max_size: int=-1):
-        super().__init__(sequence_enum, min_size=min_size, max_size=max_size)
+        self.__matcher = RRangeSizeSequenceMatcher(seq_enum, min_size=min_size, max_size=max_size)
         RArgs.check_is_instance(element_matcher, RAbstractTypeMatcher, "element_matcher")
         self.__element_matcher = element_matcher
 
     # @override
     def matches(self, collection, matcher_error: RTypeMatcherError=None) -> bool:
-        if not super().matches(collection, matcher_error):
+        if not self.__matcher.matches(collection, matcher_error):
             return False
 
         x = RIterableOfMatcher.core_matches(collection, self.__element_matcher, matcher_error)
         return x
 
     # @override
-    def __eq__(self, other: RRangeSizeSequenceOfMatcher) -> bool:
+    def __eq__(self, other) -> bool:
         if not isinstance(other, RRangeSizeSequenceOfMatcher):
             return False
-        if not super().__eq__(other):
+
+        if not self.__matcher == other.__matcher:
             return False
+
         x = (self.__element_matcher == other.__element_matcher)
         return x
 

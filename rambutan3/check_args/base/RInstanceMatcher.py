@@ -2,10 +2,7 @@ from rambutan3 import RArgs
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
 from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
 
-RInstanceMatcher = None
 
-
-# noinspection PyRedeclaration
 class RInstanceMatcher(RAbstractTypeMatcher):
     """Type instance matcher
 
@@ -45,9 +42,10 @@ class RInstanceMatcher(RAbstractTypeMatcher):
         return x
 
     # @override
-    def __eq__(self, other: RInstanceMatcher) -> bool:
+    def __eq__(self, other) -> bool:
         if not isinstance(other, RInstanceMatcher):
             return False
+
         x = (self.__type_frozenset == other.__type_frozenset)
         return x
 

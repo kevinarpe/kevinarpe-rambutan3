@@ -3,10 +3,6 @@ from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherErr
 from rambutan3.string.RIdentifier import RIdentifier
 
 
-RInstanceByTypeNameMatcher = None
-
-
-# noinspection PyRedeclaration
 class RInstanceByTypeNameMatcher(RAbstractTypeMatcher):
 
     # noinspection PyMissingConstructor
@@ -33,7 +29,7 @@ class RInstanceByTypeNameMatcher(RAbstractTypeMatcher):
         return x
 
     # @override
-    def __eq__(self, other: RInstanceByTypeNameMatcher) -> bool:
+    def __eq__(self, other) -> bool:
         if not isinstance(other, RInstanceByTypeNameMatcher):
             return False
         x = (self.__type_name == other.__type_name)
