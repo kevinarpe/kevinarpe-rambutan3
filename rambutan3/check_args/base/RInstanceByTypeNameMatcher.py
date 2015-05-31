@@ -1,6 +1,9 @@
 from rambutan3.check_args.base.RAbstractTypeMatcher import RAbstractTypeMatcher
 from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherError
-from rambutan3.string.RIdentifier import RIdentifier
+from rambutan3.string.RStrictIdentifier import RStrictIdentifier
+
+
+# TODO: LAST: TESTME
 
 
 class RInstanceByTypeNameMatcher(RAbstractTypeMatcher):
@@ -17,7 +20,7 @@ class RInstanceByTypeNameMatcher(RAbstractTypeMatcher):
                 if {@code type_name} is not of type {@link str}
         """
         # Intentional: Do not call super(RAbstractTypeMatcher, self).__init__()
-        self.__type_name = RIdentifier(type_name)
+        self.__type_name = RStrictIdentifier(type_name)
 
     # @override
     def matches(self, value, matcher_error: RTypeMatcherError=None) -> bool:
@@ -32,6 +35,7 @@ class RInstanceByTypeNameMatcher(RAbstractTypeMatcher):
     def __eq__(self, other) -> bool:
         if not isinstance(other, RInstanceByTypeNameMatcher):
             return False
+
         x = (self.__type_name == other.__type_name)
         return x
 

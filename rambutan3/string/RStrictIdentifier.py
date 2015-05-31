@@ -4,26 +4,22 @@ from rambutan3.string.RMessageText import RMessageText
 from rambutan3.string.RPatternText import RPatternText
 
 
-class RIdentifier(RPatternText):
+class RStrictIdentifier(RPatternText):
     """
-    Wraps a {@link str} value that is a reasonable identifier:
-    One or more [0-9A-Za-z_-.=]
+    Wraps a {@link str} value that is a valid C programming language identifier:
+    (1) Starts with [A-Za-z_]
+    (2) Followed by zero or more [0-9A-Za-z_]
 
-    No whitespace or silly special chars.  The list above may slowly expand in the future.
-
-    Examples: email_address, telephone_number123, or __something_very_private, 3rd, a.b.c, small-size, pid=123
+    Examples: email_address, telephone_number123, or __something_very_private
 
     This class is fully tested.
 
     @author Kevin Connor ARPE (kevinarpe@gmail.com)
-    @see RStrictIdentifier
+    @see RIdentifier
     """
 
-    # Same as strict identifier, but allow: -, ., =
-    # ... and leading digits
-    __REGEX_PATTERN = re.compile(r'^[0-9A-Za-z_\-\.=]+$')
-    __HUMAN_READABLE_HINT = \
-        RMessageText('identifier, e.g., "ClassName", "var_name3", "a.b.c", "small-size", "3rd", "pid=123"')
+    __REGEX_PATTERN = re.compile(r'^[A-Za-z_][0-9A-Za-z_]*$')
+    __HUMAN_READABLE_HINT = RMessageText('strict identifier, e.g., ClassName or var_name3')
 
     @classmethod
     def REGEX_PATTERN(cls):

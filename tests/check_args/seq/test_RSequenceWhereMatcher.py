@@ -122,55 +122,55 @@ def __or(seq_enum: RSequenceEnum,
 
 
 def test__eq__and__ne__():
-    RTestUtil.test_eq_and_ne(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT], is_exact=True),
+    RTestUtil.test_eq_ne_hash(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT], is_exact=True),
                              'abc',
                              is_equal=False)
 
-    RTestUtil.test_eq_and_ne('abc',
+    RTestUtil.test_eq_ne_hash('abc',
                              RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT], is_exact=True),
                              is_equal=False)
 
-    RTestUtil.test_eq_and_ne(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT], is_exact=True),
+    RTestUtil.test_eq_ne_hash(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT], is_exact=True),
                              RSequenceWhereMatcher(RSequenceEnum.TUPLE, [INT], is_exact=True),
                              is_equal=False)
 
-    RTestUtil.test_eq_and_ne(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT], is_exact=False),
+    RTestUtil.test_eq_ne_hash(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT], is_exact=False),
                              RSequenceWhereMatcher(RSequenceEnum.TUPLE, [INT], is_exact=False),
                              is_equal=False)
 
-    RTestUtil.test_eq_and_ne(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT], is_exact=True),
+    RTestUtil.test_eq_ne_hash(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT], is_exact=True),
                              RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT], is_exact=True),
                              is_equal=True)
 
-    RTestUtil.test_eq_and_ne(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT], is_exact=True),
+    RTestUtil.test_eq_ne_hash(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT], is_exact=True),
                              RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT], is_exact=False),
                              is_equal=False)
 
-    RTestUtil.test_eq_and_ne(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT], is_exact=False),
+    RTestUtil.test_eq_ne_hash(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT], is_exact=False),
                              RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT], is_exact=True),
                              is_equal=False)
 
-    RTestUtil.test_eq_and_ne(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT, STR], is_exact=True),
+    RTestUtil.test_eq_ne_hash(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT, STR], is_exact=True),
                              RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT, STR], is_exact=True),
                              is_equal=True)
 
-    RTestUtil.test_eq_and_ne(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT, STR], is_exact=False),
+    RTestUtil.test_eq_ne_hash(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT, STR], is_exact=False),
                              RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT, STR], is_exact=False),
                              is_equal=True)
 
-    RTestUtil.test_eq_and_ne(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT, STR], is_exact=True),
+    RTestUtil.test_eq_ne_hash(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT, STR], is_exact=True),
                              RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [STR, INT], is_exact=True),
                              is_equal=False)
 
-    RTestUtil.test_eq_and_ne(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT, STR], is_exact=False),
+    RTestUtil.test_eq_ne_hash(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT, STR], is_exact=False),
                              RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [STR, INT], is_exact=False),
                              is_equal=False)
 
-    RTestUtil.test_eq_and_ne(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT, STR], is_exact=True),
+    RTestUtil.test_eq_ne_hash(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT, STR], is_exact=True),
                              RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT, STR], is_exact=False),
                              is_equal=False)
 
-    RTestUtil.test_eq_and_ne(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT, STR], is_exact=False),
+    RTestUtil.test_eq_ne_hash(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT, STR], is_exact=False),
                              RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT, STR], is_exact=True),
                              is_equal=False)
 

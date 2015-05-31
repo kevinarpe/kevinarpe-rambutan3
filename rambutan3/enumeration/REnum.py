@@ -1,5 +1,4 @@
 from enum import Enum
-import enum
 
 
 # Note: Do *not* annotate this class with @enum.unique.

@@ -38,10 +38,10 @@ def __check_arg(value_tuple, value, arg_name: str, *arg_name_format_args):
 
 
 def test__eq__and__ne__():
-    RTestUtil.test_eq_and_ne(RAnyValueOfMatcher(str), 'abc', is_equal=False)
-    RTestUtil.test_eq_and_ne('abc', RAnyValueOfMatcher(str), is_equal=False)
-    RTestUtil.test_eq_and_ne(RAnyValueOfMatcher(str), RAnyValueOfMatcher(str), is_equal=True)
-    RTestUtil.test_eq_and_ne(RAnyValueOfMatcher(int, str), RAnyValueOfMatcher(str, int), is_equal=True)
+    RTestUtil.test_eq_ne_hash(RAnyValueOfMatcher(str), 'abc', is_equal=False)
+    RTestUtil.test_eq_ne_hash('abc', RAnyValueOfMatcher(str), is_equal=False)
+    RTestUtil.test_eq_ne_hash(RAnyValueOfMatcher(str), RAnyValueOfMatcher(str), is_equal=True)
+    RTestUtil.test_eq_ne_hash(RAnyValueOfMatcher(int, str), RAnyValueOfMatcher(str, int), is_equal=True)
 
 
 def test__hash__():

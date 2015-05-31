@@ -1,14 +1,9 @@
 from rambutan3.check_args.annotation.BOOL import BOOL
-from rambutan3.check_args.annotation.BUILTIN_DICT_WHERE_EXACTLY import BUILTIN_DICT_WHERE_EXACTLY
 from rambutan3.check_args.annotation.DICT_WHERE_EXACTLY import DICT_WHERE_EXACTLY
 from rambutan3.check_args.annotation.FLOAT import FLOAT
 from rambutan3.check_args.annotation.INT import INT
 from rambutan3.check_args.annotation.NONE import NONE
-from rambutan3.check_args.annotation.NON_EMPTY_LIST_OF import NON_EMPTY_LIST_OF
-from rambutan3.check_args.annotation.POSITIVE_INT import POSITIVE_INT
 from rambutan3.check_args.annotation.STR import STR
-from rambutan3.check_args.annotation.STR_IDENTIFIER import STR_IDENTIFIER
-from rambutan3.check_args.annotation.STR_MESSAGE_TEXT import STR_MESSAGE_TEXT
 
 
 def test():
@@ -79,7 +74,7 @@ def test():
 #         {
 #             "apps": NON_EMPTY_LIST_OF(BUILTIN_DICT_WHERE_EXACTLY(
 #                 {
-#                     "name": STR_MESSAGE_TEXT | STR_IDENTIFIER,
+#                     "name": STR_MESSAGE_TEXT | STR_STRICT_IDENTIFIER,
 #                     "size": POSITIVE_INT
 #                 }
 #             ))

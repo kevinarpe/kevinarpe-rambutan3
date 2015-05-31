@@ -93,10 +93,10 @@ def __or(class_or_type_tuple,
 
 
 def test__eq__and__ne__():
-    RTestUtil.test_eq_and_ne(RInstanceMatcher(str), 'abc', is_equal=False)
-    RTestUtil.test_eq_and_ne('abc', RInstanceMatcher(str), is_equal=False)
-    RTestUtil.test_eq_and_ne(RInstanceMatcher(str), RInstanceMatcher(str), is_equal=True)
-    RTestUtil.test_eq_and_ne(RInstanceMatcher(int, str), RInstanceMatcher(str, int), is_equal=True)
+    RTestUtil.test_eq_ne_hash(RInstanceMatcher(str), 'abc', is_equal=False)
+    RTestUtil.test_eq_ne_hash('abc', RInstanceMatcher(str), is_equal=False)
+    RTestUtil.test_eq_ne_hash(RInstanceMatcher(str), RInstanceMatcher(str), is_equal=True)
+    RTestUtil.test_eq_ne_hash(RInstanceMatcher(int, str), RInstanceMatcher(str, int), is_equal=True)
 
 
 def test__hash__():

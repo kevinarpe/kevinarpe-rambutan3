@@ -1,8 +1,11 @@
+import enum
 from abc import abstractmethod, ABCMeta
+import os
 
 from bin import Sample
 from rambutan3.check_args.RCheckArgs import check_args
 from rambutan3.check_args.annotation.FUNC import FUNC
+from rambutan3.enumeration.REnum import REnum
 from rambutan3.string.RMessageText import RMessageText
 
 
@@ -60,7 +63,16 @@ class Z(AbstractClass):
     def f2(self):
         print("f()")
 
+@enum.unique
+class Flag(REnum):
+
+    READ = frozenset((os.R_OK,))
+    WRITE = frozenset((os.W_OK,))
+    EXECUTE = frozenset((os.X_OK,))
+
+
 def main():
+    Flag.READ
     e = ValueError("message")
     msg = RMessageText("abc")
     msg_iter = iter(msg)

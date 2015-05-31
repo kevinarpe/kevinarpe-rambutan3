@@ -31,6 +31,7 @@ class RRegexMatcher(RAbstractTypeMatcher):
     def __eq__(self, other) -> bool:
         if not isinstance(other, RRegexMatcher):
             return False
+
         x = (self.__regex_pattern == other.__regex_pattern)
         return x
 

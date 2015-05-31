@@ -1,4 +1,4 @@
-from rambutan3.check_args.base.RNonEmptyStrMatcher import RNonEmptyStrMatcher
+from rambutan3.check_args.other.RRangeSizeStr import RRangeSizeStr
 
 
-NON_EMPTY_STR = RNonEmptyStrMatcher()
+NON_EMPTY_STR = RRangeSizeStr(min_size=1)
