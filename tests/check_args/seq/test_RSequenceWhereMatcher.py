@@ -174,28 +174,6 @@ def test__eq__and__ne__():
                              RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT, STR], is_exact=True),
                              is_equal=False)
 
-
-def test__hash__():
-    assert hash(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT], is_exact=True)) \
-           == \
-           hash(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT], is_exact=True))
-
-    assert hash(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT], is_exact=True)) \
-           != \
-           hash(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [STR], is_exact=True))
-
-    assert hash(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [STR], is_exact=True)) \
-           != \
-           hash(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT], is_exact=True))
-
-    assert hash(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT], is_exact=True)) \
-           != \
-           hash(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT], is_exact=False))
-
-    assert hash(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT], is_exact=False)) \
-           != \
-           hash(RSequenceWhereMatcher(RSequenceEnum.SEQUENCE, [INT], is_exact=True))
-
 def test__str__():
     assert str(RSequenceWhereMatcher(RSequenceEnum.TUPLE, [INT], is_exact=True)) == 'tuple where EXACTLY (int)'
     assert str(RSequenceWhereMatcher(RSequenceEnum.TUPLE, [INT, STR], is_exact=True)) == 'tuple where EXACTLY (int, str)'

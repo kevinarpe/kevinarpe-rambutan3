@@ -7,6 +7,7 @@ from rambutan3.check_args.seq.RSequenceEnum import RSequenceEnum
 
 
 class RRangeSizeSequenceOfMatcher(RAbstractTypeMatcher):
+    """This class is fully tested."""
 
     # noinspection PyMissingConstructor
     def __init__(self,
@@ -40,13 +41,10 @@ class RRangeSizeSequenceOfMatcher(RAbstractTypeMatcher):
 
     # @override
     def __hash__(self) -> int:
-        # Ref: http://stackoverflow.com/questions/29435556/how-to-combine-hash-codes-in-in-python3
-        super_hash = super().__hash__()
-        self_hash = hash(self.__element_matcher)
-        x = super_hash ^ self_hash
+        x = hash((self.__matcher, self.__element_matcher))
         return x
 
     # @override
     def __str__(self):
-        x = "{} of [{}]".format(super().__str__(), self.__element_matcher)
+        x = "{} of [{}]".format(self.__matcher.__str__(), self.__element_matcher)
         return x
