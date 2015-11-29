@@ -126,15 +126,15 @@ check_version_file_exists()
 
 update_version()
 {
-    local current_version="$(cat "$VERSION_FILE_PATH")"
+    local previous_version="$(cat "$VERSION_FILE_PATH")"
 
     while true
     do
-        printf -- 'Current version: [%s]\n' "$current_version"
+        printf -- 'Previous version: [%s]\n' "$previous_version"
         local next_version=''
         read -p 'Next version: ' next_version
 
-        if [ "$next_version" = "$current_version" ]
+        if [ "$next_version" = "$previous_version" ]
         then
             printf -- 'ERROR: Version is unchanged.  Please try again.\n\n'
             continue
