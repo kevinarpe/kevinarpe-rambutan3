@@ -20,6 +20,15 @@ class RTypeMatcherError:
         step = RTypeMatcherTraversePathStep(step_type, value)
         self.__reverse_step_list.append(step)
 
+    @property
+    def failed_match_tuple_set_view(self) -> ValuesView:
+        if not self.__failed_matcher_to_tuple_dict:
+            # TODO: TESTME
+            raise RIllegalStateError('Internal error: Failed matches are unset')
+
+        x = self.__failed_matcher_to_tuple_dict.values()
+        return x
+
     def add_failed_match(self, matcher, value, error_message: RMessageText=None):
         """:type matcher: RAbstractTypeMatcher"""
         # ^^^ cannot import due to circular refs
@@ -30,6 +39,7 @@ class RTypeMatcherError:
         old_tuple = self.__failed_matcher_to_tuple_dict.get(matcher, None)
 
         if old_tuple:
+            # TODO: TESTME
             if (old_tuple.value is not value) \
                 or ((old_tuple.optional_error_message is not None)
                     and (old_tuple.optional_error_message != error_message)):
@@ -38,14 +48,6 @@ class RTypeMatcherError:
 
         self.__failed_matcher_to_tuple_dict[matcher] = \
             self.RFailedMatcherTuple(matcher=matcher, value=value, optional_error_message=error_message)
-
-    @property
-    def failed_match_tuple_set_view(self) -> ValuesView:
-        if not self.__failed_matcher_to_tuple_dict:
-            raise RIllegalStateError('Internal error: Failed matches are unset')
-
-        x = self.__failed_matcher_to_tuple_dict.values()
-        return x
 
     def traverse_path_str(self) -> str:
         """

@@ -34,5 +34,5 @@ class RStrictIdentifier(RPatternText):
         # Insane: We call RPatternText.new() only to validate argument 'value'.
         # We do not save the result, and allow the implicit ctor to be called.
         # Magic!
-        RPatternText.new(value, self.__REGEX_PATTERN)
+        RPatternText.new(value, self.__REGEX_PATTERN, self.__HUMAN_READABLE_HINT)
         # Crazy, crazy, crazy.  Do not call super().__init__()!  No idea how this magic works.

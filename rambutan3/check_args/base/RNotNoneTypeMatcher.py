@@ -30,4 +30,4 @@ class RNotNoneTypeMatcher(RAbstractTypeMatcher):
 
     # @override
     def __str__(self):
-        return "not None"
+        return 'not None'

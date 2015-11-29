@@ -3,9 +3,6 @@ from rambutan3.check_args.base.traverse.RTypeMatcherError import RTypeMatcherErr
 from rambutan3.string.RStrictIdentifier import RStrictIdentifier
 
 
-# TODO: LAST: TESTME
-
-
 class RInstanceByTypeNameMatcher(RAbstractTypeMatcher):
 
     # noinspection PyMissingConstructor
@@ -46,4 +43,5 @@ class RInstanceByTypeNameMatcher(RAbstractTypeMatcher):
 
     # @override
     def __str__(self) -> str:
-        return self.__type_name
+        x = str(self.__type_name)
+        return x

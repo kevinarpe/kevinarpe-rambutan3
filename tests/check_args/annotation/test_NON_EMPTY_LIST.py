@@ -1,6 +1,5 @@
 from rambutan3.check_args.annotation.NON_EMPTY_LIST import NON_EMPTY_LIST
 
-
 def test():
     assert NON_EMPTY_LIST.matches([123])
     assert not NON_EMPTY_LIST.matches([])

@@ -1,5 +1,6 @@
 import inspect
 from rambutan3 import RArgs, RTypes
+from rambutan3.string.RMessageText import RMessageText
 from rambutan3.string.RStr import RStr
 
 
@@ -18,7 +19,7 @@ class RPatternText(RStr):
     """
 
     @classmethod
-    def new(cls, value: str, regex_pattern: RTypes.REGEX_PATTERN_TYPE):
+    def new(cls, value: str, regex_pattern: RTypes.REGEX_PATTERN_TYPE, human_readable_hint: RMessageText):
         """
         @param value
                any string that matches regular expression in {@code regex_pattern}
@@ -26,6 +27,8 @@ class RPatternText(RStr):
                regular expression to restrict valid string values
                do not forget to include begin and end anchors to match the entire string,
                e.g., {@code ^abc[def]ghi$}
+        @param human_readable_hint
+               describes the regular expression, e.g., 'Japanese postal code'
 
         @throws TypeError
                 if {@code value} is not type {@link str}
@@ -35,9 +38,12 @@ class RPatternText(RStr):
 
         @see re#compile()
         """
-        RArgs.check_is_instance(regex_pattern, RTypes.REGEX_PATTERN_TYPE, "regex_pattern")
+        RArgs.check_is_instance(value, str, 'value')
+        RArgs.check_is_instance(regex_pattern, RTypes.REGEX_PATTERN_TYPE, 'regex_pattern')
+        RArgs.check_is_instance(human_readable_hint, RMessageText, 'human_readable_hint')
         if not regex_pattern.search(value):
-            raise ValueError("Argument 'value' does not match pattern '{}': '{}'".format(regex_pattern.pattern, value))
+            raise ValueError("Argument 'value' does not match regex /{}/ ({}): '{}'"
+                             .format(regex_pattern.pattern, human_readable_hint, value))
         x = RPatternText(value)
         return x
 

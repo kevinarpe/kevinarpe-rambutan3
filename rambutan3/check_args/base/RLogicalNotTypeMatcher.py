@@ -13,6 +13,7 @@ class RLogicalNotTypeMatcher(RAbstractTypeMatcher):
 
     # @override
     def matches(self, value, matcher_error: RTypeMatcherError=None) -> bool:
+        # Probably there is a bug here.  Not sure whether or not to pass matcher_error.
         x = self.__delegate.matches(value, matcher_error)
         y = not x
 
@@ -36,5 +37,5 @@ class RLogicalNotTypeMatcher(RAbstractTypeMatcher):
 
     # @override
     def __str__(self):
-        x = "not ".format(self.__delegate)
+        x = 'not {}'.format(self.__delegate)
         return x
